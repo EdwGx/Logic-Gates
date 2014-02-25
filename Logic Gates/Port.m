@@ -9,7 +9,7 @@
 #import "Port.h"
 
 @implementation Port
--(id)initWithPosition:(struct CGPoint)pos andStatusOfMultiConnection:(BOOL)multiConn andOwner:(Gates*)newOwner{
+-(id)initWithPosition:(CGPoint)pos andStatusOfMultiConnection:(BOOL)multiConn andOwner:(Gates*)newOwner{
     if (self = [super init]) {
         self.boolStatus = false;
         self.realInput = false;

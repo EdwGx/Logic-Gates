@@ -11,6 +11,9 @@
 @interface Gates : SKSpriteNode{
     BOOL outStatus;    
 }
-
+-(void)initPort;
+-(void)initImage;
 @property int8_t gateType;
+@property(strong) NSArray* inPort;
+@property(strong) NSArray* outPort;
 @end

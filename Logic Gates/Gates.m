@@ -11,8 +11,18 @@
 @implementation Gates
 
 -(id)initWithGateType:(int8_t)newGateType{
-    //Non-finished
+    if (self = [super init]) {
+        [self initImage];
+        [self initPort];
+    }
     return self;
 }
 
+-(void)initPort{
+    /* Initialization of Ports*/
+}
+
+-(void)initImage{
+    /* Initialization of Image*/
+}
 @end

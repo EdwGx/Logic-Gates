@@ -15,7 +15,7 @@
 @interface Port : SKNode{
     BOOL wireConnectable;
     }
--(id)initWithPosition:(struct CGPoint)pos andStatusOfMultiConnection:(BOOL)multiConn andOwner:(Gates*)newOwner;
+-(id)initWithPosition:(CGPoint)pos andStatusOfMultiConnection:(BOOL)multiConn andOwner:(Gates*)newOwner;
 -(void) connectToWire:(Wire*)newWire;
 -(CGPoint) mapPosition;
 
