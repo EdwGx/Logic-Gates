@@ -30,8 +30,8 @@
     if (newWire) {
         if (!self.multiConnect){
             self.inWire = newWire;
-            [self.inWire addObserver:self forKeyPath:@"boolStatus" options:NSKeyValueObservingOptionNew context:nil];
-            [self.inWire addObserver:self forKeyPath:@"realInput" options:NSKeyValueObservingOptionNew context:nil];
+            [self.inWire addObserver:self forKeyPath:@"boolStatus" options:0 context:nil];
+            [self.inWire addObserver:self forKeyPath:@"realInput" options:0 context:nil];
         }
     }
 }

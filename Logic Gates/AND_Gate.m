@@ -25,4 +25,5 @@
 -(void)initImage{
     self.texture = [SKTexture textureWithImageNamed:@"Gates/Logic Gates/Image/and_gate.png"];
 }
+
 @end

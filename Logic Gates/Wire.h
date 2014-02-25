@@ -18,7 +18,7 @@
 @end
 @interface Wire : SKShapeNode{
 }
--(id) initWithStartPort:(Port*)sPort andEndPort:(Port*)ePort;
+-(id) initWithAnyPort:(Port*)sPort;
 -(void) drawLine;
 -(void) kill;
 @property(weak) Port* startPort;

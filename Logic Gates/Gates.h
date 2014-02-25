@@ -9,10 +9,14 @@
 #import <SpriteKit/SpriteKit.h>
 
 @interface Gates : SKSpriteNode{
-    BOOL outStatus;    
+    BOOL outStatus;
 }
+
 -(void)initPort;
 -(void)initImage;
+-(void)updateOutput;
+-(void)addObserserToInPort;
+
 @property int8_t gateType;
 @property(strong) NSArray* inPort;
 @property(strong) NSArray* outPort;

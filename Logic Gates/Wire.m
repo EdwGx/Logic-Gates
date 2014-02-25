@@ -11,12 +11,11 @@
 @implementation Wire
 @synthesize delegate;
 
--(id)initWithStartPort:(Port*)sPort andEndPort:(Port*)ePort{
+-(id)initWithAnyPort:(Port*)sPort {
     if (self = [super init]) {
         //Initialization
-        if (sPort || ePort) {
-            self.startPort = sPort;
-            self.endPort = ePort;
+        if (sPort) {
+            [self connectNewPort:sPort];
         } else{
             return nil;
         }
@@ -30,8 +29,8 @@
         if (newPort.multiConnect) {
             self.startPort = newPort;
             self.startGate = newPort.ownerGate;
-            [self.startPort addObserver:self forKeyPath:@"boolStatus" options:NSKeyValueObservingOptionNew context:nil];
-            [self.startPort addObserver:self forKeyPath:@"realInput" options:NSKeyValueObservingOptionNew context:nil];
+            [self.startPort addObserver:self forKeyPath:@"boolStatus" options:0 context:nil];
+            [self.startPort addObserver:self forKeyPath:@"realInput" options:0 context:nil];
         } else {
             self.endPort = newPort;
             self.endGate = newPort.ownerGate;
