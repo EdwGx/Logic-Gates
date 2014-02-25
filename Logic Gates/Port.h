@@ -12,6 +12,10 @@
     BOOL boolStatus;
     BOOL realInput;
     BOOL wireConnectable;
+    BOOL multiConnect;
 }
+-(id)initWithPosition:(struct CGPoint) pos andStatusOfMultiConnection:(BOOL)multiConn;
+-(BOOL) isMultiConnect;
+-(void) setMultiConnect;
 @property NSPointerArray *connectList;
 @end

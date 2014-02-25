@@ -11,7 +11,7 @@
 @implementation Wire
 @synthesize delegate;
 
--(id)initWithStartPort:(id)sPort andEndPort:(id)ePort{
+-(id)initWithStartPort:(Port*)sPort andEndPort:(Port*)ePort{
     if (self = [super init]) {
         //Initialization
         if (sPort || ePort) {
@@ -22,6 +22,13 @@
         }
     }
     return self;
+}
+
+-(void)connectNewPort:(Port*)newPort{
+    if (newPort) {
+        
+
+    }
 }
 
 -(void)updateColor{
