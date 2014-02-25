@@ -9,10 +9,8 @@
 #import <SpriteKit/SpriteKit.h>
 
 @interface Gates : SKSpriteNode{
-    BOOL outStatus;
-    int8_t gateType;
-    
+    BOOL outStatus;    
 }
 
-
+@property int8_t gateType;
 @end

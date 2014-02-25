@@ -7,15 +7,22 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
+#import "Wire.h"
+#import "Gates.h"
 
+@class Gates;
+@class Wire;
 @interface Port : SKNode{
-    BOOL boolStatus;
-    BOOL realInput;
     BOOL wireConnectable;
-    BOOL multiConnect;
-}
--(id)initWithPosition:(struct CGPoint) pos andStatusOfMultiConnection:(BOOL)multiConn;
--(BOOL) isMultiConnect;
--(void) setMultiConnect;
-@property NSPointerArray *connectList;
+    }
+-(id)initWithPosition:(struct CGPoint)pos andStatusOfMultiConnection:(BOOL)multiConn andOwner:(Gates*)newOwner;
+-(void) connectToWire:(Wire*)newWire;
+-(CGPoint) mapPosition;
+
+@property BOOL multiConnect;
+@property BOOL realInput;
+@property BOOL boolStatus;
+
+@property(weak) Wire* inWire;
+@property(weak) Gates* ownerGate;
 @end

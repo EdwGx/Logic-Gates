@@ -10,4 +10,8 @@
 
 @implementation Gates
 
+-(id)initWithGateType:(int8_t)newGateType{
+    return self;
+}
+
 @end

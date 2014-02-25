@@ -26,15 +26,32 @@
 
 -(void)connectNewPort:(Port*)newPort{
     if (newPort) {
-        
 
+        if (newPort.multiConnect) {
+            self.startPort = newPort;
+            self.startGate = newPort.ownerGate;
+            [self.startPort addObserver:self forKeyPath:@"boolStatus" options:NSKeyValueObservingOptionNew context:nil];
+            [self.startPort addObserver:self forKeyPath:@"realInput" options:NSKeyValueObservingOptionNew context:nil];
+        } else {
+            self.endPort = newPort;
+            self.endGate = newPort.ownerGate;
+        }
+        if (newPort.ownerGate) {
+            [newPort.ownerGate addObserver:self forKeyPath:@"position" options:NSKeyValueObservingOptionNew context:nil];
+        }
+    }
+}
+
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
+    if ([@"position" isEqualToString:keyPath]) {
+        [self drawLine];
     }
 }
 
 -(void)updateColor{
-    if (!realInput) {
+    if (!self.realInput) {
         self.fillColor = [SKColor redColor];
-    } else if (boolStatus) {
+    } else if (self.boolStatus) {
         self.fillColor = [SKColor greenColor];
     } else {
         self.fillColor = [SKColor blackColor];
@@ -45,10 +62,10 @@
     CGPoint startPos;
     CGPoint endPos;
     if (self.startPort) {
-        startPos = self.startPort.position;
+        startPos = [self.startPort mapPosition];
         endPos = [delegate getDragingPosition];
     } else if (self.endPort) {
-        endPos = self.endPort.position;
+        endPos = [self.endPort mapPosition];
         startPos = [delegate getDragingPosition];
     } else {
         //Wire should have one or more port
@@ -63,5 +80,13 @@
 
 -(void)kill{
     //kill it self
+    [self removeFromParent];
+}
+-(void)dealloc{
+    [self.startGate removeObserver:self forKeyPath:@"position"];
+    [self.endGate removeObserver:self forKeyPath:@"position"];
+    
+    [self.startPort removeObserver:self forKeyPath:@"boolStatus"];
+    [self.startPort removeObserver:self forKeyPath:@"realInput"];
 }
 @end
