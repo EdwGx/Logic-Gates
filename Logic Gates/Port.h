@@ -13,6 +13,5 @@
     BOOL realInput;
     BOOL wireConnectable;
 }
-
 @property NSPointerArray *connectList;
 @end
