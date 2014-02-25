@@ -180,6 +180,7 @@
 		967D7CC718BBFA5400F72CF9 /* Gates */ = {
 			isa = PBXGroup;
 			children = (
+				96BB52A818BD4A4E001F53B0 /* Logic Gates */,
 				967D7CC818BBFA8000F72CF9 /* Gates.h */,
 				967D7CC918BBFA8000F72CF9 /* Gates.m */,
 				967D7CCB18BBFC2800F72CF9 /* Port.h */,
@@ -188,6 +189,13 @@
 				967D7CCF18BBFF8500F72CF9 /* Wire.m */,
 			);
 			name = Gates;
+			sourceTree = "<group>";
+		};
+		96BB52A818BD4A4E001F53B0 /* Logic Gates */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Logic Gates";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -516,6 +524,7 @@
 				967D7CC318BBF96100F72CF9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		967D7CC418BBF96100F72CF9 /* Build configuration list for PBXNativeTarget "Logic GatesTests" */ = {
 			isa = XCConfigurationList;
@@ -524,6 +533,7 @@
 				967D7CC618BBF96100F72CF9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
