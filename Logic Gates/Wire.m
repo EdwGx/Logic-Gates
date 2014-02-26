@@ -43,7 +43,7 @@
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
     if ([@"position" isEqualToString:keyPath]) {
-        [self drawLine];
+        [self performSelectorInBackground:@selector(drawLine) withObject:nil];
     }
 }
 
@@ -69,12 +69,14 @@
     } else {
         //Wire should have one or more port
         [self kill];
+        return;
     }
     
     CGMutablePathRef drawPath = CGPathCreateMutable();
     CGPathMoveToPoint(drawPath, NULL, startPos.x, startPos.y);
     CGPathAddLineToPoint(drawPath, NULL, endPos.x, endPos.x);
     self.path = drawPath;
+    CGPathRelease(drawPath);
 }
 
 -(void)kill{
