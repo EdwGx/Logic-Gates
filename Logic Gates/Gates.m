@@ -32,11 +32,25 @@
 }
 
 -(void)updateRealIntput{
-    /*Get the real input boolean
+    /*Get the real input boolean*/
     BOOL real = true;
+    
+    //Check do all ports have real input
     for (int i = 0; i < [self.inPort count]; i++) {
-
-    }*/
+        Port* portObject = [self.inPort objectAtIndex:i];
+        if (!portObject.realInput) {
+            real = false;
+            break;
+        }
+    }
+    
+    real = real || [self isRealInputSource] ;
+        
+    for (int i = 0; i < [self.inPort count]; i++) {
+        Port* portObject = [self.inPort objectAtIndex:i];
+        portObject.boolStatus = real;
+    }
+    
 }
 
 -(BOOL)isRealInputSource{

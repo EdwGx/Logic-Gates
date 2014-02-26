@@ -7,7 +7,6 @@
 //
 
 #import "AND_Gate.h"
-#import "Port.h"
 
 @implementation AND_Gate
 -(void)initPort{
@@ -25,5 +24,10 @@
 -(void)initImage{
     self.texture = [SKTexture textureWithImageNamed:@"Gates/Logic Gates/Image/and_gate.png"];
 }
-
+-(void)updateOutput{
+    Port *outP1 = [self.outPort objectAtIndex:0];
+    Port *inP1 = [self.outPort objectAtIndex:0];
+    Port *inP2 = [self.outPort objectAtIndex:1];
+    outP1.boolStatus = inP1.boolStatus || inP2.boolStatus;
+}
 @end

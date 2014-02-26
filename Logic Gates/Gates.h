@@ -7,6 +7,7 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
+#import "Port.h"
 
 @interface Gates : SKSpriteNode{
     BOOL outStatus;
