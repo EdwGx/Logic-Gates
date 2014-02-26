@@ -12,7 +12,7 @@
 
 @class Gates;
 @class Wire;
-@interface Port : SKNode{
+@interface Port : NSObject{
     BOOL wireConnectable;
     }
 -(id)initWithPosition:(CGPoint)pos andStatusOfMultiConnection:(BOOL)multiConn andOwner:(Gates*)newOwner;
@@ -25,4 +25,5 @@
 
 @property(weak) Wire* inWire;
 @property(weak) Gates* ownerGate;
+@property CGPoint position;
 @end
