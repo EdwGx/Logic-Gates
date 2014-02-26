@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		96773E1D18BD55B4002F5266 /* AND_Gate.m in Sources */ = {isa = PBXBuildFile; fileRef = 96773E1C18BD55B4002F5266 /* AND_Gate.m */; };
-		96773E2018BD5973002F5266 /* and_gate.png in Resources */ = {isa = PBXBuildFile; fileRef = 96773E1F18BD5973002F5266 /* and_gate.png */; };
+		967C274918BEA5C800824AF6 /* Gates Image.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 967C274818BEA5C800824AF6 /* Gates Image.xcassets */; };
 		967D7C8918BBF96100F72CF9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 967D7C8818BBF96100F72CF9 /* Foundation.framework */; };
 		967D7C8B18BBF96100F72CF9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 967D7C8A18BBF96100F72CF9 /* CoreGraphics.framework */; };
 		967D7C8D18BBF96100F72CF9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 967D7C8C18BBF96100F72CF9 /* UIKit.framework */; };
@@ -20,7 +20,6 @@
 		967D7CA118BBF96100F72CF9 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 967D7C9F18BBF96100F72CF9 /* Main_iPad.storyboard */; };
 		967D7CA418BBF96100F72CF9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 967D7CA318BBF96100F72CF9 /* ViewController.m */; };
 		967D7CA718BBF96100F72CF9 /* MyScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 967D7CA618BBF96100F72CF9 /* MyScene.m */; };
-		967D7CA918BBF96100F72CF9 /* Spaceship.png in Resources */ = {isa = PBXBuildFile; fileRef = 967D7CA818BBF96100F72CF9 /* Spaceship.png */; };
 		967D7CAB18BBF96100F72CF9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 967D7CAA18BBF96100F72CF9 /* Images.xcassets */; };
 		967D7CB218BBF96100F72CF9 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 967D7CB118BBF96100F72CF9 /* XCTest.framework */; };
 		967D7CB318BBF96100F72CF9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 967D7C8818BBF96100F72CF9 /* Foundation.framework */; };
@@ -45,7 +44,7 @@
 /* Begin PBXFileReference section */
 		96773E1B18BD55B4002F5266 /* AND_Gate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AND_Gate.h; sourceTree = "<group>"; };
 		96773E1C18BD55B4002F5266 /* AND_Gate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AND_Gate.m; sourceTree = "<group>"; };
-		96773E1F18BD5973002F5266 /* and_gate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = and_gate.png; sourceTree = "<group>"; };
+		967C274818BEA5C800824AF6 /* Gates Image.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Gates Image.xcassets"; sourceTree = "<group>"; };
 		967D7C8518BBF96100F72CF9 /* Logic Gates.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Logic Gates.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		967D7C8818BBF96100F72CF9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		967D7C8A18BBF96100F72CF9 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -63,7 +62,6 @@
 		967D7CA318BBF96100F72CF9 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		967D7CA518BBF96100F72CF9 /* MyScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyScene.h; sourceTree = "<group>"; };
 		967D7CA618BBF96100F72CF9 /* MyScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyScene.m; sourceTree = "<group>"; };
-		967D7CA818BBF96100F72CF9 /* Spaceship.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Spaceship.png; sourceTree = "<group>"; };
 		967D7CAA18BBF96100F72CF9 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		967D7CB018BBF96100F72CF9 /* Logic GatesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Logic GatesTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		967D7CB118BBF96100F72CF9 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -103,13 +101,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		96773E1E18BD5908002F5266 /* Image */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Image;
-			sourceTree = "<group>";
-		};
 		967D7C7C18BBF96100F72CF9 = {
 			isa = PBXGroup;
 			children = (
@@ -152,7 +143,6 @@
 				967D7CA318BBF96100F72CF9 /* ViewController.m */,
 				967D7CA518BBF96100F72CF9 /* MyScene.h */,
 				967D7CA618BBF96100F72CF9 /* MyScene.m */,
-				967D7CA818BBF96100F72CF9 /* Spaceship.png */,
 				967D7CC718BBFA5400F72CF9 /* Gates */,
 				967D7CAA18BBF96100F72CF9 /* Images.xcassets */,
 				967D7C9118BBF96100F72CF9 /* Supporting Files */,
@@ -206,10 +196,9 @@
 		96BB52A818BD4A4E001F53B0 /* Logic Gates */ = {
 			isa = PBXGroup;
 			children = (
-				96773E1E18BD5908002F5266 /* Image */,
+				967C274818BEA5C800824AF6 /* Gates Image.xcassets */,
 				96773E1B18BD55B4002F5266 /* AND_Gate.h */,
 				96773E1C18BD55B4002F5266 /* AND_Gate.m */,
-				96773E1F18BD5973002F5266 /* and_gate.png */,
 			);
 			name = "Logic Gates";
 			sourceTree = "<group>";
@@ -290,8 +279,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96773E2018BD5973002F5266 /* and_gate.png in Resources */,
-				967D7CA918BBF96100F72CF9 /* Spaceship.png in Resources */,
+				967C274918BEA5C800824AF6 /* Gates Image.xcassets in Resources */,
 				967D7CAB18BBF96100F72CF9 /* Images.xcassets in Resources */,
 				967D7CA118BBF96100F72CF9 /* Main_iPad.storyboard in Resources */,
 				967D7C9E18BBF96100F72CF9 /* Main_iPhone.storyboard in Resources */,

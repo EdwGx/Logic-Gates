@@ -9,6 +9,7 @@
 #import <SpriteKit/SpriteKit.h>
 #import "Port.h"
 
+@class Port;
 @interface Gates : SKSpriteNode{
     BOOL outStatus;
 }
@@ -18,7 +19,9 @@
 -(void)updateOutput;
 -(void)addObserserToInPort;
 -(id)initGate;
+-(NSString*)imageName;
 -(int8_t)getDefultGateTypeValue;
+-(Port*)portInPoint:(CGPoint)point;
 
 @property int8_t gateType;
 @property(strong) NSArray* inPort;
