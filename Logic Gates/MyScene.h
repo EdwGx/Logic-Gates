@@ -8,6 +8,9 @@
 
 #import <SpriteKit/SpriteKit.h>
 
-@interface MyScene : SKScene
+@interface MyScene : SKScene{
+    CGPoint lastTouchLocation;
+}
 
+@property(weak) SKNode *dragingObject;
 @end
