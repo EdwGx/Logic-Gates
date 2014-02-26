@@ -106,7 +106,6 @@
 		96773E1E18BD5908002F5266 /* Image */ = {
 			isa = PBXGroup;
 			children = (
-				96773E1F18BD5973002F5266 /* and_gate.png */,
 			);
 			name = Image;
 			sourceTree = "<group>";
@@ -210,6 +209,7 @@
 				96773E1E18BD5908002F5266 /* Image */,
 				96773E1B18BD55B4002F5266 /* AND_Gate.h */,
 				96773E1C18BD55B4002F5266 /* AND_Gate.m */,
+				96773E1F18BD5973002F5266 /* and_gate.png */,
 			);
 			name = "Logic Gates";
 			sourceTree = "<group>";

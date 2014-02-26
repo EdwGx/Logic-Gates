@@ -9,6 +9,7 @@
 #import "AND_Gate.h"
 
 @implementation AND_Gate
+
 -(void)initPort{
     Port *inP1 = [[Port alloc]initWithPosition:CGPointMake(6, 12) andStatusOfMultiConnection:false andOwner:self];
     Port *inP2 = [[Port alloc]initWithPosition:CGPointMake(6, 28) andStatusOfMultiConnection:true andOwner:self];
@@ -22,12 +23,18 @@
     [self addChild:outP1];
 }
 -(void)initImage{
-    self.texture = [SKTexture textureWithImageNamed:@"Gates/Logic Gates/Image/and_gate.png"];
+    UIImage *image = [UIImage imageNamed:@"and_gate"];
+    self.texture = [SKTexture textureWithImage:image];
+    self.size = [image size];
+    self.color = [SKColor whiteColor];
 }
 -(void)updateOutput{
     Port *outP1 = [self.outPort objectAtIndex:0];
     Port *inP1 = [self.outPort objectAtIndex:0];
     Port *inP2 = [self.outPort objectAtIndex:1];
     outP1.boolStatus = inP1.boolStatus || inP2.boolStatus;
+}
+-(int8_t)getDefultGateTypeValue{
+    return 1;
 }
 @end

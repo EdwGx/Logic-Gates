@@ -11,6 +11,7 @@
 #import "Gates.h"
 
 @class Port;
+@class Gates;
 @protocol wireProtocol
 
 -(CGPoint)getDragingPosition;

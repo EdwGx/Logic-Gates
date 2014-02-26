@@ -17,6 +17,8 @@
 -(void)initImage;
 -(void)updateOutput;
 -(void)addObserserToInPort;
+-(id)initGate;
+-(int8_t)getDefultGateTypeValue;
 
 @property int8_t gateType;
 @property(strong) NSArray* inPort;

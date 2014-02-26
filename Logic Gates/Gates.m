@@ -10,8 +10,9 @@
 
 @implementation Gates
 
--(id)initWithGateType:(int8_t)newGateType{
+-(id)initGate{
     if (self = [super init]) {
+        self.gateType = [self getDefultGateTypeValue];
         [self initImage];
         [self initPort];
         [self addObserserToInPort];
@@ -29,6 +30,10 @@
 
 -(void)updateOutput{
     /*Get the ouput boolean*/
+}
+
+-(int8_t)getDefultGateTypeValue{
+    return 0;
 }
 
 -(void)updateRealIntput{
