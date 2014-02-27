@@ -14,6 +14,7 @@
 -(id)initGate{
     if (self = [super init]) {
         self.gateType = [self getDefultGateTypeValue];
+        self.zPosition = 5.0;
         [self initImage];
         [self initPort];
         [self addObserserToInPort];

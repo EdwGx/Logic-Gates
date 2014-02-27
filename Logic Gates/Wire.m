@@ -26,18 +26,23 @@
 
 -(void)connectNewPort:(Port*)newPort{
     if (newPort) {
-
-        if (newPort.multiConnect) {
-            self.startPort = newPort;
-            self.startGate = newPort.ownerGate;
-            [self.startPort addObserver:self forKeyPath:@"boolStatus" options:0 context:nil];
-            [self.startPort addObserver:self forKeyPath:@"realInput" options:0 context:nil];
+        if ([newPort isAbleToConnect]) {
+            NSLog(@"YES");
+            if (newPort.multiConnect) {
+                self.startPort = newPort;
+                self.startGate = newPort.ownerGate;
+                [self.startPort addObserver:self forKeyPath:@"boolStatus" options:0 context:nil];
+                [self.startPort addObserver:self forKeyPath:@"realInput" options:0 context:nil];
+            } else {
+                self.endPort = newPort;
+                self.endGate = newPort.ownerGate;
+            }
+            if (newPort.ownerGate) {
+                [newPort.ownerGate addObserver:self forKeyPath:@"position" options:NSKeyValueObservingOptionNew context:nil];
+            }
+            [newPort connectToWire:self];
         } else {
-            self.endPort = newPort;
-            self.endGate = newPort.ownerGate;
-        }
-        if (newPort.ownerGate) {
-            [newPort.ownerGate addObserver:self forKeyPath:@"position" options:NSKeyValueObservingOptionNew context:nil];
+            [self kill];
         }
     }
 }
@@ -58,10 +63,18 @@
     }
 }
 
+-(void)kill{
+    [self removeAllActions];
+    [self removeFromParent];
+}
+
 -(void)drawLine{
     CGPoint startPos;
     CGPoint endPos;
-    if (self.startPort) {
+    if (self.startPort && self.endPort) {
+        startPos = [self.startPort mapPosition];
+        endPos = [self.endPort mapPosition];
+    } else if (self.startPort) {
         startPos = [self.startPort mapPosition];
         endPos = [self.delegate getDragingPosition];
     } else if (self.endPort) {
@@ -69,6 +82,7 @@
         startPos = [self.delegate getDragingPosition];
     } else {
         //Wire should have one or more port
+        [self kill];
         return;
     }
     

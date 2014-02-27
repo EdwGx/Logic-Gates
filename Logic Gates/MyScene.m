@@ -24,8 +24,17 @@
         [self addChild:a];
         
         AND_Gate* b = [[AND_Gate alloc]initGate];
-        b.position = CGPointMake(300, 300);
+        b.position = CGPointMake(300, 200);
         [self addChild:b];
+        
+        Port*p1 = (Port*)[a.inPort objectAtIndex:0];
+        Wire* w = [[Wire alloc]initWithAnyPort:p1];
+        Port*p2 = (Port*)[b.outPort objectAtIndex:0];
+        [w connectNewPort:p2];
+        [self addChild:w];
+        SKAction *ac1 = [SKAction performSelector:@selector(drawLine) onTarget:w];
+        SKAction *ac2 = [SKAction repeatAction:ac1 count:2];
+        [w runAction:ac2];
     }
     return self;
 }

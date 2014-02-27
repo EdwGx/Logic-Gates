@@ -18,6 +18,7 @@
 -(id)initWithPosition:(CGPoint)pos andStatusOfMultiConnection:(BOOL)multiConn andOwner:(Gates*)newOwner;
 -(void) connectToWire:(Wire*)newWire;
 -(CGPoint) mapPosition;
+-(BOOL)isAbleToConnect;
 
 @property BOOL multiConnect;
 @property BOOL realInput;

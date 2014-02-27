@@ -26,6 +26,18 @@
     return CGPointMake(self.position.x+self.ownerGate.position.x,self.position.y+self.ownerGate.position.y);
 }
 
+-(BOOL)isAbleToConnect{
+    if (self.multiConnect) {
+        return true;
+    }else{
+        if (self.inWire){
+            return false;
+        }else{
+            return true;
+        }
+    }
+}
+
 -(void)connectToWire:(Wire *)newWire{
     if (newWire) {
         if (!self.multiConnect){

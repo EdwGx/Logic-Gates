@@ -21,6 +21,7 @@
 }
 -(id) initWithAnyPort:(Port*)sPort;
 -(void) drawLine;
+-(void)connectNewPort:(Port*)newPort;
 
 @property(weak) Port* startPort;
 @property(weak) Port* endPort;
