@@ -9,13 +9,14 @@
 #import "Wire.h"
 
 @implementation Wire
-@synthesize delegate;
 
 -(id)initWithAnyPort:(Port*)sPort {
     if (self = [super init]) {
         //Initialization
         if (sPort) {
             [self connectNewPort:sPort];
+            [self updateColor];
+            [self drawLine];
         } else{
             return nil;
         }
@@ -49,11 +50,11 @@
 
 -(void)updateColor{
     if (!self.realInput) {
-        self.fillColor = [SKColor redColor];
+        self.strokeColor = [SKColor redColor];
     } else if (self.boolStatus) {
-        self.fillColor = [SKColor greenColor];
+        self.strokeColor = [SKColor greenColor];
     } else {
-        self.fillColor = [SKColor blackColor];
+        self.strokeColor = [SKColor blackColor];
     }
 }
 
@@ -62,27 +63,23 @@
     CGPoint endPos;
     if (self.startPort) {
         startPos = [self.startPort mapPosition];
-        endPos = [delegate getDragingPosition];
+        endPos = [self.delegate getDragingPosition];
     } else if (self.endPort) {
         endPos = [self.endPort mapPosition];
-        startPos = [delegate getDragingPosition];
+        startPos = [self.delegate getDragingPosition];
     } else {
         //Wire should have one or more port
-        [self kill];
         return;
     }
     
     CGMutablePathRef drawPath = CGPathCreateMutable();
     CGPathMoveToPoint(drawPath, NULL, startPos.x, startPos.y);
-    CGPathAddLineToPoint(drawPath, NULL, endPos.x, endPos.x);
+    CGPathAddLineToPoint(drawPath, NULL, endPos.x, endPos.y);
     self.path = drawPath;
     CGPathRelease(drawPath);
 }
 
--(void)kill{
-    //kill it self
-    [self removeFromParent];
-}
+
 -(void)dealloc{
     [self.startGate removeObserver:self forKeyPath:@"position"];
     [self.endGate removeObserver:self forKeyPath:@"position"];

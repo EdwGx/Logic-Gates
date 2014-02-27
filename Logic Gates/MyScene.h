@@ -7,10 +7,13 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
+#import "Wire.h"
 
-@interface MyScene : SKScene{
+@class Wire;
+@interface MyScene : SKScene<wireProtocol>{
     CGPoint lastTouchLocation;
 }
 
-@property(weak) SKNode *dragingObject;
+@property SKNode *dragingObject;
+@property Wire* dragWire;
 @end

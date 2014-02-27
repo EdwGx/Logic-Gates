@@ -21,15 +21,15 @@
 }
 -(id) initWithAnyPort:(Port*)sPort;
 -(void) drawLine;
--(void) kill;
+
 @property(weak) Port* startPort;
 @property(weak) Port* endPort;
 
 @property(weak) Gates* startGate;
 @property(weak) Gates* endGate;
 
-@property(weak) id delegate;
 @property BOOL boolStatus;
 @property BOOL realInput;
 
+@property(weak) id delegate;
 @end

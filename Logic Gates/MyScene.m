@@ -11,6 +11,7 @@
 #import "Gates.h"
 #import "Port.h"
 
+
 @implementation MyScene
 
 -(id)initWithSize:(CGSize)size {    
@@ -22,9 +23,9 @@
         a.position = CGPointMake(100, 100);
         [self addChild:a];
         
-        Port* p = [a.inPort objectAtIndex:0];
-        CGPoint po = [p mapPosition];
-        NSLog(@"%f,%f",po.x,po.y);
+        AND_Gate* b = [[AND_Gate alloc]initGate];
+        b.position = CGPointMake(300, 300);
+        [self addChild:b];
     }
     return self;
 }
@@ -32,22 +33,22 @@
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     //Called when a touch begins
-    
-    for (UITouch *touch in touches) {
-        SKNode* node = [self nodeAtPoint:[touch locationInNode:self]];
-        if ([node isKindOfClass:[Gates class]]) {
-            CGPoint locInNode = [touch locationInNode:node];
-            NSLog(@"%f,%f",locInNode.x,locInNode.y);
-            Gates*GNode = (Gates*)node;
-            Port *inNode = [GNode portInPoint:locInNode];
-            if (inNode) {
-                NSLog(@"YES");
-            } else{
-                self.dragingObject = node;
-                lastTouchLocation = [touch locationInNode:self];
-            }
+    UITouch* touch = [touches anyObject];
+    SKNode* node = [self nodeAtPoint:[touch locationInNode:self]];
+    if ([node isKindOfClass:[Gates class]]) {
+        CGPoint locInNode = [touch locationInNode:node];
+        Gates*GNode = (Gates*)node;
+        Port *inNode = [GNode portInPoint:locInNode];
+        if (inNode) {
+            self.dragWire = [[Wire alloc]initWithAnyPort:inNode];
+            self.dragWire.delegate = self;
+            [self addChild:self.dragWire];
+        } else{
+            self.dragingObject = node;
+            lastTouchLocation = [touch locationInNode:self];
         }
     }
+    lastTouchLocation = [touch locationInNode:self];
 }
 
 
@@ -58,9 +59,10 @@
         self.dragingObject.position = CGPointMake(
               self.dragingObject.position.x + newTouchLocation.x - lastTouchLocation.x,
               self.dragingObject.position.y + newTouchLocation.y - lastTouchLocation.y);
-        lastTouchLocation = newTouchLocation;
-
+    } else if (self.dragWire){
+        [self.dragWire drawLine];
     }
+    lastTouchLocation = [touch locationInNode:self];
     
 }
 
@@ -68,6 +70,24 @@
     if (self.dragingObject) {
         self.dragingObject = nil;
     }
+    if (self.dragWire) {
+        [self.dragWire removeFromParent];
+        self.dragWire = nil;
+    }
+}
+
+-(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event{
+    if (self.dragingObject) {
+        self.dragingObject = nil;
+    }
+    if (self.dragWire) {
+        [self.dragWire removeFromParent];
+        self.dragWire = nil;
+    }
+}
+
+-(CGPoint)getDragingPosition{
+    return lastTouchLocation;
 }
 
 -(void)update:(CFTimeInterval)currentTime {
