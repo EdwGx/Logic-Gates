@@ -114,6 +114,9 @@
 }
 
 -(void)kill{
+    if (self.endPort){
+        [self.endPort willRemoveWire];
+    }
     [self removeAllActions];
     [self removeFromParent];
 }
