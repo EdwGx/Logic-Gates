@@ -27,6 +27,7 @@
 
 @property int8_t gateType;
 @property BOOL realInput;
+@property BOOL willKill;
 @property(strong) NSArray* inPort;
 @property(strong) NSArray* outPort;
 @end
