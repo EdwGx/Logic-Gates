@@ -99,6 +99,9 @@
     if ([@"realInput" isEqualToString:keyPath]) {
         [self performSelectorInBackground:@selector(updateRealInput) withObject:nil];
     }
+    if ([@"willKill" isEqualToString:keyPath]) {
+        [self kill];
+    }
 }
 
 -(void)updateColor{
@@ -124,9 +127,11 @@
 -(void)didConnectBothSides{
     [self.startPort addObserver:self forKeyPath:@"boolStatus" options:0 context:nil];
     [self.startPort addObserver:self forKeyPath:@"realInput" options:0 context:nil];
-    [self.startGate addObserver:self forKeyPath:@"position" options:NSKeyValueObservingOptionNew context:nil];
+    [self.startGate addObserver:self forKeyPath:@"position" options:0 context:nil];
+    [self.startGate addObserver:self forKeyPath:@"willKill" options:0 context:nil];
     didRegisterStartPort = true;
-    [self.endGate addObserver:self forKeyPath:@"position" options:NSKeyValueObservingOptionNew context:nil];
+    [self.endGate addObserver:self forKeyPath:@"willKill" options:0 context:nil];
+    [self.endGate addObserver:self forKeyPath:@"position" options:0 context:nil];
     didRegisterEndPort = true;
     
     [self updateRealInput];
@@ -168,8 +173,10 @@
         [self.startGate removeObserver:self forKeyPath:@"position"];
         [self.startPort removeObserver:self forKeyPath:@"boolStatus"];
         [self.startPort removeObserver:self forKeyPath:@"realInput"];
+        [self.startPort removeObserver:self forKeyPath:@"willKill"];
     }
     if (didRegisterEndPort) {
+        [self.endPort removeObserver:self forKeyPath:@"willKill"];
         [self.endGate removeObserver:self forKeyPath:@"position"];
     }
 }
