@@ -7,7 +7,7 @@
 //
 
 #import "Gates.h"
-#define portRange 2
+#define portRange 6
 
 @implementation Gates
 
@@ -17,6 +17,7 @@
         self.zPosition = 5.0;
         [self initImage];
         [self initPort];
+        [self updateRealIntput];
         [self addObserserToInPort];
     }
     return self;
@@ -58,12 +59,12 @@
             break;
         }
     }
-    
-    real = real || [self isRealInputSource] ;
-        
-    for (int i = 0; i < [self.inPort count]; i++) {
-        Port* portObject = [self.inPort objectAtIndex:i];
-        portObject.boolStatus = real;
+
+    self.realInput = real || [self isRealInputSource];
+
+    for (int i = 0; i < [self.outPort count]; i++) {
+        Port* portObject = [self.outPort objectAtIndex:i];
+        portObject.realInput = self.realInput;
     }
     
 }

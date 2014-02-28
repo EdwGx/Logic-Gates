@@ -24,6 +24,7 @@
 -(id) initWithAnyPort:(Port*)sPort;
 -(void) drawLine;
 -(void) kill;
+-(void) updateRealInput;
 -(void) connectNewPort:(Port*)newPort;
 -(BOOL) wantConnectThisPort:(Port*)port;
 

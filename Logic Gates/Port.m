@@ -13,7 +13,7 @@
     if (self = [super init]) {
         self.boolStatus = false;
         self.realInput = false;
-        wireConnectable = false;
+        self.wireConnectable = true;
         registeredObserver = false;
         self.multiConnect = multiConn;
         self.position = pos;
@@ -28,6 +28,9 @@
 }
 
 -(BOOL)isAbleToConnect{
+    if (!self.wireConnectable) {
+        return false;
+    }
     if (self.multiConnect) {
         return true;
     }else{
@@ -44,6 +47,13 @@
         [self.inWire addObserver:self forKeyPath:@"boolStatus" options:0 context:nil];
         [self.inWire addObserver:self forKeyPath:@"realInput" options:0 context:nil];
         registeredObserver = true;
+        
+        self.boolStatus = self.inWire.boolStatus;
+        self.realInput = self.inWire.realInput;
+        //self.realInput?NSLog(@"y3"):NSLog(@"n3");
+
+        [self.ownerGate updateRealIntput];
+        [self.ownerGate updateOutput];
     }
 }
 
@@ -63,6 +73,7 @@
         self.realInput = self.inWire.realInput;
     }
 }
+
 -(void)dealloc{
     if (registeredObserver) {
         [self.inWire removeObserver:self forKeyPath:@"boolStatus"];

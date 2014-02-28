@@ -29,6 +29,8 @@
 		967D7CCA18BBFA8000F72CF9 /* Gates.m in Sources */ = {isa = PBXBuildFile; fileRef = 967D7CC918BBFA8000F72CF9 /* Gates.m */; };
 		967D7CCD18BBFC2800F72CF9 /* Port.m in Sources */ = {isa = PBXBuildFile; fileRef = 967D7CCC18BBFC2800F72CF9 /* Port.m */; };
 		967D7CD018BBFF8500F72CF9 /* Wire.m in Sources */ = {isa = PBXBuildFile; fileRef = 967D7CCF18BBFF8500F72CF9 /* Wire.m */; };
+		96F92DC218C00F350077958A /* OR_Gate.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F92DC118C00F350077958A /* OR_Gate.m */; };
+		96F92DC518C0118F0077958A /* Switch.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F92DC418C0118F0077958A /* Switch.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +76,10 @@
 		967D7CCC18BBFC2800F72CF9 /* Port.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Port.m; sourceTree = "<group>"; };
 		967D7CCE18BBFF8500F72CF9 /* Wire.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wire.h; sourceTree = "<group>"; };
 		967D7CCF18BBFF8500F72CF9 /* Wire.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Wire.m; sourceTree = "<group>"; };
+		96F92DC018C00F350077958A /* OR_Gate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OR_Gate.h; sourceTree = "<group>"; };
+		96F92DC118C00F350077958A /* OR_Gate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OR_Gate.m; sourceTree = "<group>"; };
+		96F92DC318C0118F0077958A /* Switch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Switch.h; sourceTree = "<group>"; };
+		96F92DC418C0118F0077958A /* Switch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Switch.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,8 +203,12 @@
 			isa = PBXGroup;
 			children = (
 				967C274818BEA5C800824AF6 /* Gates Image.xcassets */,
+				96F92DC318C0118F0077958A /* Switch.h */,
+				96F92DC418C0118F0077958A /* Switch.m */,
 				96773E1B18BD55B4002F5266 /* AND_Gate.h */,
 				96773E1C18BD55B4002F5266 /* AND_Gate.m */,
+				96F92DC018C00F350077958A /* OR_Gate.h */,
+				96F92DC118C00F350077958A /* OR_Gate.m */,
 			);
 			name = "Logic Gates";
 			sourceTree = "<group>";
@@ -305,9 +315,11 @@
 				96773E1D18BD55B4002F5266 /* AND_Gate.m in Sources */,
 				967D7CCD18BBFC2800F72CF9 /* Port.m in Sources */,
 				967D7CA718BBF96100F72CF9 /* MyScene.m in Sources */,
+				96F92DC218C00F350077958A /* OR_Gate.m in Sources */,
 				967D7CA418BBF96100F72CF9 /* ViewController.m in Sources */,
 				967D7CCA18BBFA8000F72CF9 /* Gates.m in Sources */,
 				967D7CD018BBFF8500F72CF9 /* Wire.m in Sources */,
+				96F92DC518C0118F0077958A /* Switch.m in Sources */,
 				967D7C9B18BBF96100F72CF9 /* AppDelegate.m in Sources */,
 				967D7C9718BBF96100F72CF9 /* main.m in Sources */,
 			);

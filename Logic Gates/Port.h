@@ -13,7 +13,6 @@
 @class Gates;
 @class Wire;
 @interface Port : NSObject{
-    BOOL wireConnectable;
     BOOL registeredObserver;
 }
 -(id)initWithPosition:(CGPoint)pos andStatusOfMultiConnection:(BOOL)multiConn andOwner:(Gates*)newOwner;
@@ -25,6 +24,7 @@
 @property BOOL multiConnect;
 @property BOOL realInput;
 @property BOOL boolStatus;
+@property BOOL wireConnectable;
 
 @property(weak) Wire* inWire;
 @property(weak) Gates* ownerGate;

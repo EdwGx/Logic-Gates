@@ -20,10 +20,15 @@
             self.startGate = nil;
             self.endGate = nil;
             
+            self.realInput = true;
+            
             didRegisterStartPort = false;
             didRegisterEndPort = false;
             
             [self connectNewPort:sPort];
+            if (self.startPort) {
+                self.boolStatus = self.startPort.boolStatus;
+            }
             [self updateColor];
         } else{
             return nil;
@@ -39,18 +44,24 @@
         return false;
     }
     if (self.startGate) {
-        NSLog(@"x");
         if ([self.startGate isEqual:port.ownerGate]){
             return false;
         }
     }
     if (self.endGate) {
-        NSLog(@"y");
         if ([self.endGate isEqual:port.ownerGate]){
             return false;
         }
     }
     return true;
+}
+
+-(void)updateRealInput{
+    if (self.startPort) {
+        self.realInput = self.startPort.realInput;
+        //self.realInput?NSLog(@"y2"):NSLog(@"n2");
+        [self updateColor];
+    }
 }
 
 -(void)connectNewPort:(Port*)newPort{
@@ -81,15 +92,24 @@
     if ([@"position" isEqualToString:keyPath]) {
         [self performSelectorInBackground:@selector(drawLine) withObject:nil];
     }
+    if ([@"boolStatus" isEqualToString:keyPath]) {
+        self.boolStatus = self.startPort.boolStatus;
+        [self updateColor];
+    }
+    if ([@"realInput" isEqualToString:keyPath]) {
+        [self performSelectorInBackground:@selector(updateRealInput) withObject:nil];
+    }
 }
 
 -(void)updateColor{
     if (!self.realInput) {
         self.strokeColor = [SKColor redColor];
-    } else if (self.boolStatus) {
-        self.strokeColor = [SKColor greenColor];
     } else {
-        self.strokeColor = [SKColor blackColor];
+        if (self.boolStatus) {
+            self.strokeColor = [SKColor greenColor];
+        } else {
+            self.strokeColor = [SKColor blackColor];
+        }
     }
 }
 
@@ -105,6 +125,10 @@
     didRegisterStartPort = true;
     [self.endGate addObserver:self forKeyPath:@"position" options:NSKeyValueObservingOptionNew context:nil];
     didRegisterEndPort = true;
+    
+    [self updateRealInput];
+    self.boolStatus = self.startPort.boolStatus;
+    [self updateColor];
     
     [self.startPort finishedConnectProcess];
     [self.endPort finishedConnectProcess];

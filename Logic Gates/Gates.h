@@ -18,12 +18,15 @@
 -(void)initImage;
 -(void)updateOutput;
 -(void)addObserserToInPort;
+-(void)updateRealIntput;
 -(id)initGate;
 -(NSString*)imageName;
 -(int8_t)getDefultGateTypeValue;
+-(BOOL)isRealInputSource;
 -(Port*)portInPoint:(CGPoint)point;
 
 @property int8_t gateType;
+@property BOOL realInput;
 @property(strong) NSArray* inPort;
 @property(strong) NSArray* outPort;
 @end

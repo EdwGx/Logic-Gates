@@ -8,6 +8,8 @@
 
 #import "MyScene.h"
 #import "AND_Gate.h"
+#import "OR_Gate.h"
+#import "Switch.h"
 #import "Gates.h"
 #import "Port.h"
 
@@ -17,17 +19,20 @@
 -(id)initWithSize:(CGSize)size {    
     if (self = [super initWithSize:size]) {
         /* Setup your scene here */
-        self.backgroundColor = [SKColor colorWithRed:0.15 green:0.15 blue:0.3 alpha:1.0];
+        self.backgroundColor = [SKColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0];
         
         AND_Gate* a = [[AND_Gate alloc]initGate];
         a.position = CGPointMake(100, 100);
-        a.alpha = 0.2;
         [self addChild:a];
         
-        AND_Gate* b = [[AND_Gate alloc]initGate];
+        OR_Gate* b = [[OR_Gate alloc]initGate];
         b.position = CGPointMake(300, 200);
-        b.alpha = 0.2;
         [self addChild:b];
+        
+        Switch* c = [[Switch alloc]initGate];
+        c.position = CGPointMake(400, 200);
+        [self addChild:c];
+
 
     }
     return self;
