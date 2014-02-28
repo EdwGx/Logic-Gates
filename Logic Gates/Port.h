@@ -18,6 +18,7 @@
 -(id)initWithPosition:(CGPoint)pos andStatusOfMultiConnection:(BOOL)multiConn andOwner:(Gates*)newOwner;
 -(void) connectToWire:(Wire*)newWire;
 -(void) finishedConnectProcess;
+-(void)willRemoveWire;
 -(CGPoint) mapPosition;
 -(BOOL)isAbleToConnect;
 
