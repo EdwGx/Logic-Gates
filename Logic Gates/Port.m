@@ -42,6 +42,19 @@
     }
 }
 
+-(void)willRemoveWire{
+    if (!self.multiConnect) {
+        if (registeredObserver) {
+            [self.inWire removeObserver:self forKeyPath:@"boolStatus"];
+            [self.inWire removeObserver:self forKeyPath:@"realInput"];
+            registeredObserver = false;
+        }
+        self.boolStatus = false;
+        self.realInput = false;
+        self.inWire = nil;
+    }
+}
+
 -(void)finishedConnectProcess{
     if (!self.multiConnect){
         [self.inWire addObserver:self forKeyPath:@"boolStatus" options:0 context:nil];
