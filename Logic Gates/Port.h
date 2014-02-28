@@ -14,9 +14,11 @@
 @class Wire;
 @interface Port : NSObject{
     BOOL wireConnectable;
-    }
+    BOOL registeredObserver;
+}
 -(id)initWithPosition:(CGPoint)pos andStatusOfMultiConnection:(BOOL)multiConn andOwner:(Gates*)newOwner;
 -(void) connectToWire:(Wire*)newWire;
+-(void) finishedConnectProcess;
 -(CGPoint) mapPosition;
 -(BOOL)isAbleToConnect;
 

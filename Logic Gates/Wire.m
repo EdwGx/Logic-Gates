@@ -14,37 +14,67 @@
     if (self = [super init]) {
         //Initialization
         if (sPort) {
+            self.startPort = nil;
+            self.endPort = nil;
+            
+            self.startGate = nil;
+            self.endGate = nil;
+            
+            didRegisterStartPort = false;
+            didRegisterEndPort = false;
+            
             [self connectNewPort:sPort];
             [self updateColor];
-            [self drawLine];
         } else{
             return nil;
         }
     }
     return self;
 }
+-(BOOL)wantConnectThisPort:(Port *)port{
+    if (self.startPort && port.multiConnect) {
+        return false;
+    }
+    if (self.endPort && !port.multiConnect) {
+        return false;
+    }
+    if (self.startGate) {
+        NSLog(@"x");
+        if ([self.startGate isEqual:port.ownerGate]){
+            return false;
+        }
+    }
+    if (self.endGate) {
+        NSLog(@"y");
+        if ([self.endGate isEqual:port.ownerGate]){
+            return false;
+        }
+    }
+    return true;
+}
 
 -(void)connectNewPort:(Port*)newPort{
     if (newPort) {
-        if ([newPort isAbleToConnect]) {
-            NSLog(@"YES");
-            if (newPort.multiConnect) {
-                self.startPort = newPort;
-                self.startGate = newPort.ownerGate;
-                [self.startPort addObserver:self forKeyPath:@"boolStatus" options:0 context:nil];
-                [self.startPort addObserver:self forKeyPath:@"realInput" options:0 context:nil];
-            } else {
-                self.endPort = newPort;
-                self.endGate = newPort.ownerGate;
+        if ([self wantConnectThisPort:newPort]){
+            if ([newPort isAbleToConnect]) {
+                if (newPort.multiConnect) {
+                    self.startPort = newPort;
+                    self.startGate = newPort.ownerGate;
+                } else {
+                    self.endPort = newPort;
+                    self.endGate = newPort.ownerGate;
+                }
+                [newPort connectToWire:self];
+                [self drawLine];
+                if (self.startPort && self.endPort) {
+                    [self didConnectBothSides];
+                }
+                return;
             }
-            if (newPort.ownerGate) {
-                [newPort.ownerGate addObserver:self forKeyPath:@"position" options:NSKeyValueObservingOptionNew context:nil];
-            }
-            [newPort connectToWire:self];
-        } else {
-            [self kill];
         }
     }
+    [self kill];
+    
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
@@ -66,6 +96,18 @@
 -(void)kill{
     [self removeAllActions];
     [self removeFromParent];
+}
+
+-(void)didConnectBothSides{
+    [self.startPort addObserver:self forKeyPath:@"boolStatus" options:0 context:nil];
+    [self.startPort addObserver:self forKeyPath:@"realInput" options:0 context:nil];
+    [self.startGate addObserver:self forKeyPath:@"position" options:NSKeyValueObservingOptionNew context:nil];
+    didRegisterStartPort = true;
+    [self.endGate addObserver:self forKeyPath:@"position" options:NSKeyValueObservingOptionNew context:nil];
+    didRegisterEndPort = true;
+    
+    [self.startPort finishedConnectProcess];
+    [self.endPort finishedConnectProcess];
 }
 
 -(void)drawLine{
@@ -95,10 +137,13 @@
 
 
 -(void)dealloc{
-    [self.startGate removeObserver:self forKeyPath:@"position"];
-    [self.endGate removeObserver:self forKeyPath:@"position"];
-    
-    [self.startPort removeObserver:self forKeyPath:@"boolStatus"];
-    [self.startPort removeObserver:self forKeyPath:@"realInput"];
+    if (didRegisterStartPort) {
+        [self.startGate removeObserver:self forKeyPath:@"position"];
+        [self.startPort removeObserver:self forKeyPath:@"boolStatus"];
+        [self.startPort removeObserver:self forKeyPath:@"realInput"];
+    }
+    if (didRegisterEndPort) {
+        [self.endGate removeObserver:self forKeyPath:@"position"];
+    }
 }
 @end

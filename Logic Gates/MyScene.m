@@ -21,20 +21,14 @@
         
         AND_Gate* a = [[AND_Gate alloc]initGate];
         a.position = CGPointMake(100, 100);
+        a.alpha = 0.2;
         [self addChild:a];
         
         AND_Gate* b = [[AND_Gate alloc]initGate];
         b.position = CGPointMake(300, 200);
+        b.alpha = 0.2;
         [self addChild:b];
-        
-        Port*p1 = (Port*)[a.inPort objectAtIndex:0];
-        Wire* w = [[Wire alloc]initWithAnyPort:p1];
-        Port*p2 = (Port*)[b.outPort objectAtIndex:0];
-        [w connectNewPort:p2];
-        [self addChild:w];
-        SKAction *ac1 = [SKAction performSelector:@selector(drawLine) onTarget:w];
-        SKAction *ac2 = [SKAction repeatAction:ac1 count:2];
-        [w runAction:ac2];
+
     }
     return self;
 }
@@ -43,21 +37,23 @@
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     //Called when a touch begins
     UITouch* touch = [touches anyObject];
-    SKNode* node = [self nodeAtPoint:[touch locationInNode:self]];
+    lastTouchLocation = [touch locationInNode:self];
+    SKNode* node = [self nodeAtPoint:lastTouchLocation];
     if ([node isKindOfClass:[Gates class]]) {
         CGPoint locInNode = [touch locationInNode:node];
         Gates*GNode = (Gates*)node;
         Port *inNode = [GNode portInPoint:locInNode];
         if (inNode) {
-            self.dragWire = [[Wire alloc]initWithAnyPort:inNode];
-            self.dragWire.delegate = self;
-            [self addChild:self.dragWire];
+            if ([inNode isAbleToConnect]) {
+                self.dragWire = [[Wire alloc]initWithAnyPort:inNode];
+                self.dragWire.delegate = self;
+                [self addChild:self.dragWire];
+            }
         } else{
             self.dragingObject = node;
-            lastTouchLocation = [touch locationInNode:self];
         }
     }
-    lastTouchLocation = [touch locationInNode:self];
+    
 }
 
 
@@ -76,13 +72,32 @@
 }
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
+    UITouch* touch = [touches anyObject];
+    
     if (self.dragingObject) {
         self.dragingObject = nil;
     }
     if (self.dragWire) {
-        [self.dragWire removeFromParent];
+        [self dragWireEndWithLocation:touch];
         self.dragWire = nil;
     }
+}
+
+-(void)dragWireEndWithLocation:(UITouch*)touch{
+    SKNode* node = [self nodeAtPoint:[touch locationInNode:self]];
+    if ([node isKindOfClass:[Gates class]]) {
+        CGPoint locInNode = [touch locationInNode:node];
+        Gates*GNode = (Gates*)node;
+        Port *inNode = [GNode portInPoint:locInNode];
+        if (inNode) {
+            //Check that Port can connect one more wire.
+            if ([inNode isAbleToConnect]) {
+                [self.dragWire connectNewPort:inNode];
+                return;
+            }
+        }
+    }
+    [self.dragWire kill];
 }
 
 -(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event{

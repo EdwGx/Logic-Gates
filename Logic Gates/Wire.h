@@ -18,10 +18,14 @@
 
 @end
 @interface Wire : SKShapeNode{
+    BOOL didRegisterStartPort;
+    BOOL didRegisterEndPort;
 }
 -(id) initWithAnyPort:(Port*)sPort;
 -(void) drawLine;
--(void)connectNewPort:(Port*)newPort;
+-(void) kill;
+-(void) connectNewPort:(Port*)newPort;
+-(BOOL) wantConnectThisPort:(Port*)port;
 
 @property(weak) Port* startPort;
 @property(weak) Port* endPort;

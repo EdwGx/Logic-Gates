@@ -14,6 +14,7 @@
         self.boolStatus = false;
         self.realInput = false;
         wireConnectable = false;
+        registeredObserver = false;
         self.multiConnect = multiConn;
         self.position = pos;
         self.ownerGate = newOwner;
@@ -38,12 +39,18 @@
     }
 }
 
+-(void)finishedConnectProcess{
+    if (!self.multiConnect){
+        [self.inWire addObserver:self forKeyPath:@"boolStatus" options:0 context:nil];
+        [self.inWire addObserver:self forKeyPath:@"realInput" options:0 context:nil];
+        registeredObserver = true;
+    }
+}
+
 -(void)connectToWire:(Wire *)newWire{
     if (newWire) {
         if (!self.multiConnect){
             self.inWire = newWire;
-            [self.inWire addObserver:self forKeyPath:@"boolStatus" options:0 context:nil];
-            [self.inWire addObserver:self forKeyPath:@"realInput" options:0 context:nil];
         }
     }
 }
@@ -57,8 +64,10 @@
     }
 }
 -(void)dealloc{
-    [self.inWire removeObserver:self forKeyPath:@"boolStatus"];
-    [self.inWire removeObserver:self forKeyPath:@"realInput"];
+    if (registeredObserver) {
+        [self.inWire removeObserver:self forKeyPath:@"boolStatus"];
+        [self.inWire removeObserver:self forKeyPath:@"realInput"];
+    }
 }
 
 @end
