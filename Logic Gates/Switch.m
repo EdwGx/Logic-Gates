@@ -8,15 +8,23 @@
 
 #import "Switch.h"
 
-@implementation Switch
+@implementation Switch{
+    BOOL outputState;
+}
+
 -(void)initPort{
     Port *outP1 = [[Port alloc]initWithPosition:CGPointMake(6, 0) andStatusOfMultiConnection:true andOwner:self];
-    outP1.boolStatus = true;
+    outP1.boolStatus = false;
+    outputState = outP1.boolStatus;
     self.outPort = [NSArray arrayWithObject:outP1];
 }
 
 -(NSString*)imageName{
-    return @"switch_off";
+    if (outputState) {
+        return @"switch_on";
+    } else {
+        return @"switch_off";
+    }
 }
 
 -(int8_t)getDefultGateTypeValue{
@@ -25,5 +33,15 @@
 
 -(BOOL)isRealInputSource{
     return true;
+}
+
+-(BOOL)touchDownWithPointInNode:(CGPoint)point{
+    if ((point.x>-5 && point.x<3) && (point.y>-10 && point.y<10)){
+        Port *outP1 = [self.outPort objectAtIndex:0];
+        outputState = !outputState;
+        outP1.boolStatus = outputState;
+        [self initImage];
+    }
+    return false;
 }
 @end

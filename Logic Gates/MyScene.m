@@ -9,31 +9,50 @@
 #import "MyScene.h"
 #import "AND_Gate.h"
 #import "OR_Gate.h"
+#import "LightBulb.h"
 #import "Switch.h"
 #import "Gates.h"
 #import "Port.h"
 
 
-@implementation MyScene
+@implementation MyScene{
+    BOOL killMode;
+    BOOL changingKillMode;
+}
 
 -(id)initWithSize:(CGSize)size {    
     if (self = [super initWithSize:size]) {
         /* Setup your scene here */
         self.backgroundColor = [SKColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0];
         
+        killMode = false;
+        changingKillMode = false;
+        self.ModeChanger = [SKSpriteNode spriteNodeWithImageNamed:@"ModeImage"];
+        self.ModeChanger.zPosition = 10;
+        self.ModeChanger.position = CGPointMake(size.width-30, size.height-50);
+        SKAction *action1 = [SKAction rotateToAngle:0.25*M_PI duration:0];
+        [self.ModeChanger runAction:action1];
+        [self addChild:self.ModeChanger];
+        
         AND_Gate* a = [[AND_Gate alloc]initGate];
         a.position = CGPointMake(100, 100);
         [self addChild:a];
         
         OR_Gate* b = [[OR_Gate alloc]initGate];
-        b.position = CGPointMake(300, 200);
+        b.position = CGPointMake(300, 100);
         [self addChild:b];
         
         Switch* c = [[Switch alloc]initGate];
-        c.position = CGPointMake(400, 200);
+        c.position = CGPointMake(100, 200);
         [self addChild:c];
-
-
+        
+        Switch* d = [[Switch alloc]initGate];
+        d.position = CGPointMake(200, 100);
+        [self addChild:d];
+        
+        LightBulb* f = [[LightBulb alloc]initGate];
+        f.position = CGPointMake(200, 200);
+        [self addChild:f];
     }
     return self;
 }
@@ -50,12 +69,19 @@
         Port *inNode = [GNode portInPoint:locInNode];
         if (inNode) {
             if ([inNode isAbleToConnect]) {
-                self.dragWire = [[Wire alloc]initWithAnyPort:inNode];
+                self.dragWire = [[Wire alloc]initWithAnyPort:inNode andStartPosition:lastTouchLocation];
                 self.dragWire.delegate = self;
                 [self addChild:self.dragWire];
             }
         } else{
-            self.dragingObject = node;
+            [GNode touchDownWithPointInNode:locInNode];
+            self.dragingObject = GNode;
+        }
+    } else if ([node isEqual:self.ModeChanger]){
+        if (!changingKillMode) {
+            killMode = !killMode;
+            [self.ModeChanger runAction:[SKAction rotateByAngle:1.75*M_PI duration:0.5]completion:^{
+                changingKillMode = false;}];
         }
     }
     

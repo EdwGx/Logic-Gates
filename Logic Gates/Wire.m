@@ -10,7 +10,7 @@
 
 @implementation Wire
 
--(id)initWithAnyPort:(Port*)sPort {
+-(id)initWithAnyPort:(Port*)sPort andStartPosition:(CGPoint)sPos {
     if (self = [super init]) {
         //Initialization
         if (sPort) {
@@ -25,7 +25,7 @@
             didRegisterStartPort = false;
             didRegisterEndPort = false;
             
-            [self connectNewPort:sPort];
+            [self connectNewPort:sPort withPosition:sPos];
             if (self.startPort) {
                 self.boolStatus = self.startPort.boolStatus;
             }
@@ -59,7 +59,6 @@
 -(void)updateRealInput{
     if (self.startPort) {
         self.realInput = self.startPort.realInput;
-        //self.realInput?NSLog(@"y2"):NSLog(@"n2");
         [self updateColor];
     }
 }
@@ -77,6 +76,29 @@
                 }
                 [newPort connectToWire:self];
                 [self drawLine];
+                if (self.startPort && self.endPort) {
+                    [self didConnectBothSides];
+                }
+                return;
+            }
+        }
+    }
+    [self kill];
+}
+
+-(void)connectNewPort:(Port*)newPort withPosition:(CGPoint)point{
+    if (newPort) {
+        if ([self wantConnectThisPort:newPort]){
+            if ([newPort isAbleToConnect]) {
+                if (newPort.multiConnect) {
+                    self.startPort = newPort;
+                    self.startGate = newPort.ownerGate;
+                } else {
+                    self.endPort = newPort;
+                    self.endGate = newPort.ownerGate;
+                }
+                [newPort connectToWire:self];
+                [self drawLineWithPosition:point];
                 if (self.startPort && self.endPort) {
                     [self didConnectBothSides];
                 }
@@ -167,16 +189,41 @@
     CGPathRelease(drawPath);
 }
 
+-(void)drawLineWithPosition:(CGPoint)point{
+    CGPoint startPos;
+    CGPoint endPos;
+    if (self.startPort && self.endPort) {
+        startPos = [self.startPort mapPosition];
+        endPos = [self.endPort mapPosition];
+    } else if (self.startPort) {
+        startPos = [self.startPort mapPosition];
+        endPos = point;
+    } else if (self.endPort) {
+        endPos = [self.endPort mapPosition];
+        startPos = point;
+    } else {
+        //Wire should have one or more port
+        [self kill];
+        return;
+    }
+    
+    CGMutablePathRef drawPath = CGPathCreateMutable();
+    CGPathMoveToPoint(drawPath, NULL, startPos.x, startPos.y);
+    CGPathAddLineToPoint(drawPath, NULL, endPos.x, endPos.y);
+    self.path = drawPath;
+    CGPathRelease(drawPath);
+}
+
 
 -(void)dealloc{
     if (didRegisterStartPort) {
         [self.startGate removeObserver:self forKeyPath:@"position"];
         [self.startPort removeObserver:self forKeyPath:@"boolStatus"];
         [self.startPort removeObserver:self forKeyPath:@"realInput"];
-        [self.startPort removeObserver:self forKeyPath:@"willKill"];
+        [self.startGate removeObserver:self forKeyPath:@"willKill"];
     }
     if (didRegisterEndPort) {
-        [self.endPort removeObserver:self forKeyPath:@"willKill"];
+        [self.endGate removeObserver:self forKeyPath:@"willKill"];
         [self.endGate removeObserver:self forKeyPath:@"position"];
     }
 }

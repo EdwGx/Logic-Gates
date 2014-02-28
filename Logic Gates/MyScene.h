@@ -16,4 +16,5 @@
 
 @property SKNode *dragingObject;
 @property Wire* dragWire;
+@property SKSpriteNode* ModeChanger;
 @end

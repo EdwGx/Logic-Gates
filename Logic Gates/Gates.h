@@ -10,15 +10,18 @@
 #import "Port.h"
 
 @class Port;
-@interface Gates : SKSpriteNode{
-    BOOL outStatus;
-}
+@interface Gates : SKSpriteNode
 
 -(void)initPort;
 -(void)initImage;
 -(void)updateOutput;
 -(void)addObserserToInPort;
 -(void)updateRealIntput;
+-(void)kill;
+
+-(BOOL)touchDownWithPointInNode:(CGPoint)point;
+-(void)touchUpWithPointInNode:(CGPoint)point;
+
 -(id)initGate;
 -(NSString*)imageName;
 -(int8_t)getDefultGateTypeValue;

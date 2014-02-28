@@ -15,12 +15,20 @@
     if (self = [super init]) {
         self.gateType = [self getDefultGateTypeValue];
         self.zPosition = 5.0;
-        [self initImage];
+        self.willKill = false;
         [self initPort];
+        [self initImage];
         [self updateRealIntput];
         [self addObserserToInPort];
     }
     return self;
+}
+
+-(void)kill{
+    self.willKill = true;
+    [self removeAllActions];
+    [self removeAllChildren];
+    [self removeFromParent];
 }
 
 -(void)initPort{
@@ -32,7 +40,6 @@
     UIImage *image = [UIImage imageNamed:[self imageName]];
     self.texture = [SKTexture textureWithImage:image];
     self.size = [image size];
-    self.color = [SKColor whiteColor];
 }
 
 -(void)updateOutput{
@@ -71,6 +78,15 @@
 
 -(BOOL)isRealInputSource{
     return false;
+}
+
+-(BOOL)touchDownWithPointInNode:(CGPoint)point{
+    //Return Value Mean Want To Call When Touch End or Not;
+    return false;
+}
+
+-(void)touchUpWithPointInNode:(CGPoint)point{
+    
 }
 
 -(Port*)portInPoint:(CGPoint)point{

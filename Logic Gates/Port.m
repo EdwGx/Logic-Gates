@@ -63,7 +63,6 @@
         
         self.boolStatus = self.inWire.boolStatus;
         self.realInput = self.inWire.realInput;
-        //self.realInput?NSLog(@"y3"):NSLog(@"n3");
 
         [self.ownerGate updateRealIntput];
         [self.ownerGate updateOutput];
