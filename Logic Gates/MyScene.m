@@ -35,6 +35,13 @@
         [self.ModeChanger runAction:action1];
         [self addChild:self.ModeChanger];
         
+        self.selectionMenu = [SKSpriteNode node];
+        self.selectionMenu.color = [SKColor colorWithRed:0.15 green:0.15 blue:0.3 alpha:1.0];
+        self.selectionMenu.zPosition = 10;
+        self.selectionMenu.size = CGSizeMake(16, 30);
+        self.selectionMenu.position = CGPointMake(8, size.height/2);
+        [self addChild:self.selectionMenu];
+        
         AND_Gate* a = [[AND_Gate alloc]initGate];
         a.position = CGPointMake(100, 100);
         [self addChild:a];
@@ -101,6 +108,9 @@
     
 }
 
+-(void)readyGateType:(int8_t)gateType withPosition:(CGPoint)point{
+    
+}
 
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
     UITouch *touch = [touches anyObject];
