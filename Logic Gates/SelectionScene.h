@@ -9,5 +9,5 @@
 #import <SpriteKit/SpriteKit.h>
 
 @interface SelectionScene : SKScene
-
+-(id)initWithSize:(CGSize)size andScene:(SKScene*)scene;
 @end
