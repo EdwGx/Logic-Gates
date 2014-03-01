@@ -14,7 +14,6 @@
 #import "Switch.h"
 #import "Gates.h"
 #import "Port.h"
-#import "SelectionScene.h"
 
 
 @implementation MyScene{
@@ -106,9 +105,9 @@
                 changingKillMode = false;}];
         }
     } else if ([node isEqual:self.selectionMenu]){
-        SKScene* selectScene = [[SelectionScene alloc]initWithSize:self.size andScene:self];
+        /*SKScene* selectScene = [[SelectionScene alloc]initWithSize:self.size andScene:self];
         [self.view presentScene:selectScene transition:
-         [SKTransition pushWithDirection:SKTransitionDirectionRight duration:0.5]];
+         [SKTransition pushWithDirection:SKTransitionDirectionRight duration:0.5]];*/
     }
     
 }

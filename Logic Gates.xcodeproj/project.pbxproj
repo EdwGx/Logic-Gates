@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		964E707618C164BE000E46A3 /* SelectionScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 964E707518C164BE000E46A3 /* SelectionScene.m */; };
 		96727A8918C13EB600E79A39 /* LightBulb.m in Sources */ = {isa = PBXBuildFile; fileRef = 96727A8818C13EB600E79A39 /* LightBulb.m */; };
 		96727A8E18C14D7A00E79A39 /* NOT_Gate.m in Sources */ = {isa = PBXBuildFile; fileRef = 96727A8D18C14D7A00E79A39 /* NOT_Gate.m */; };
+		96730B7418C21948003287C0 /* SelectionSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 96730B7318C21948003287C0 /* SelectionSprite.m */; };
 		96773E1D18BD55B4002F5266 /* AND_Gate.m in Sources */ = {isa = PBXBuildFile; fileRef = 96773E1C18BD55B4002F5266 /* AND_Gate.m */; };
 		967C274918BEA5C800824AF6 /* Gates Image.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 967C274818BEA5C800824AF6 /* Gates Image.xcassets */; };
 		967D7C8918BBF96100F72CF9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 967D7C8818BBF96100F72CF9 /* Foundation.framework */; };
@@ -47,12 +47,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		964E707418C164BE000E46A3 /* SelectionScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectionScene.h; sourceTree = "<group>"; };
-		964E707518C164BE000E46A3 /* SelectionScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectionScene.m; sourceTree = "<group>"; };
 		96727A8718C13EB600E79A39 /* LightBulb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LightBulb.h; sourceTree = "<group>"; };
 		96727A8818C13EB600E79A39 /* LightBulb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LightBulb.m; sourceTree = "<group>"; };
 		96727A8C18C14D7A00E79A39 /* NOT_Gate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NOT_Gate.h; sourceTree = "<group>"; };
 		96727A8D18C14D7A00E79A39 /* NOT_Gate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NOT_Gate.m; sourceTree = "<group>"; };
+		96730B7218C21948003287C0 /* SelectionSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectionSprite.h; sourceTree = "<group>"; };
+		96730B7318C21948003287C0 /* SelectionSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectionSprite.m; sourceTree = "<group>"; };
 		96773E1B18BD55B4002F5266 /* AND_Gate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AND_Gate.h; sourceTree = "<group>"; };
 		96773E1C18BD55B4002F5266 /* AND_Gate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AND_Gate.m; sourceTree = "<group>"; };
 		967C274818BEA5C800824AF6 /* Gates Image.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Gates Image.xcassets"; sourceTree = "<group>"; };
@@ -169,8 +169,8 @@
 				967D7CA318BBF96100F72CF9 /* ViewController.m */,
 				967D7CA518BBF96100F72CF9 /* MyScene.h */,
 				967D7CA618BBF96100F72CF9 /* MyScene.m */,
-				964E707418C164BE000E46A3 /* SelectionScene.h */,
-				964E707518C164BE000E46A3 /* SelectionScene.m */,
+				96730B7218C21948003287C0 /* SelectionSprite.h */,
+				96730B7318C21948003287C0 /* SelectionSprite.m */,
 				967D7CC718BBFA5400F72CF9 /* Gates */,
 				967D7CAA18BBF96100F72CF9 /* Images.xcassets */,
 				967D7C9118BBF96100F72CF9 /* Supporting Files */,
@@ -345,9 +345,9 @@
 				967D7CD018BBFF8500F72CF9 /* Wire.m in Sources */,
 				96F92DC518C0118F0077958A /* Switch.m in Sources */,
 				967D7C9B18BBF96100F72CF9 /* AppDelegate.m in Sources */,
+				96730B7418C21948003287C0 /* SelectionSprite.m in Sources */,
 				96727A8918C13EB600E79A39 /* LightBulb.m in Sources */,
 				967D7C9718BBF96100F72CF9 /* main.m in Sources */,
-				964E707618C164BE000E46A3 /* SelectionScene.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
