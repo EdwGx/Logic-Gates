@@ -9,5 +9,7 @@
 #import <SpriteKit/SpriteKit.h>
 
 @interface SelectionSprite : SKSpriteNode
--(id)initWithScene:(SKScene*)scene;
+-(id)initWithScene:(SKScene*)scene Size:(CGSize)size;
+
+@property NSArray* typeArray;
 @end

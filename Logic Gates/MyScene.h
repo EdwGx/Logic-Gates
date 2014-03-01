@@ -19,4 +19,5 @@
 @property Wire* dragWire;
 @property SKSpriteNode* ModeChanger;
 @property SKSpriteNode* selectionMenu;
+@property SKSpriteNode* selectSp;
 @end
