@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		96727A8918C13EB600E79A39 /* LightBulb.m in Sources */ = {isa = PBXBuildFile; fileRef = 96727A8818C13EB600E79A39 /* LightBulb.m */; };
+		96727A8E18C14D7A00E79A39 /* NOT_Gate.m in Sources */ = {isa = PBXBuildFile; fileRef = 96727A8D18C14D7A00E79A39 /* NOT_Gate.m */; };
 		96773E1D18BD55B4002F5266 /* AND_Gate.m in Sources */ = {isa = PBXBuildFile; fileRef = 96773E1C18BD55B4002F5266 /* AND_Gate.m */; };
 		967C274918BEA5C800824AF6 /* Gates Image.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 967C274818BEA5C800824AF6 /* Gates Image.xcassets */; };
 		967D7C8918BBF96100F72CF9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 967D7C8818BBF96100F72CF9 /* Foundation.framework */; };
@@ -47,6 +48,8 @@
 /* Begin PBXFileReference section */
 		96727A8718C13EB600E79A39 /* LightBulb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LightBulb.h; sourceTree = "<group>"; };
 		96727A8818C13EB600E79A39 /* LightBulb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LightBulb.m; sourceTree = "<group>"; };
+		96727A8C18C14D7A00E79A39 /* NOT_Gate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NOT_Gate.h; sourceTree = "<group>"; };
+		96727A8D18C14D7A00E79A39 /* NOT_Gate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NOT_Gate.m; sourceTree = "<group>"; };
 		96773E1B18BD55B4002F5266 /* AND_Gate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AND_Gate.h; sourceTree = "<group>"; };
 		96773E1C18BD55B4002F5266 /* AND_Gate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AND_Gate.m; sourceTree = "<group>"; };
 		967C274818BEA5C800824AF6 /* Gates Image.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Gates Image.xcassets"; sourceTree = "<group>"; };
@@ -110,6 +113,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		96727A8B18C14D1600E79A39 /* Special Gates */ = {
+			isa = PBXGroup;
+			children = (
+				96727A8718C13EB600E79A39 /* LightBulb.h */,
+				96727A8818C13EB600E79A39 /* LightBulb.m */,
+				96F92DC318C0118F0077958A /* Switch.h */,
+				96F92DC418C0118F0077958A /* Switch.m */,
+			);
+			name = "Special Gates";
+			sourceTree = "<group>";
+		};
 		967D7C7C18BBF96100F72CF9 = {
 			isa = PBXGroup;
 			children = (
@@ -205,15 +219,14 @@
 		96BB52A818BD4A4E001F53B0 /* Logic Gates */ = {
 			isa = PBXGroup;
 			children = (
+				96727A8B18C14D1600E79A39 /* Special Gates */,
 				967C274818BEA5C800824AF6 /* Gates Image.xcassets */,
-				96727A8718C13EB600E79A39 /* LightBulb.h */,
-				96727A8818C13EB600E79A39 /* LightBulb.m */,
-				96F92DC318C0118F0077958A /* Switch.h */,
-				96F92DC418C0118F0077958A /* Switch.m */,
 				96773E1B18BD55B4002F5266 /* AND_Gate.h */,
 				96773E1C18BD55B4002F5266 /* AND_Gate.m */,
 				96F92DC018C00F350077958A /* OR_Gate.h */,
 				96F92DC118C00F350077958A /* OR_Gate.m */,
+				96727A8C18C14D7A00E79A39 /* NOT_Gate.h */,
+				96727A8D18C14D7A00E79A39 /* NOT_Gate.m */,
 			);
 			name = "Logic Gates";
 			sourceTree = "<group>";
@@ -323,6 +336,7 @@
 				96F92DC218C00F350077958A /* OR_Gate.m in Sources */,
 				967D7CA418BBF96100F72CF9 /* ViewController.m in Sources */,
 				967D7CCA18BBFA8000F72CF9 /* Gates.m in Sources */,
+				96727A8E18C14D7A00E79A39 /* NOT_Gate.m in Sources */,
 				967D7CD018BBFF8500F72CF9 /* Wire.m in Sources */,
 				96F92DC518C0118F0077958A /* Switch.m in Sources */,
 				967D7C9B18BBF96100F72CF9 /* AppDelegate.m in Sources */,

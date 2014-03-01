@@ -24,6 +24,10 @@
     
 }
 
+-(void)updateRealIntput{
+    [super updateRealIntput];
+    [self initImage];
+}
 -(void)updateOutput{
     [self initImage];
 }

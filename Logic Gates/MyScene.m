@@ -9,6 +9,7 @@
 #import "MyScene.h"
 #import "AND_Gate.h"
 #import "OR_Gate.h"
+#import "NOT_Gate.h"
 #import "LightBulb.h"
 #import "Switch.h"
 #import "Gates.h"
@@ -38,10 +39,6 @@
         a.position = CGPointMake(100, 100);
         [self addChild:a];
         
-        OR_Gate* b = [[OR_Gate alloc]initGate];
-        b.position = CGPointMake(300, 100);
-        [self addChild:b];
-        
         Switch* c = [[Switch alloc]initGate];
         c.position = CGPointMake(100, 200);
         [self addChild:c];
@@ -53,6 +50,15 @@
         LightBulb* f = [[LightBulb alloc]initGate];
         f.position = CGPointMake(200, 200);
         [self addChild:f];
+        
+        OR_Gate* b = [[OR_Gate alloc]initGate];
+        b.position = CGPointMake(300, 100);
+        [self addChild:b];
+        
+        NOT_Gate*e = [[NOT_Gate alloc]initGate];
+        e.position = CGPointMake(300, 200);
+        [self addChild:e];
+        
     }
     return self;
 }
@@ -68,14 +74,22 @@
         Gates*GNode = (Gates*)node;
         Port *inNode = [GNode portInPoint:locInNode];
         if (inNode) {
-            if ([inNode isAbleToConnect]) {
-                self.dragWire = [[Wire alloc]initWithAnyPort:inNode andStartPosition:lastTouchLocation];
-                self.dragWire.delegate = self;
-                [self addChild:self.dragWire];
+            if (killMode) {
+                [inNode killAllWire];
+            } else {
+                if ([inNode isAbleToConnect]) {
+                    self.dragWire = [[Wire alloc]initWithAnyPort:inNode andStartPosition:lastTouchLocation];
+                    self.dragWire.delegate = self;
+                    [self addChild:self.dragWire];
+                }
             }
         } else{
-            [GNode touchDownWithPointInNode:locInNode];
-            self.dragingObject = GNode;
+            if (killMode) {
+                [GNode kill];
+            } else {
+                [GNode touchDownWithPointInNode:locInNode];
+                self.dragingObject = GNode;
+            }
         }
     } else if ([node isEqual:self.ModeChanger]){
         if (!changingKillMode) {

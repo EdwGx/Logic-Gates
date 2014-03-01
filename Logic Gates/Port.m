@@ -15,6 +15,7 @@
         self.realInput = false;
         self.wireConnectable = true;
         registeredObserver = false;
+        self.killWire = false;
         self.multiConnect = multiConn;
         self.position = pos;
         self.ownerGate = newOwner;
@@ -25,6 +26,11 @@
 
 -(CGPoint)mapPosition{
     return CGPointMake(self.position.x+self.ownerGate.position.x,self.position.y+self.ownerGate.position.y);
+}
+
+-(void)killAllWire{
+    self.killWire = true;
+    self.killWire = false;
 }
 
 -(BOOL)isAbleToConnect{

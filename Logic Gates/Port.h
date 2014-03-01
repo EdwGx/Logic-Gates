@@ -15,10 +15,12 @@
 @interface Port : NSObject{
     BOOL registeredObserver;
 }
+
 -(id)initWithPosition:(CGPoint)pos andStatusOfMultiConnection:(BOOL)multiConn andOwner:(Gates*)newOwner;
 -(void) connectToWire:(Wire*)newWire;
 -(void) finishedConnectProcess;
 -(void)willRemoveWire;
+-(void)killAllWire;
 -(CGPoint) mapPosition;
 -(BOOL)isAbleToConnect;
 
@@ -26,6 +28,7 @@
 @property BOOL realInput;
 @property BOOL boolStatus;
 @property BOOL wireConnectable;
+@property BOOL killWire;
 
 @property(weak) Wire* inWire;
 @property(weak) Gates* ownerGate;
