@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Edward Peiliang Guo. All rights reserved.
 //
 
-#import "XOR Gate.h"
+#import "XOR_Gate.h"
 
 @implementation XOR_Gate
 -(void)initPort{
