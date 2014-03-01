@@ -104,6 +104,8 @@
             [self.ModeChanger runAction:[SKAction rotateByAngle:1.75*M_PI duration:0.5]completion:^{
                 changingKillMode = false;}];
         }
+    } else if ([node isEqual:self.selectionMenu]){
+        //
     }
     
 }
