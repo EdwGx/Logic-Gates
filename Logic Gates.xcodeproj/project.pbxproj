@@ -31,6 +31,7 @@
 		967D7CCA18BBFA8000F72CF9 /* Gates.m in Sources */ = {isa = PBXBuildFile; fileRef = 967D7CC918BBFA8000F72CF9 /* Gates.m */; };
 		967D7CCD18BBFC2800F72CF9 /* Port.m in Sources */ = {isa = PBXBuildFile; fileRef = 967D7CCC18BBFC2800F72CF9 /* Port.m */; };
 		967D7CD018BBFF8500F72CF9 /* Wire.m in Sources */ = {isa = PBXBuildFile; fileRef = 967D7CCF18BBFF8500F72CF9 /* Wire.m */; };
+		968F4A7D18C2795D009263CE /* NAND_Gate.m in Sources */ = {isa = PBXBuildFile; fileRef = 968F4A7C18C2795D009263CE /* NAND_Gate.m */; };
 		96F92DC218C00F350077958A /* OR_Gate.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F92DC118C00F350077958A /* OR_Gate.m */; };
 		96F92DC518C0118F0077958A /* Switch.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F92DC418C0118F0077958A /* Switch.m */; };
 /* End PBXBuildFile section */
@@ -82,6 +83,8 @@
 		967D7CCC18BBFC2800F72CF9 /* Port.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Port.m; sourceTree = "<group>"; };
 		967D7CCE18BBFF8500F72CF9 /* Wire.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wire.h; sourceTree = "<group>"; };
 		967D7CCF18BBFF8500F72CF9 /* Wire.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Wire.m; sourceTree = "<group>"; };
+		968F4A7B18C2795D009263CE /* NAND_Gate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NAND_Gate.h; sourceTree = "<group>"; };
+		968F4A7C18C2795D009263CE /* NAND_Gate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NAND_Gate.m; sourceTree = "<group>"; };
 		96F92DC018C00F350077958A /* OR_Gate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OR_Gate.h; sourceTree = "<group>"; };
 		96F92DC118C00F350077958A /* OR_Gate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OR_Gate.m; sourceTree = "<group>"; };
 		96F92DC318C0118F0077958A /* Switch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Switch.h; sourceTree = "<group>"; };
@@ -221,6 +224,8 @@
 			children = (
 				96727A8B18C14D1600E79A39 /* Special Gates */,
 				967C274818BEA5C800824AF6 /* Gates Image.xcassets */,
+				968F4A7B18C2795D009263CE /* NAND_Gate.h */,
+				968F4A7C18C2795D009263CE /* NAND_Gate.m */,
 				96773E1B18BD55B4002F5266 /* AND_Gate.h */,
 				96773E1C18BD55B4002F5266 /* AND_Gate.m */,
 				96F92DC018C00F350077958A /* OR_Gate.h */,
@@ -341,6 +346,7 @@
 				96F92DC518C0118F0077958A /* Switch.m in Sources */,
 				967D7C9B18BBF96100F72CF9 /* AppDelegate.m in Sources */,
 				96727A8918C13EB600E79A39 /* LightBulb.m in Sources */,
+				968F4A7D18C2795D009263CE /* NAND_Gate.m in Sources */,
 				967D7C9718BBF96100F72CF9 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
