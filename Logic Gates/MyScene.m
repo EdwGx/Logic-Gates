@@ -146,15 +146,20 @@
 
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
     UITouch *touch = [touches anyObject];
-    if (self.dragingObject) {
-        CGPoint newTouchLocation = [touch locationInNode:self];
+    CGPoint newTouchLocation = [touch locationInNode:self];
+    if (menuOut&&self.selectSp) {
+        CGFloat newY = self.selectSp.position.y + newTouchLocation.y - lastTouchLocation.y;
+        newY = MIN(newY, self.selectSp.size.height/2);
+        newY = MAX(newY, self.size.height-self.selectSp.size.height/2);
+        self.selectSp.position = CGPointMake(self.selectSp.position.x, newY);
+    } else if (self.dragingObject) {
         self.dragingObject.position = CGPointMake(
               self.dragingObject.position.x + newTouchLocation.x - lastTouchLocation.x,
               self.dragingObject.position.y + newTouchLocation.y - lastTouchLocation.y);
     } else if (self.dragWire){
         [self.dragWire drawLine];
     }
-    lastTouchLocation = [touch locationInNode:self];
+    lastTouchLocation = newTouchLocation;
     
 }
 
