@@ -57,26 +57,15 @@
     return self;
 }
 
--(NSInteger)gTouchGateTypeWithPointInScene:(CGPoint)point{
-    CGPoint location = [self convertPoint:point fromNode:self.scene];
-    SKNode* node = [self nodeAtPoint:location];
-    if ([node isEqual:self]) {
-        return 0;
+-(int8_t)getTouchGateTypeWithName:(NSString*)name{
+    NSInteger indexInArray = [self.typeArray indexOfObject:name];
+    if (indexInArray == NSNotFound){
+        return (int8_t)0;
     }else{
-        NSString* name = node.name;
-        NSInteger indexInArray = [self.typeArray indexOfObject:name];
-        if (indexInArray == NSNotFound){
-            NSLog(@"ERROR:OBJECT NOT IN ARRAY");
-            return 0;
-        }else{
-            return indexInArray+1;
-        }
+        return (int8_t)indexInArray+1;
     }
 }
 
--(void)sayHello{
-    NSLog(@"Hello");
-}
 
 -(CGPoint)convertCoordinateCenterFromTopLeftToCenter:(CGPoint)point{
     return CGPointMake(point.x-self.size.width/2, -point.y+self.size.height/2);

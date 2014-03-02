@@ -14,7 +14,7 @@
 -(id)initGate{
     if (self = [super init]) {
         self.gateType = [self getDefultGateTypeValue];
-        self.zPosition = 5.0;
+        self.zPosition = 5;
         self.willKill = false;
         [self initPort];
         [self initImage];

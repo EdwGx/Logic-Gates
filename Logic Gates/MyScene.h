@@ -8,6 +8,7 @@
 
 #import <SpriteKit/SpriteKit.h>
 #import "Wire.h"
+#import "SelectionSprite.h"
 
 @class Wire;
 @class SelectionSprite;
@@ -19,5 +20,5 @@
 @property Wire* dragWire;
 @property SKSpriteNode* ModeChanger;
 @property SKSpriteNode* selectionMenu;
-@property SKSpriteNode* selectSp;
+@property SelectionSprite* selectSp;
 @end

@@ -7,14 +7,21 @@
 //
 
 #import "MyScene.h"
+
 #import "AND_Gate.h"
 #import "OR_Gate.h"
+#import "XOR_Gate.h"
 #import "NOT_Gate.h"
+
+#import "NAND_Gate.h"
+#import "NOR_Gate.h"
+#import "XNOR_Gate.h"
+
 #import "LightBulb.h"
 #import "Switch.h"
+
 #import "Gates.h"
 #import "Port.h"
-#import "SelectionSprite.h"
 
 @implementation MyScene{
     BOOL killMode;
@@ -41,30 +48,6 @@
         self.selectionMenu.zPosition = 16;
         self.selectionMenu.position = CGPointMake(0, size.height/2);
         [self addChild:self.selectionMenu];
-        
-        AND_Gate* a = [[AND_Gate alloc]initGate];
-        a.position = CGPointMake(100, 100);
-        [self addChild:a];
-        
-        Switch* c = [[Switch alloc]initGate];
-        c.position = CGPointMake(100, 200);
-        [self addChild:c];
-        
-        Switch* d = [[Switch alloc]initGate];
-        d.position = CGPointMake(200, 100);
-        [self addChild:d];
-        
-        LightBulb* f = [[LightBulb alloc]initGate];
-        f.position = CGPointMake(200, 200);
-        [self addChild:f];
-        
-        OR_Gate* b = [[OR_Gate alloc]initGate];
-        b.position = CGPointMake(300, 100);
-        [self addChild:b];
-        
-        NOT_Gate*e = [[NOT_Gate alloc]initGate];
-        e.position = CGPointMake(300, 200);
-        [self addChild:e];
         
     }
     return self;
@@ -135,11 +118,85 @@
                 }];
             }
         }
-    } else if (self.selectSp){
-        if ([node isEqual:self.selectSp]) {
+    }else if (self.selectSp && !menuMoving) {
+        CGPoint location = [touch locationInNode:self];
+        SKNode* node = [self nodeAtPoint:location];
+        if (node) {
+            if ([[node parent]isEqual:self.selectSp]){
+                int8_t type = [self.selectSp getTouchGateTypeWithName:node.name];
+                if (type != 0) {
+                    node.alpha = 0.0;
+                    [self createNewGate:type Position:lastTouchLocation];
+                }
+            }
         }
     }
     
+}
+
+-(void)createNewGate:(int8_t)type Position:(CGPoint)point{
+    Gates* newGate;
+    switch (type) {
+        case 1:
+            newGate = [[AND_Gate alloc]initGate];
+            break;
+            
+        case 2:
+            newGate = [[OR_Gate alloc]initGate];
+            break;
+            
+        case 3:
+            newGate = [[XOR_Gate alloc]initGate];
+            break;
+            
+        case 4:
+            newGate = [[NAND_Gate alloc]initGate];
+            break;
+            
+        case 5:
+            newGate = [[NOR_Gate alloc]initGate];
+            break;
+            
+        case 6:
+            newGate = [[XNOR_Gate alloc]initGate];
+            break;
+            
+        case 7:
+            newGate = [[NOT_Gate alloc]initGate];
+            break;
+            
+        case 8:
+            newGate = [[Switch alloc]initGate];
+            break;
+            
+        case 9:
+            newGate = [[LightBulb alloc]initGate];
+            break;
+            
+        default:
+            newGate = nil;
+            break;
+    }
+    if (newGate) {
+        newGate.position = point;
+        [self addChild:newGate];
+        self.dragingObject = newGate;
+        
+        SKAction* back = [SKAction runBlock:^{
+            self.selectionMenu.position = CGPointMake(-30, self.size.height/2);
+        }];
+        SKAction* spin = [SKAction rotateToAngle:0 duration:0.2];
+        SKAction* showUp = [SKAction moveToX:0 duration:0.2];
+        SKAction* allActions = [SKAction sequence:@[back,spin,showUp]];
+        
+        menuMoving = true;
+        [self.selectionMenu runAction:allActions completion:^{
+            menuOut = false;
+            menuMoving = false;
+        }];
+        [self.selectSp removeFromParent];
+        self.selectSp = nil;
+    }
 }
 
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
@@ -163,7 +220,20 @@
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
     UITouch* touch = [touches anyObject];
-    
+    /*
+    if (self.selectSp && !menuMoving) {
+        CGPoint location = [touch locationInNode:self];
+        SKNode* node = [self nodeAtPoint:location];
+        if (node) {
+            if ([[node parent]isEqual:self.selectSp]){
+                int8_t type = [self.selectSp getTouchGateTypeWithName:node.name];
+                if (type != 0) {
+                    node.alpha = 0.0;
+                    [self createNewGate:type Position:lastTouchLocation];
+                }
+            }
+        }
+    }*/
     if (self.dragingObject) {
         self.dragingObject = nil;
     }

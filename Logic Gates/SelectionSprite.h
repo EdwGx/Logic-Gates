@@ -10,8 +10,7 @@
 
 @interface SelectionSprite : SKSpriteNode
 -(id)initWithScene:(SKScene*)scene Size:(CGSize)size;
--(NSInteger)gTouchGateTypeWithPointInScene:(CGPoint)point;
--(void)sayHello;
+-(int8_t)getTouchGateTypeWithName:(NSString*)name;
 
 @property NSArray* typeArray;
 @property(weak) SKScene* mainScene;
