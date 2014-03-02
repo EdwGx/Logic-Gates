@@ -53,6 +53,7 @@ build/
 #
  
 xcuserdata
+*.xcuserstate
  
 ####
 # XCode 4 workspaces - more detailed
