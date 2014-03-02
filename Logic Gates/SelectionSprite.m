@@ -16,7 +16,7 @@
     if (self = [super init]) {
         self.position = CGPointMake(-size.width/2+10, size.height/2);
         self.color = [SKColor blueColor];
-        self.typeArray = @[@"and_gate",@"or_gate",@"not_gate",@"switch_off",@"bulb_off" ];
+        self.typeArray = @[@"and_gate",@"or_gate",@"xor_gate",@"nand_gate",@"nor_gate",@"xnor_gate",@"not_gate",@"switch_off",@"bulb_off" ];
         
         CGFloat width = size.width-20 ;
         //Find out how many row
