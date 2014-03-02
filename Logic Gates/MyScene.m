@@ -37,11 +37,9 @@
         [self.ModeChanger runAction:action1];
         [self addChild:self.ModeChanger];
         
-        self.selectionMenu = [SKSpriteNode node];
-        self.selectionMenu.color = [SKColor colorWithRed:0.15 green:0.15 blue:0.3 alpha:1.0];
-        self.selectionMenu.zPosition = 10;
-        self.selectionMenu.size = CGSizeMake(16, 30);
-        self.selectionMenu.position = CGPointMake(8, size.height/2);
+        self.selectionMenu = [SKSpriteNode spriteNodeWithImageNamed:@"menuArrow"];
+        self.selectionMenu.zPosition = 16;
+        self.selectionMenu.position = CGPointMake(0, size.height/2);
         [self addChild:self.selectionMenu];
         
         AND_Gate* a = [[AND_Gate alloc]initGate];
@@ -109,12 +107,15 @@
     } else if ([node isEqual:self.selectionMenu]){
         if (!menuMoving) {
             if (menuOut) {
-                NSLog(@"Out");
                 menuMoving = true;
                 SKAction *action = [SKAction moveByX:-self.size.width+20 y:0 duration:0.5];
                 SKAction *remove = [SKAction removeFromParent];
                 SKAction *maction = [SKAction sequence:@[action,remove]];
-                [self.selectSp runAction:maction];
+                SKAction *spin = [SKAction rotateByAngle:-M_PI duration:0.5];
+                [self.selectSp runAction:maction completion:^{
+                    self.selectSp = nil;
+                }];
+                [self.selectionMenu runAction:spin];
                 [self.selectionMenu runAction:action completion:^{
                     menuMoving = false;
                     menuOut = false;
@@ -124,23 +125,20 @@
                 self.selectSp = [[SelectionSprite alloc]initWithScene:self Size:self.size];
                 self.selectSp.zPosition = 15;
                 SKAction *action = [SKAction moveByX:self.size.width-20 y:0 duration:0.5];
+                SKAction *spin = [SKAction rotateByAngle:M_PI duration:0.5];
                 [self addChild:self.selectSp];
                 [self.selectSp runAction:action];
+                [self.selectionMenu runAction:spin];
                 [self.selectionMenu runAction:action completion:^{
                     menuMoving = false;
                     menuOut = true;
                 }];
             }
         }
-
-        /*SKScene* selectScene = [[SelectionScene alloc]initWithSize:self.size andScene:self];
-        [self.view presentScene:selectScene transition:
-         [SKTransition pushWithDirection:SKTransitionDirectionRight duration:0.5]];*/
+    } else if (self.selectSp){
+        if ([node isEqual:self.selectSp]) {
+        }
     }
-    
-}
-
--(void)readyGateType:(int8_t)gateType withPosition:(CGPoint)point{
     
 }
 

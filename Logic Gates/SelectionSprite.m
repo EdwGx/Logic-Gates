@@ -8,29 +8,28 @@
 
 #import "SelectionSprite.h"
 #define leftBorderWidth 100.0
-#define topBorderWidth 100.0
-#define space 100.0
+#define topBorderWidth 60.0
+#define minSpace 100.0
 
 @implementation SelectionSprite
 -(id)initWithScene:(SKScene *)scene Size:(CGSize)size{
     if (self = [super init]) {
         self.position = CGPointMake(-size.width/2+10, size.height/2);
-        self.color = [SKColor blueColor];
+        self.color = [SKColor colorWithRed:0.2 green:0.594 blue:0.855 alpha:0.9];
         self.typeArray = @[@"and_gate",@"or_gate",@"xor_gate",@"nand_gate",@"nor_gate",@"xnor_gate",@"not_gate",@"switch_off",@"bulb_off" ];
-        
+        self.mainScene = scene;
         CGFloat width = size.width-20 ;
         //Find out how many row
         float i = leftBorderWidth;
         float j = 0.0;
         while (i+leftBorderWidth<=size.width) {
             j++;
-            i += space;
+            i += minSpace;
         }
         float minRows = ceilf([self.typeArray count]/j);
         minRows -= 1;
-        CGFloat reqHeight = topBorderWidth*2+space*minRows;
+        CGFloat reqHeight = topBorderWidth*2+minSpace*minRows;
         CGFloat height = reqHeight<size.height?size.height:reqHeight;
-        NSLog(@"size:%f,%f",width,height);
         
         self.size = CGSizeMake(width,height);
         self.position = CGPointMake(-size.width/2+10, size.height-height/2);
@@ -38,22 +37,45 @@
 
         CGFloat posX = leftBorderWidth;
         CGFloat posY = topBorderWidth;
+        CGFloat const fitSpace = (width - leftBorderWidth*2.0)/(j-1);
 
         for (int i = 0;i<[self.typeArray count];i++){
             NSString *name = [self.typeArray objectAtIndex:i];
             SKSpriteNode *sNode = [SKSpriteNode spriteNodeWithImageNamed:name];
+            sNode.name = name;
             sNode.position = [self convertCoordinateCenterFromTopLeftToCenter:CGPointMake(posX, posY)];
             [self addChild:sNode];
             
-            if (posX+space+topBorderWidth<=size.width) {
-                posX += space;
+            if (posX+fitSpace+leftBorderWidth<=size.width) {
+                posX += fitSpace;
             }else{
                 posX = leftBorderWidth;
-                posY += space;
+                posY += minSpace;
             }
         }
     }
     return self;
+}
+
+-(NSInteger)gTouchGateTypeWithPointInScene:(CGPoint)point{
+    CGPoint location = [self convertPoint:point fromNode:self.scene];
+    SKNode* node = [self nodeAtPoint:location];
+    if ([node isEqual:self]) {
+        return 0;
+    }else{
+        NSString* name = node.name;
+        NSInteger indexInArray = [self.typeArray indexOfObject:name];
+        if (indexInArray == NSNotFound){
+            NSLog(@"ERROR:OBJECT NOT IN ARRAY");
+            return 0;
+        }else{
+            return indexInArray+1;
+        }
+    }
+}
+
+-(void)sayHello{
+    NSLog(@"Hello");
 }
 
 -(CGPoint)convertCoordinateCenterFromTopLeftToCenter:(CGPoint)point{

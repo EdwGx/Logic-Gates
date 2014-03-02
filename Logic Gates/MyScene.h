@@ -10,10 +10,10 @@
 #import "Wire.h"
 
 @class Wire;
+@class SelectionSprite;
 @interface MyScene : SKScene<wireProtocol>{
     CGPoint lastTouchLocation;
 }
--(void)readyGateType:(int8_t)gateType withPosition:(CGPoint)point;
 
 @property SKNode *dragingObject;
 @property Wire* dragWire;
