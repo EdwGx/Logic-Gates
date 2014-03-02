@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Edward Peiliang Guo. All rights reserved.
 //
 
-#import "NOR_gate.h"
+#import "NOR_Gate.h"
 
-@implementation NOR_gate
+@implementation NOR_Gate
 -(void)initPort{
     Port *inP1 = [[Port alloc]initWithPosition:CGPointMake(-17, -4) andStatusOfMultiConnection:false andOwner:self];
     Port *inP2 = [[Port alloc]initWithPosition:CGPointMake(-17, 4) andStatusOfMultiConnection:false andOwner:self];
