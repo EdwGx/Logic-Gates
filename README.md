@@ -7,9 +7,12 @@ Pictures
 --------
 <h3>Day 5</h3>
 ![alt tag](http://i.imgur.com/HdHzrQo.png)
+<br>
 <h3>Day 6</h3>
 ![alt tag](http://i.imgur.com/h8t13Of.png)
-
+<br>
+<h3>Day 7</h3>
+![alt tag](http://i.imgur.com/KaNJaoh.png)
 
 App Store and License
 ---------------------
