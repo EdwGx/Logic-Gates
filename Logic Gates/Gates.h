@@ -26,7 +26,8 @@
 -(NSString*)imageName;
 -(int8_t)getDefultGateTypeValue;
 -(BOOL)isRealInputSource;
--(Port*)portInPoint:(CGPoint)point;
+-(Port*)portCloseToPointInScene:(CGPoint)point Range:(float)range;
+-(BOOL)isPossibleHavePortCloseToPoint:(CGPoint)point;
 
 @property int8_t gateType;
 @property BOOL realInput;

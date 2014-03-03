@@ -20,7 +20,6 @@
 #import "LightBulb.h"
 #import "Switch.h"
 
-#import "Gates.h"
 #import "Port.h"
 
 @implementation MyScene{
@@ -60,9 +59,8 @@
     lastTouchLocation = [touch locationInNode:self];
     SKNode* node = [self nodeAtPoint:lastTouchLocation];
     if ([node isKindOfClass:[Gates class]]) {
-        CGPoint locInNode = [touch locationInNode:node];
         Gates*GNode = (Gates*)node;
-        Port *inNode = [GNode portInPoint:locInNode];
+        Port *inNode = [GNode portCloseToPointInScene:lastTouchLocation Range:0.5];
         if (inNode) {
             if (killMode) {
                 [inNode killAllWire];
@@ -77,6 +75,7 @@
             if (killMode) {
                 [GNode kill];
             } else {
+                CGPoint locInNode = [touch locationInNode:node];
                 [GNode touchDownWithPointInNode:locInNode];
                 self.dragingObject = GNode;
             }
@@ -131,8 +130,33 @@
                 }
             }
         }
+    } else if ([node isEqual:self]){
+        [self findPortCloseToLocation:lastTouchLocation];
     }
     
+}
+
+-(void)findPortCloseToLocation:(CGPoint)point{
+    for (SKNode* childNode in [self children]) {
+        if ([childNode isKindOfClass:[Gates class]]) {
+            Gates* gChild = (Gates*)childNode;
+            if ([gChild isPossibleHavePortCloseToPoint:point]) {
+                Port* cloestPort = [gChild portCloseToPointInScene:point Range:1.0];
+                if (cloestPort) {
+                    if (killMode) {
+                        [cloestPort killAllWire];
+                    } else {
+                        if ([cloestPort isAbleToConnect]) {
+                            self.dragWire = [[Wire alloc]initWithAnyPort:cloestPort andStartPosition:point];
+                            self.dragWire.delegate = self;
+                            [self addChild:self.dragWire];
+                        }
+                    }
+                    return;
+                }
+            }
+        }
+    }
 }
 
 -(void)createNewGate:(int8_t)type Position:(CGPoint)point{
@@ -247,14 +271,26 @@
 -(void)dragWireEndWithLocation:(UITouch*)touch{
     SKNode* node = [self nodeAtPoint:[touch locationInNode:self]];
     if ([node isKindOfClass:[Gates class]]) {
-        CGPoint locInNode = [touch locationInNode:node];
         Gates*GNode = (Gates*)node;
-        Port *inNode = [GNode portInPoint:locInNode];
+        Port *inNode = [GNode portCloseToPointInScene:[touch locationInNode:self] Range:1.0];
         if (inNode) {
             //Check that Port can connect one more wire.
             if ([inNode isAbleToConnect]) {
                 [self.dragWire connectNewPort:inNode];
                 return;
+            }
+        }
+    }else if ([node isEqual:self]){
+        for (SKNode* childNode in [self children]) {
+            if ([childNode isKindOfClass:[Gates class]]) {
+                Gates* gChild = (Gates*)childNode;
+                if ([gChild isPossibleHavePortCloseToPoint:lastTouchLocation]) {
+                    Port* cloestPort = [gChild portCloseToPointInScene:lastTouchLocation Range:1.0];
+                    if ([cloestPort isAbleToConnect]) {
+                        [self.dragWire connectNewPort:cloestPort];
+                        return;
+                    }
+                }
             }
         }
     }

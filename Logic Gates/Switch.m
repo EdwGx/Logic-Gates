@@ -35,6 +35,14 @@
     return true;
 }
 
+-(Port*)portCloseToPointInScene:(CGPoint)point Range:(float)range{
+    if (range<=0.6) {
+        return [super portCloseToPointInScene:point Range:0.1];
+    }else{
+        return [super portCloseToPointInScene:point Range:range];
+    }
+}
+
 -(BOOL)touchDownWithPointInNode:(CGPoint)point{
     if ((point.x>-5 && point.x<3) && (point.y>-10 && point.y<10)){
         Port *outP1 = [self.outPort objectAtIndex:0];

@@ -7,7 +7,7 @@
 //
 
 #import "Gates.h"
-#define portRange 6
+#define portRange 15
 
 @implementation Gates
 
@@ -41,6 +41,7 @@
     self.texture = [SKTexture textureWithImage:image];
     self.size = [image size];
 }
+
 
 -(void)updateOutput{
     /*Get the ouput boolean*/
@@ -89,13 +90,19 @@
     
 }
 
--(Port*)portInPoint:(CGPoint)point{
-    float shortest = portRange;
+-(BOOL)isPossibleHavePortCloseToPoint:(CGPoint)point{
+    float dis = sqrtf(powf((self.position.x - point.x), 2) + powf((self.position.y - point.y), 2));
+    float maxRange = portRange + MAX(self.size.height, self.size.width)/2;
+    return (dis <= maxRange);
+}
+
+-(Port*)portCloseToPointInScene:(CGPoint)point Range:(float)range{
+    float shortest = powf((portRange*range),2);
     Port* sPort = nil;
     
     for (int i=0; i < [self.inPort count]; i++) {
         Port* cPort = [self.inPort objectAtIndex:i];
-        float dis = powf((cPort.position.x - point.x), 2) + powf((cPort.position.y - point.y), 2);
+        float dis = powf((cPort.position.x + self.position.x - point.x), 2) + powf((cPort.position.y + self.position.y - point.y), 2);
         if (dis < shortest) {
             shortest = dis;
             sPort = cPort;
@@ -104,7 +111,7 @@
     
     for (int i=0; i < [self.outPort count]; i++) {
         Port* cPort = [self.outPort objectAtIndex:i];
-        float dis = powf((cPort.position.x - point.x), 2) + powf((cPort.position.y - point.y), 2);
+        float dis = powf((cPort.position.x + self.position.x - point.x), 2) + powf((cPort.position.y + self.position.y - point.y), 2);
         if (dis < shortest) {
             shortest = dis;
             sPort = cPort;

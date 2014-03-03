@@ -9,6 +9,7 @@
 #import <SpriteKit/SpriteKit.h>
 #import "Wire.h"
 #import "SelectionSprite.h"
+#import "Gates.h"
 
 @class Wire;
 @class SelectionSprite;
