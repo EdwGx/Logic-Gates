@@ -15,7 +15,7 @@ Pictures
 ![alt tag](http://i.imgur.com/KaNJaoh.png)
 <br>
 <h3>Day 8</h3>
-![alt tag](http://i.imgur.com/6HM5Y0V)
+![alt tag](http://i.imgur.com/6HM5Y0V.png)
 
 App Store and License
 ---------------------
