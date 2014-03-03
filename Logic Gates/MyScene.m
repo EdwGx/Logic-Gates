@@ -126,7 +126,8 @@
                 int8_t type = [self.selectSp getTouchGateTypeWithName:node.name];
                 if (type != 0) {
                     node.alpha = 0.0;
-                    [self createNewGate:type Position:lastTouchLocation];
+                    CGPoint point = [self convertPoint:node.position fromNode:self.selectSp];
+                    [self createNewGate:type Position:point];
                 }
             }
         }
