@@ -47,7 +47,7 @@
 }
 
 -(BOOL)prefersStatusBarHidden{
-    return YES;
+    return NO;
 }
 
 - (BOOL)shouldAutorotate

@@ -13,7 +13,7 @@
 }
 
 -(void)initPort{
-    Port *outP1 = [[Port alloc]initWithPosition:CGPointMake(6, 0) andStatusOfMultiConnection:true andOwner:self];
+    Port *outP1 = [[Port alloc]initWithPosition:CGPointMake(12, 0) andStatusOfMultiConnection:true andOwner:self];
     outP1.boolStatus = false;
     outputState = outP1.boolStatus;
     self.outPort = [NSArray arrayWithObject:outP1];

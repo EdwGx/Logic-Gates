@@ -130,7 +130,8 @@
                 }
             }
         }
-    } else if ([node isEqual:self]){
+    } else if ([node isEqual:self]||[node isKindOfClass:[Wire class]]){
+        //What happend when touch empty space(Actully there are some node)
         [self findPortCloseToLocation:lastTouchLocation];
     }
     
@@ -158,6 +159,7 @@
         }
     }
 }
+
 
 -(void)createNewGate:(int8_t)type Position:(CGPoint)point{
     Gates* newGate;
