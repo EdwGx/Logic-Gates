@@ -48,8 +48,22 @@
         self.selectionMenu.position = CGPointMake(0, size.height/2);
         [self addChild:self.selectionMenu];
         
+        self.map = [[CircuitMap alloc]initMapWithScene:self];
+        [self addChild:self.map];
     }
     return self;
+}
+
+-(void)didMoveToView:(SKView *)view{
+    [super didMoveToView:view];
+    UIPinchGestureRecognizer* pinchGestureRecognizer = [[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(handlePinchFrom:)];
+    [[self view] addGestureRecognizer:pinchGestureRecognizer];
+}
+
+-(void)handlePinchFrom:(UIPinchGestureRecognizer *)recognizer{
+    if (recognizer.state == UIGestureRecognizerStateChanged) {
+        [self.map setScale:recognizer.scale];
+    }
 }
 
 
@@ -60,15 +74,15 @@
     SKNode* node = [self nodeAtPoint:lastTouchLocation];
     if ([node isKindOfClass:[Gates class]]) {
         Gates*GNode = (Gates*)node;
-        Port *inNode = [GNode portCloseToPointInScene:lastTouchLocation Range:0.5];
+        Port *inNode = [GNode portCloseToPointInScene:[self convertPoint:lastTouchLocation toNode:self.map] Range:0.5];
         if (inNode) {
             if (killMode) {
                 [inNode killAllWire];
             } else {
                 if ([inNode isAbleToConnect]) {
-                    self.dragWire = [[Wire alloc]initWithAnyPort:inNode andStartPosition:lastTouchLocation];
+                    self.dragWire = [[Wire alloc]initWithAnyPort:inNode andStartPosition:[self convertPoint:lastTouchLocation toNode:self.map]];
                     self.dragWire.delegate = self;
-                    [self addChild:self.dragWire];
+                    [self.map addChild:self.dragWire];
                 }
             }
         } else{
@@ -130,15 +144,18 @@
                 }
             }
         }
-    } else if ([node isEqual:self]||[node isKindOfClass:[Wire class]]){
+    } else if ([node isEqual:self]||[node isKindOfClass:[Wire class]]||[node isEqual:self.map]){
         //What happend when touch empty space(Actully there are some node)
-        [self findPortCloseToLocation:lastTouchLocation];
+        BOOL returnValue = [self findPortCloseToLocation:[self convertPoint:lastTouchLocation toNode:self.map]];
+        if (!returnValue) {
+            self.dragingObject = self.map;
+        }
     }
     
 }
 
--(void)findPortCloseToLocation:(CGPoint)point{
-    for (SKNode* childNode in [self children]) {
+-(BOOL)findPortCloseToLocation:(CGPoint)point{
+    for (SKNode* childNode in [self.map children]) {
         if ([childNode isKindOfClass:[Gates class]]) {
             Gates* gChild = (Gates*)childNode;
             if ([gChild isPossibleHavePortCloseToPoint:point]) {
@@ -150,14 +167,15 @@
                         if ([cloestPort isAbleToConnect]) {
                             self.dragWire = [[Wire alloc]initWithAnyPort:cloestPort andStartPosition:point];
                             self.dragWire.delegate = self;
-                            [self addChild:self.dragWire];
+                            [self.map addChild:self.dragWire];
                         }
                     }
-                    return;
+                    return YES;
                 }
             }
         }
     }
+    return NO;
 }
 
 
@@ -205,8 +223,8 @@
             break;
     }
     if (newGate) {
-        newGate.position = point;
-        [self addChild:newGate];
+        newGate.position = [self convertPoint:point toNode:self.map];
+        [self.map addChild:newGate];
         self.dragingObject = newGate;
         
         SKAction* back = [SKAction runBlock:^{
@@ -247,20 +265,6 @@
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
     UITouch* touch = [touches anyObject];
-    /*
-    if (self.selectSp && !menuMoving) {
-        CGPoint location = [touch locationInNode:self];
-        SKNode* node = [self nodeAtPoint:location];
-        if (node) {
-            if ([[node parent]isEqual:self.selectSp]){
-                int8_t type = [self.selectSp getTouchGateTypeWithName:node.name];
-                if (type != 0) {
-                    node.alpha = 0.0;
-                    [self createNewGate:type Position:lastTouchLocation];
-                }
-            }
-        }
-    }*/
     if (self.dragingObject) {
         self.dragingObject = nil;
     }
@@ -271,10 +275,10 @@
 }
 
 -(void)dragWireEndWithLocation:(UITouch*)touch{
-    SKNode* node = [self nodeAtPoint:[touch locationInNode:self]];
+    SKNode* node = [self nodeAtPoint:[touch locationInNode:self.map]];
     if ([node isKindOfClass:[Gates class]]) {
         Gates*GNode = (Gates*)node;
-        Port *inNode = [GNode portCloseToPointInScene:[touch locationInNode:self] Range:1.0];
+        Port *inNode = [GNode portCloseToPointInScene:[touch locationInNode:self.map] Range:1.0];
         if (inNode) {
             //Check that Port can connect one more wire.
             if ([inNode isAbleToConnect]) {
@@ -282,12 +286,13 @@
                 return;
             }
         }
-    }else if ([node isEqual:self]){
-        for (SKNode* childNode in [self children]) {
+    }else if ([node isEqual:self]||[node isKindOfClass:[Wire class]]||[node isEqual:self.map]){
+        for (SKNode* childNode in [self.map children]) {
             if ([childNode isKindOfClass:[Gates class]]) {
                 Gates* gChild = (Gates*)childNode;
-                if ([gChild isPossibleHavePortCloseToPoint:lastTouchLocation]) {
-                    Port* cloestPort = [gChild portCloseToPointInScene:lastTouchLocation Range:1.0];
+                CGPoint loc = [self convertPoint:lastTouchLocation toNode:self.map];
+                if ([gChild isPossibleHavePortCloseToPoint:loc]) {
+                    Port* cloestPort = [gChild portCloseToPointInScene:loc Range:1.0];
                     if ([cloestPort isAbleToConnect]) {
                         [self.dragWire connectNewPort:cloestPort];
                         return;
@@ -310,7 +315,7 @@
 }
 
 -(CGPoint)getDragingPosition{
-    return lastTouchLocation;
+    return [self convertPoint:lastTouchLocation toNode:self.map];
 }
 
 -(void)update:(CFTimeInterval)currentTime {

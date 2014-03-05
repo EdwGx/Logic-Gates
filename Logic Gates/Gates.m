@@ -68,13 +68,13 @@
         }
     }
 
-    self.realInput = real || [self isRealInputSource];
-
-    for (int i = 0; i < [self.outPort count]; i++) {
-        Port* portObject = [self.outPort objectAtIndex:i];
-        portObject.realInput = self.realInput;
+    if (self.realInput != real || [self isRealInputSource]){
+        self.realInput = !self.realInput;
+        for (int i = 0; i < [self.outPort count]; i++) {
+            Port* portObject = [self.outPort objectAtIndex:i];
+            portObject.realInput = self.realInput;
+        }
     }
-    
 }
 
 -(BOOL)isRealInputSource{
@@ -133,7 +133,9 @@
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
     if ([keyPath isEqualToString:@"boolStatus"]) {
-        [self performSelectorInBackground:@selector(updateOutput) withObject:nil];
+        if (self.realInput) {
+            [self performSelectorInBackground:@selector(updateOutput) withObject:nil];
+        }
     }else if ([keyPath isEqualToString:@"realInput"]){
         [self performSelectorInBackground:@selector(updateRealIntput) withObject:nil];
     }

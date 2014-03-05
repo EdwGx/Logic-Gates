@@ -35,6 +35,7 @@
 		967D7CCA18BBFA8000F72CF9 /* Gates.m in Sources */ = {isa = PBXBuildFile; fileRef = 967D7CC918BBFA8000F72CF9 /* Gates.m */; };
 		967D7CCD18BBFC2800F72CF9 /* Port.m in Sources */ = {isa = PBXBuildFile; fileRef = 967D7CCC18BBFC2800F72CF9 /* Port.m */; };
 		967D7CD018BBFF8500F72CF9 /* Wire.m in Sources */ = {isa = PBXBuildFile; fileRef = 967D7CCF18BBFF8500F72CF9 /* Wire.m */; };
+		9687D42C18C7C16500D2B3F2 /* CircuitMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 9687D42B18C7C16500D2B3F2 /* CircuitMap.m */; };
 		968F4A7D18C2795D009263CE /* NAND_Gate.m in Sources */ = {isa = PBXBuildFile; fileRef = 968F4A7C18C2795D009263CE /* NAND_Gate.m */; };
 		96F92DC218C00F350077958A /* OR_Gate.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F92DC118C00F350077958A /* OR_Gate.m */; };
 		96F92DC518C0118F0077958A /* Switch.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F92DC418C0118F0077958A /* Switch.m */; };
@@ -95,6 +96,8 @@
 		967D7CCC18BBFC2800F72CF9 /* Port.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Port.m; sourceTree = "<group>"; };
 		967D7CCE18BBFF8500F72CF9 /* Wire.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wire.h; sourceTree = "<group>"; };
 		967D7CCF18BBFF8500F72CF9 /* Wire.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Wire.m; sourceTree = "<group>"; };
+		9687D42A18C7C16500D2B3F2 /* CircuitMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircuitMap.h; sourceTree = "<group>"; };
+		9687D42B18C7C16500D2B3F2 /* CircuitMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircuitMap.m; sourceTree = "<group>"; };
 		968F4A7B18C2795D009263CE /* NAND_Gate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NAND_Gate.h; sourceTree = "<group>"; };
 		968F4A7C18C2795D009263CE /* NAND_Gate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NAND_Gate.m; sourceTree = "<group>"; };
 		96F92DC018C00F350077958A /* OR_Gate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OR_Gate.h; sourceTree = "<group>"; };
@@ -223,6 +226,8 @@
 				967D7CA318BBF96100F72CF9 /* ViewController.m */,
 				967D7CA518BBF96100F72CF9 /* MyScene.h */,
 				967D7CA618BBF96100F72CF9 /* MyScene.m */,
+				9687D42A18C7C16500D2B3F2 /* CircuitMap.h */,
+				9687D42B18C7C16500D2B3F2 /* CircuitMap.m */,
 				96730B7218C21948003287C0 /* SelectionSprite.h */,
 				96730B7318C21948003287C0 /* SelectionSprite.m */,
 				967D7CC718BBFA5400F72CF9 /* Gates */,
@@ -393,6 +398,7 @@
 				967D7CA718BBF96100F72CF9 /* MyScene.m in Sources */,
 				96F92DC218C00F350077958A /* OR_Gate.m in Sources */,
 				963E9CE318C2802200C43451 /* NOR_Gate.m in Sources */,
+				9687D42C18C7C16500D2B3F2 /* CircuitMap.m in Sources */,
 				967D7CA418BBF96100F72CF9 /* ViewController.m in Sources */,
 				967D7CCA18BBFA8000F72CF9 /* Gates.m in Sources */,
 				96727A8E18C14D7A00E79A39 /* NOT_Gate.m in Sources */,
