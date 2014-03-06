@@ -9,7 +9,7 @@
 #import <SpriteKit/SpriteKit.h>
 
 @interface CircuitMap : SKNode
--(id)initMapWithScene:(SKScene*)sscene;
+-(id)initMapWithScene:(SKScene*)newScene;
+-(void)moveByPoint:(CGPoint)point;
 
-@property(weak) SKScene* mainScene;
 @end

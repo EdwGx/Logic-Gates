@@ -27,6 +27,7 @@
     BOOL changingKillMode;
     BOOL menuMoving;
     BOOL menuOut;
+    BOOL dragMap;
 }
 
 -(id)initWithSize:(CGSize)size {    
@@ -62,7 +63,8 @@
 
 -(void)handlePinchFrom:(UIPinchGestureRecognizer *)recognizer{
     if (recognizer.state == UIGestureRecognizerStateChanged) {
-        [self.map setScale:recognizer.scale];
+        [self.map setScale:recognizer.scale*self.map.xScale];
+        recognizer.scale = 1.0;
     }
 }
 
@@ -148,7 +150,7 @@
         //What happend when touch empty space(Actully there are some node)
         BOOL returnValue = [self findPortCloseToLocation:[self convertPoint:lastTouchLocation toNode:self.map]];
         if (!returnValue) {
-            self.dragingObject = self.map;
+            dragMap = YES;
         }
     }
     
@@ -258,6 +260,9 @@
               self.dragingObject.position.y + newTouchLocation.y - lastTouchLocation.y);
     } else if (self.dragWire){
         [self.dragWire drawLine];
+    } else if (dragMap){
+        [self.map moveByPoint:
+         CGPointMake(newTouchLocation.x - lastTouchLocation.x, newTouchLocation.y - lastTouchLocation.y)];
     }
     lastTouchLocation = newTouchLocation;
     
@@ -311,6 +316,9 @@
     if (self.dragWire) {
         [self.dragWire removeFromParent];
         self.dragWire = nil;
+    }
+    if (dragMap) {
+        dragMap = NO;
     }
 }
 
