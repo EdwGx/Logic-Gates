@@ -12,4 +12,5 @@
 -(id)initMapWithScene:(SKScene*)newScene;
 -(void)moveByPoint:(CGPoint)point;
 
+@property(weak) SKScene* currentScene;
 @end

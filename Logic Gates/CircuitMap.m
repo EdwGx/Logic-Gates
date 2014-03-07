@@ -11,21 +11,18 @@
 @implementation CircuitMap{
     CGFloat maxPosX,maxPosY,minPosX,minPosY;
     CGFloat currentScale;
-    SKScene* currentScene;
 }
 
 -(id)initMapWithScene:(SKScene*)newScene{
     if (self = [super init]) {
-        currentScene = newScene;
-        self.position = CGPointMake(currentScene.size.width/2, currentScene.size.height/2);
+        self.currentScene = newScene;
         [self setScale:1.0];
-        
     }
     return self;
 }
 
 -(void)updateBound{
-    CGSize halfScene = CGSizeMake(currentScene.size.width/2, currentScene.size.height/2);
+    CGSize halfScene = CGSizeMake(self.currentScene.size.width/2, self.currentScene.size.height/2);
     maxPosX = (halfScene.width*currentScale)/minZoomOut;
     minPosX = halfScene.width*2.0 - maxPosX;
     
@@ -33,8 +30,12 @@
     minPosY = halfScene.height*2.0 - maxPosY;
 }
 
+-(void)setPosition:(CGPoint)position{
+    [super setPosition:[self boundPosition:position]];
+}
+
 -(void)moveByPoint:(CGPoint)point{
-    self.position = [self boundPosition:CGPointMake(self.position.x+point.x, self.position.y+point.y)];
+    self.position = CGPointMake(self.position.x+point.x, self.position.y+point.y);
 }
 
 -(CGPoint)boundPosition:(CGPoint)point{

@@ -18,6 +18,10 @@
     CGPoint lastTouchLocation;
 }
 -(void)handlePinchFrom:(UIPinchGestureRecognizer*)recognizer;
+-(void)handleDoubleTapFrom:(UITapGestureRecognizer*)recognizer;
+
+-(void)moveMenuIn;
+-(void)moveMenuOut;
 @property SKNode *dragingObject;
 @property Wire* dragWire;
 @property SKSpriteNode* ModeChanger;
