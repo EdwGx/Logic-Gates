@@ -153,8 +153,8 @@
 }
 
 -(void)moveMenuIn{
-    menuMoving = true;
-    menuOut = false;
+    menuMoving = YES;
+    menuOut = NO;
     SKAction *action = [SKAction moveByX:-self.size.width+20 y:0 duration:0.5];
     SKAction *remove = [SKAction removeFromParent];
     SKAction *maction = [SKAction sequence:@[action,remove]];
