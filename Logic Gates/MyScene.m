@@ -58,7 +58,10 @@
 -(void)didMoveToView:(SKView *)view{
     [super didMoveToView:view];
     UIPinchGestureRecognizer* pinchGestureRecognizer = [[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(handlePinchFrom:)];
+    UITapGestureRecognizer* doubleTapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleDoubleTapFrom:)];
+    doubleTapGestureRecognizer.numberOfTapsRequired = 2;
     [[self view] addGestureRecognizer:pinchGestureRecognizer];
+    [[self view] addGestureRecognizer:doubleTapGestureRecognizer];
 }
 
 -(void)handlePinchFrom:(UIPinchGestureRecognizer *)recognizer{
@@ -105,32 +108,9 @@
     } else if ([node isEqual:self.selectionMenu]){
         if (!menuMoving) {
             if (menuOut) {
-                menuMoving = true;
-                SKAction *action = [SKAction moveByX:-self.size.width+20 y:0 duration:0.5];
-                SKAction *remove = [SKAction removeFromParent];
-                SKAction *maction = [SKAction sequence:@[action,remove]];
-                SKAction *spin = [SKAction rotateByAngle:-M_PI duration:0.5];
-                [self.selectSp runAction:maction completion:^{
-                    self.selectSp = nil;
-                }];
-                [self.selectionMenu runAction:spin];
-                [self.selectionMenu runAction:action completion:^{
-                    menuMoving = false;
-                    menuOut = false;
-                }];
+                [self moveMenuIn];
             }else{
-                menuMoving = true;
-                self.selectSp = [[SelectionSprite alloc]initWithScene:self Size:self.size];
-                self.selectSp.zPosition = 15;
-                SKAction *action = [SKAction moveByX:self.size.width-20 y:0 duration:0.5];
-                SKAction *spin = [SKAction rotateByAngle:M_PI duration:0.5];
-                [self addChild:self.selectSp];
-                [self.selectSp runAction:action];
-                [self.selectionMenu runAction:spin];
-                [self.selectionMenu runAction:action completion:^{
-                    menuMoving = false;
-                    menuOut = true;
-                }];
+                [self moveMenuOut];
             }
         }
     }else if (self.selectSp && !menuMoving) {
@@ -146,14 +126,61 @@
                 }
             }
         }
-    } else if ([node isEqual:self]||[node isKindOfClass:[Wire class]]||[node isEqual:self.map]){
-        //What happend when touch empty space(Actully there are some node)
+    } else if ([self nodeIsEmptySpace:node]){
+        //What happend when touch empty space(Actully there are some nodes)
         BOOL returnValue = [self findPortCloseToLocation:[self convertPoint:lastTouchLocation toNode:self.map]];
         if (!returnValue) {
             dragMap = YES;
         }
     }
     
+}
+
+-(void)handleDoubleTapFrom:(UITapGestureRecognizer *)recognizer{
+    if (recognizer.state == UIGestureRecognizerStateEnded) {
+        CGPoint pointInScene = [self convertPointFromView:[recognizer locationInView:self.view]];
+        CGPoint targetPoint = [self convertPoint:pointInScene toNode:self.map];
+        CGPoint centerPoint = [self convertPoint:CGPointMake(self.size.width/2.0,self.size.height/2.0) toNode:self.map];
+        CGVector vector = CGVectorMake(-targetPoint.x + centerPoint.x, -targetPoint.y + centerPoint.y);
+        
+        [self.map runAction:[SKAction moveBy:vector duration:0.2]];
+        [self.map runAction:[SKAction scaleTo:1.0 duration:0.2]];
+    }
+}
+
+-(BOOL) nodeIsEmptySpace:(SKNode*)node{
+    return ([node isEqual:self]||[node isKindOfClass:[Wire class]]||[node isEqual:self.map]);
+}
+
+-(void)moveMenuIn{
+    menuMoving = YES;
+    menuOut = NO;
+    SKAction *action = [SKAction moveByX:-self.size.width+20 y:0 duration:0.5];
+    SKAction *remove = [SKAction removeFromParent];
+    SKAction *maction = [SKAction sequence:@[action,remove]];
+    SKAction *spin = [SKAction rotateByAngle:-M_PI duration:0.5];
+    [self.selectSp runAction:maction completion:^{
+        self.selectSp = nil;
+    }];
+    [self.selectionMenu runAction:spin];
+    [self.selectionMenu runAction:action completion:^{
+        menuMoving = false;
+    }];
+}
+
+-(void)moveMenuOut{
+    menuMoving = true;
+    self.selectSp = [[SelectionSprite alloc]initWithScene:self Size:self.size];
+    self.selectSp.zPosition = 15;
+    SKAction *action = [SKAction moveByX:self.size.width-20 y:0 duration:0.5];
+    SKAction *spin = [SKAction rotateByAngle:M_PI duration:0.5];
+    [self addChild:self.selectSp];
+    [self.selectSp runAction:action];
+    [self.selectionMenu runAction:spin];
+    [self.selectionMenu runAction:action completion:^{
+        menuMoving = false;
+        menuOut = true;
+    }];
 }
 
 -(BOOL)findPortCloseToLocation:(CGPoint)point{
