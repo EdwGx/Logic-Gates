@@ -141,7 +141,7 @@
         CGPoint pointInScene = [self convertPointFromView:[recognizer locationInView:self.view]];
         CGPoint targetPoint = [self convertPoint:pointInScene toNode:self.map];
         CGPoint centerPoint = [self convertPoint:CGPointMake(self.size.width/2.0,self.size.height/2.0) toNode:self.map];
-        CGVector vector = CGVectorMake(-targetPoint.x + centerPoint.x, -targetPoint.y + centerPoint.y);
+        CGVector vector = CGVectorMake(centerPoint.x - targetPoint.x, centerPoint.y -targetPoint.y);
         
         [self.map runAction:[SKAction moveBy:vector duration:0.2]];
         [self.map runAction:[SKAction scaleTo:1.0 duration:0.2]];
