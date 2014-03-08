@@ -7,11 +7,14 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
+#import "DataManger.h"
 
+@class DataManger;
 @interface CircuitMap : SKNode
 -(id)initMapWithScene:(SKScene*)newScene;
 -(void)moveByPoint:(CGPoint)point;
 -(void)saveMap;
 
 @property(weak) SKScene* currentScene;
+@property DataManger* dataMgr;
 @end

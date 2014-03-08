@@ -38,7 +38,7 @@
     return self;
 }
 
--(void)saveMap:(NSString*)name NodeArray:(NSArray*)array{
+-(void)saveMap:(NSString*)name NodeArray:(NSMutableArray*)array{
     //array Structure
     //-type
     //-x(float)

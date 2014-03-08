@@ -10,4 +10,5 @@
 
 @interface DataManger : NSObject
 @property NSArray* saveFileList;
+-(void)saveMap:(NSString*)name NodeArray:(NSMutableArray*)array;
 @end

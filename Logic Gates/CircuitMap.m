@@ -19,6 +19,7 @@
     if (self = [super init]) {
         self.currentScene = newScene;
         [self setScale:1.0];
+        self.dataMgr = [[DataManger alloc] init];
     }
     return self;
 }
@@ -52,7 +53,8 @@
 -(void)saveMap{
     const NSArray* nodeArray = [self children];
     NSMutableArray* saveArray = [NSMutableArray arrayWithCapacity:[nodeArray count]];
-    for (Gates*node in nodeArray) {
+    for (int j = 0;j < [nodeArray count];j++) {
+        Gates*node = [nodeArray objectAtIndex:j];
         NSMutableArray* inArray = [NSMutableArray arrayWithCapacity:[node.inPort count]];
         for (int i = 0;i < [node.inPort count];i++){
             Port* inPort = [node.inPort objectAtIndex:i];
@@ -79,10 +81,10 @@
             Port* outPort1 = [node.outPort objectAtIndex:0];
             status = [NSNumber numberWithBool:outPort1.boolStatus];
         }
-        
-        
-        
+        NSArray*  gateSaveArray = [NSArray arrayWithObjects:type,posX,posY,status,inArray, nil];
+        [saveArray setObject:gateSaveArray atIndexedSubscript:j];
     }
+    [self.dataMgr saveMap:@"NONE" NodeArray:saveArray];
     
 }
 
