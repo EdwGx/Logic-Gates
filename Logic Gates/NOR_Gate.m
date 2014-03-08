@@ -33,6 +33,6 @@
 }
 
 -(int8_t)getDefultGateTypeValue{
-    return 3;
+    return 5;
 }
 @end

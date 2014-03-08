@@ -7,6 +7,8 @@
 //
 
 #import "CircuitMap.h"
+#import "Gates.h"
+
 #define minZoomOut 0.25
 @implementation CircuitMap{
     CGFloat maxPosX,maxPosY,minPosX,minPosY;
@@ -47,6 +49,46 @@
     return point;
 }
 
+-(void)saveMap{
+    const NSArray* nodeArray = [self children];
+    NSMutableArray* saveArray = [NSMutableArray arrayWithCapacity:[nodeArray count]];
+    for (Gates*node in nodeArray) {
+        NSMutableArray* inArray = [NSMutableArray arrayWithCapacity:[node.inPort count]];
+        for (int i = 0;i < [node.inPort count];i++){
+            Port* inPort = [node.inPort objectAtIndex:i];
+            NSNumber* gateIndex;
+            NSNumber* portIndex;
+            if (inPort.inWire) {
+                gateIndex = [NSNumber numberWithInteger:
+                                       [nodeArray indexOfObject:inPort.inWire.startGate]];
+                portIndex = [NSNumber numberWithInteger:
+                                       [inPort.inWire.startGate.outPort indexOfObject:inPort.inWire.startPort]];
+            }else{
+                gateIndex = [NSNumber numberWithInteger:-1];
+                portIndex = [NSNumber numberWithInteger:-1];
+            }
+            NSArray* connectArray = [NSArray arrayWithObjects:gateIndex,portIndex, nil];
+            [inArray setObject:connectArray atIndexedSubscript:i];
+        }
+        
+        NSNumber* type = [NSNumber numberWithInt:node.gateType];
+        NSNumber* posX = [NSNumber numberWithDouble:node.position.x];
+        NSNumber* posY = [NSNumber numberWithDouble:node.position.y];
+        NSNumber* status = [NSNumber numberWithBool:NO];
+        if ([type isEqualToNumber:[NSNumber numberWithInt:8]]) {
+            Port* outPort1 = [node.outPort objectAtIndex:0];
+            status = [NSNumber numberWithBool:outPort1.boolStatus];
+        }
+        
+        
+        
+    }
+    
+}
+
+
+
+                          
 -(void)setScale:(CGFloat)scale{
     currentScale = scale;
     currentScale = MIN(currentScale, 1.0);

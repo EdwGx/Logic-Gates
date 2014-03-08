@@ -11,6 +11,7 @@
 @interface CircuitMap : SKNode
 -(id)initMapWithScene:(SKScene*)newScene;
 -(void)moveByPoint:(CGPoint)point;
+-(void)saveMap;
 
 @property(weak) SKScene* currentScene;
 @end
