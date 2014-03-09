@@ -22,6 +22,8 @@
     BOOL didRegisterEndPort;
 }
 -(id)initWithAnyPort:(Port*)sPort andStartPosition:(CGPoint)sPos;
+-(id)initWithStartPort:(Port*)sPort EndPort:(Port*)ePort;
+
 -(void) drawLine;
 -(void) drawLineWithPosition:(CGPoint)point;
 -(void) kill;

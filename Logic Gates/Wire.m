@@ -20,7 +20,7 @@
             self.startGate = nil;
             self.endGate = nil;
             
-            self.realInput = YES;
+            self.realInput = NO;
             
             didRegisterStartPort = NO;
             didRegisterEndPort = NO;
@@ -36,6 +36,37 @@
     }
     return self;
 }
+
+-(id)initWithStartPort:(Port*)sPort EndPort:(Port*)ePort{
+    if (self = [super init]) {
+        //Initialization
+        if (sPort&&ePort) {
+            self.startPort = sPort;
+            self.endPort = ePort;
+            
+            self.startGate = sPort.ownerGate;
+            self.endGate = ePort.ownerGate;
+            
+            self.realInput = NO;
+            
+            didRegisterStartPort = NO;
+            didRegisterEndPort = NO;
+            
+            [sPort connectToWire:self];
+            [ePort connectToWire:self];
+            [self didConnectBothSides];
+            [self drawLine];
+            if (self.startPort) {
+                self.boolStatus = self.startPort.boolStatus;
+            }
+            [self updateColor];
+        } else{
+            return nil;
+        }
+    }
+    return self;
+}
+
 -(BOOL)wantConnectThisPort:(Port *)port{
     if (self.startPort && port.multiConnect) {
         return NO;

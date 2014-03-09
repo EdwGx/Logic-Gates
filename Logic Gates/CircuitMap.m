@@ -88,8 +88,105 @@
     
 }
 
+-(void)readMap{
+    for (Gates*gate in [self children]) {
+        [gate kill];
+    }
+    NSArray*array = [self.dataMgr readMap:@"NONE"];
+    if (!array) {
+        return;
+    }
+    NSMutableArray*newGatesArray = [NSMutableArray arrayWithCapacity:[array count]];
+    //Create Gates
+    for (int i = 0;i<[array count];i++) {
+        NSArray*subArray = [array objectAtIndex:i];
+        //Fetching Type
+        NSNumber*type = [subArray objectAtIndex:0];
+        Gates*newGate = [self makeGateWithType:[type intValue]];
+        //X
+        NSNumber* numX = [subArray objectAtIndex:1];
+        CGFloat posX = [numX doubleValue];
+        //Y
+        NSNumber* numY = [subArray objectAtIndex:2];
+        CGFloat posY = [numY doubleValue];
+        //Setting Location
+        newGate.position = CGPointMake(posX, posY);
+        //Setting output
+        NSNumber* status = [subArray objectAtIndex:3];
+        if ([status isEqualToNumber:[NSNumber numberWithBool:YES]]&&[type isEqualToNumber:[NSNumber numberWithInt:8]]) {
+            Port* outPort1 = [newGate.inPort objectAtIndex:0];
+            outPort1.boolStatus = [status boolValue];
+        }
+        [self addChild:newGate];
+        [newGatesArray setObject:newGate atIndexedSubscript:i];
+    }
+    for (int i = 0;i<[array count];i++) {
+        NSArray*subArray = [array objectAtIndex:i];
+        NSArray*inArray = [subArray objectAtIndex:4];
+        for (int j = 0;j<[array count];j++) {
+            NSArray*indexArray = [inArray objectAtIndex:j];
+            NSNumber* gateIndexNum = [indexArray objectAtIndex:0];
+            NSNumber* portIndexNum = [indexArray objectAtIndex:1];
+            int gateIndex = [gateIndexNum intValue];
+            int portIndex = [portIndexNum intValue];
+            if (gateIndex>=0 && portIndex>=0) {
+                Gates* sGate = [newGatesArray objectAtIndex:gateIndex];
+                Port* sPort = [sGate.outPort objectAtIndex:portIndex];
+                
+                Gates* eGate = [newGatesArray objectAtIndex:i];
+                Port* ePort = [eGate.outPort objectAtIndex:j];
+                
+                Wire* newWire = [[Wire alloc]initWithStartPort:sPort EndPort:ePort];
+                [self addChild:newWire];
+            }
+            
+        }
+    }
+}
 
-
+-(Gates*)makeGateWithType:(int)type{
+    switch (type) {
+        case 1:
+            return  [[AND_Gate alloc]initGate];
+            break;
+            
+        case 2:
+            return [[OR_Gate alloc]initGate];
+            break;
+            
+        case 3:
+            return [[XOR_Gate alloc]initGate];
+            break;
+            
+        case 4:
+            return [[NAND_Gate alloc]initGate];
+            break;
+            
+        case 5:
+            return [[NOR_Gate alloc]initGate];
+            break;
+            
+        case 6:
+            return [[XNOR_Gate alloc]initGate];
+            break;
+            
+        case 7:
+            return [[NOT_Gate alloc]initGate];
+            break;
+            
+        case 8:
+            return [[Switch alloc]initGate];
+            break;
+            
+        case 9:
+            return [[LightBulb alloc]initGate];
+            break;
+            
+        default:
+            return nil;
+            break;
+    }
+}
                           
 -(void)setScale:(CGFloat)scale{
     currentScale = scale;
