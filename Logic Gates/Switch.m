@@ -13,8 +13,8 @@
 }
 
 -(void)initPort{
-    Port *outP1 = [[Port alloc]initWithPosition:CGPointMake(12, 0) andStatusOfMultiConnection:true andOwner:self];
-    outP1.boolStatus = false;
+    Port *outP1 = [[Port alloc]initWithPosition:CGPointMake(12, 0) andStatusOfMultiConnection:YES andOwner:self];
+    outP1.boolStatus = NO;
     outputState = outP1.boolStatus;
     self.outPort = [NSArray arrayWithObject:outP1];
 }
@@ -32,7 +32,7 @@
 }
 
 -(BOOL)isRealInputSource{
-    return true;
+    return YES;
 }
 
 -(Port*)portCloseToPointInScene:(CGPoint)point Range:(float)range{
@@ -50,6 +50,6 @@
         outP1.boolStatus = outputState;
         [self initImage];
     }
-    return false;
+    return NO;
 }
 @end

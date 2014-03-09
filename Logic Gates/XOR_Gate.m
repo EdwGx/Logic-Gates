@@ -10,11 +10,11 @@
 
 @implementation XOR_Gate
 -(void)initPort{
-    Port *inP1 = [[Port alloc]initWithPosition:CGPointMake(-25, -6) andStatusOfMultiConnection:false andOwner:self];
-    Port *inP2 = [[Port alloc]initWithPosition:CGPointMake(-25, 6) andStatusOfMultiConnection:false andOwner:self];
+    Port *inP1 = [[Port alloc]initWithPosition:CGPointMake(-25, -6) andStatusOfMultiConnection:NO andOwner:self];
+    Port *inP2 = [[Port alloc]initWithPosition:CGPointMake(-25, 6) andStatusOfMultiConnection:NO andOwner:self];
     self.inPort = [NSArray arrayWithObjects:inP1,inP2, nil];
     
-    Port *outP1 = [[Port alloc]initWithPosition:CGPointMake(25, 0) andStatusOfMultiConnection:true andOwner:self];
+    Port *outP1 = [[Port alloc]initWithPosition:CGPointMake(25, 0) andStatusOfMultiConnection:YES andOwner:self];
     self.outPort = [NSArray arrayWithObject:outP1];
     
 }

@@ -35,8 +35,8 @@
         /* Setup your scene here */
         self.backgroundColor = [SKColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0];
         
-        killMode = false;
-        changingKillMode = false;
+        killMode = NO;
+        changingKillMode = NO;
         self.ModeChanger = [SKSpriteNode spriteNodeWithImageNamed:@"ModeImage"];
         self.ModeChanger.zPosition = 10;
         self.ModeChanger.position = CGPointMake(size.width-30, size.height-50);
@@ -103,7 +103,7 @@
         if (!changingKillMode) {
             killMode = !killMode;
             [self.ModeChanger runAction:[SKAction rotateByAngle:1.75*M_PI duration:0.5]completion:^{
-                changingKillMode = false;}];
+                changingKillMode = NO;}];
         }
     } else if ([node isEqual:self.selectionMenu]){
         if (!menuMoving) {
@@ -164,12 +164,12 @@
     }];
     [self.selectionMenu runAction:spin];
     [self.selectionMenu runAction:action completion:^{
-        menuMoving = false;
+        menuMoving = NO;
     }];
 }
 
 -(void)moveMenuOut{
-    menuMoving = true;
+    menuMoving = YES;
     self.selectSp = [[SelectionSprite alloc]initWithScene:self Size:self.size];
     self.selectSp.zPosition = 15;
     SKAction *action = [SKAction moveByX:self.size.width-20 y:0 duration:0.5];
@@ -178,8 +178,8 @@
     [self.selectSp runAction:action];
     [self.selectionMenu runAction:spin];
     [self.selectionMenu runAction:action completion:^{
-        menuMoving = false;
-        menuOut = true;
+        menuMoving = NO;
+        menuOut = YES;
     }];
 }
 
@@ -263,10 +263,10 @@
         SKAction* showUp = [SKAction moveToX:0 duration:0.2];
         SKAction* allActions = [SKAction sequence:@[back,spin,showUp]];
         
-        menuMoving = true;
+        menuMoving = YES;
         [self.selectionMenu runAction:allActions completion:^{
-            menuOut = false;
-            menuMoving = false;
+            menuOut = NO;
+            menuMoving = NO;
         }];
         [self.selectSp removeFromParent];
         self.selectSp = nil;

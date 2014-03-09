@@ -15,7 +15,7 @@
     if (self = [super init]) {
         self.gateType = [self getDefultGateTypeValue];
         self.zPosition = 5;
-        self.willKill = false;
+        self.willKill = NO;
         [self initPort];
         [self initImage];
         [self updateRealIntput];
@@ -25,7 +25,7 @@
 }
 
 -(void)kill{
-    self.willKill = true;
+    self.willKill = YES;
     [self removeAllActions];
     [self removeAllChildren];
     [self removeFromParent];
@@ -57,13 +57,13 @@
 
 -(void)updateRealIntput{
     /*Get the real input boolean*/
-    BOOL real = true;
+    BOOL real = YES;
     
     //Check do all ports have real input
     for (int i = 0; i < [self.inPort count]; i++) {
         Port* portObject = [self.inPort objectAtIndex:i];
         if (!portObject.realInput) {
-            real = false;
+            real = NO;
             break;
         }
     }
@@ -78,12 +78,12 @@
 }
 
 -(BOOL)isRealInputSource{
-    return false;
+    return NO;
 }
 
 -(BOOL)touchDownWithPointInNode:(CGPoint)point{
     //Return Value Mean Want To Call When Touch End or Not;
-    return false;
+    return NO;
 }
 
 -(void)touchUpWithPointInNode:(CGPoint)point{

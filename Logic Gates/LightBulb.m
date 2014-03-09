@@ -10,7 +10,7 @@
 
 @implementation LightBulb
 -(void)initPort{
-    Port *inP1 = [[Port alloc]initWithPosition:CGPointMake(0, -28) andStatusOfMultiConnection:false andOwner:self];
+    Port *inP1 = [[Port alloc]initWithPosition:CGPointMake(0, -28) andStatusOfMultiConnection:NO andOwner:self];
     self.inPort = [NSArray arrayWithObject:inP1];
 }
 

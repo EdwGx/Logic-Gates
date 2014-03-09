@@ -11,11 +11,11 @@
 @implementation Port
 -(id)initWithPosition:(CGPoint)pos andStatusOfMultiConnection:(BOOL)multiConn andOwner:(Gates*)newOwner{
     if (self = [super init]) {
-        self.boolStatus = false;
-        self.realInput = false;
-        self.wireConnectable = true;
-        registeredObserver = false;
-        self.killWire = false;
+        self.boolStatus = NO;
+        self.realInput = NO;
+        self.wireConnectable = YES;
+        registeredObserver = NO;
+        self.killWire = NO;
         self.multiConnect = multiConn;
         self.position = pos;
         self.ownerGate = newOwner;
@@ -29,21 +29,21 @@
 }
 
 -(void)killAllWire{
-    self.killWire = true;
-    self.killWire = false;
+    self.killWire = YES;
+    self.killWire = NO;
 }
 
 -(BOOL)isAbleToConnect{
     if (!self.wireConnectable) {
-        return false;
+        return NO;
     }
     if (self.multiConnect) {
-        return true;
+        return YES;
     }else{
         if (self.inWire){
-            return false;
+            return NO;
         }else{
-            return true;
+            return YES;
         }
     }
 }
@@ -53,10 +53,10 @@
         if (registeredObserver) {
             [self.inWire removeObserver:self forKeyPath:@"boolStatus"];
             [self.inWire removeObserver:self forKeyPath:@"realInput"];
-            registeredObserver = false;
+            registeredObserver = NO;
         }
-        self.boolStatus = false;
-        self.realInput = false;
+        self.boolStatus = NO;
+        self.realInput = NO;
         self.inWire = nil;
     }
 }
@@ -65,7 +65,7 @@
     if (!self.multiConnect){
         [self.inWire addObserver:self forKeyPath:@"boolStatus" options:0 context:nil];
         [self.inWire addObserver:self forKeyPath:@"realInput" options:0 context:nil];
-        registeredObserver = true;
+        registeredObserver = YES;
         
         self.boolStatus = self.inWire.boolStatus;
         self.realInput = self.inWire.realInput;

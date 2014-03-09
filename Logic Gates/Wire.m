@@ -20,10 +20,10 @@
             self.startGate = nil;
             self.endGate = nil;
             
-            self.realInput = true;
+            self.realInput = YES;
             
-            didRegisterStartPort = false;
-            didRegisterEndPort = false;
+            didRegisterStartPort = NO;
+            didRegisterEndPort = NO;
             
             [self connectNewPort:sPort withPosition:sPos];
             if (self.startPort) {
@@ -38,22 +38,22 @@
 }
 -(BOOL)wantConnectThisPort:(Port *)port{
     if (self.startPort && port.multiConnect) {
-        return false;
+        return NO;
     }
     if (self.endPort && !port.multiConnect) {
-        return false;
+        return NO;
     }
     if (self.startGate) {
         if ([self.startGate isEqual:port.ownerGate]){
-            return false;
+            return NO;
         }
     }
     if (self.endGate) {
         if ([self.endGate isEqual:port.ownerGate]){
-            return false;
+            return NO;
         }
     }
-    return true;
+    return YES;
 }
 
 -(void)updateRealInput{
@@ -158,11 +158,11 @@
     [self.startPort addObserver:self forKeyPath:@"killWire" options:NSKeyValueObservingOptionNew context:nil];
     [self.startGate addObserver:self forKeyPath:@"position" options:0 context:nil];
     [self.startGate addObserver:self forKeyPath:@"willKill" options:0 context:nil];
-    didRegisterStartPort = true;
+    didRegisterStartPort = YES;
     [self.endPort addObserver:self forKeyPath:@"killWire" options:NSKeyValueObservingOptionNew context:nil];
     [self.endGate addObserver:self forKeyPath:@"willKill" options:0 context:nil];
     [self.endGate addObserver:self forKeyPath:@"position" options:0 context:nil];
-    didRegisterEndPort = true;
+    didRegisterEndPort = YES;
     
     [self updateRealInput];
     self.boolStatus = self.startPort.boolStatus;

@@ -54,6 +54,14 @@
     }
 }
 
+-(NSArray*)readMap:(NSString*)name{
+    NSString* filePath = [[self getSaveDir] stringByAppendingPathComponent:[name stringByAppendingString:@".plist"]];
+    if (![[NSFileManager defaultManager]fileExistsAtPath:name]) {
+        return nil;
+    }
+    return [NSArray arrayWithContentsOfFile:filePath];
+}
+
 -(void)removeSaveDir{
     NSError *error;
     [[NSFileManager defaultManager]removeItemAtPath:[self getSaveDir] error:&error];
