@@ -39,10 +39,16 @@
         changingKillMode = NO;
         self.ModeChanger = [SKSpriteNode spriteNodeWithImageNamed:@"ModeImage"];
         self.ModeChanger.zPosition = 10;
-        self.ModeChanger.position = CGPointMake(size.width-30, size.height-50);
+        self.ModeChanger.position = CGPointMake(size.width-30, 30);
         SKAction *action1 = [SKAction rotateToAngle:0.25*M_PI duration:0];
         [self.ModeChanger runAction:action1];
         [self addChild:self.ModeChanger];
+        
+        self.saveMapButton = [SKSpriteNode spriteNodeWithColor:[SKColor colorWithRed:0.2 green:0.2 blue:1.0 alpha:1.0]
+                                                          size:CGSizeMake(30, 30)];
+        self.saveMapButton.zPosition = 10;
+        self.saveMapButton.position = CGPointMake(size.width-30, size.height-30);
+        [self addChild:self.saveMapButton];
         
         self.selectionMenu = [SKSpriteNode spriteNodeWithImageNamed:@"menuArrow"];
         self.selectionMenu.zPosition = 16;
@@ -113,6 +119,8 @@
                 [self moveMenuOut];
             }
         }
+    }else if ([node isEqual:self.saveMapButton]){
+        [self.map saveMap];
     }else if (self.selectSp && !menuMoving) {
         CGPoint location = [touch locationInNode:self];
         SKNode* node = [self nodeAtPoint:location];

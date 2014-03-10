@@ -14,7 +14,7 @@
 
 @class Wire;
 @class SelectionSprite;
-@interface MyScene : SKScene<wireProtocol>{
+@interface MyScene : SKScene<wireProtocol,UIAlertViewDelegate>{
     CGPoint lastTouchLocation;
 }
 -(void)handlePinchFrom:(UIPinchGestureRecognizer*)recognizer;
@@ -27,5 +27,7 @@
 @property SKSpriteNode* ModeChanger;
 @property SKSpriteNode* selectionMenu;
 @property CircuitMap* map;
+@property SKSpriteNode*saveMapButton;
+@property SKSpriteNode*readMapButton;
 @property SelectionSprite* selectSp;
 @end

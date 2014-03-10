@@ -51,7 +51,12 @@
 }
 
 -(void)saveMap{
-    const NSArray* nodeArray = [self children];
+    NSMutableArray* nodeArray = [NSMutableArray arrayWithArray:[self children]];
+    for (int k = 0; k < [nodeArray count]; k++) {
+        if (![[nodeArray objectAtIndex:k] isKindOfClass:[Gates class]]) {
+            [nodeArray removeObjectAtIndex:k];
+        }
+    }
     NSMutableArray* saveArray = [NSMutableArray arrayWithCapacity:[nodeArray count]];
     for (int j = 0;j < [nodeArray count];j++) {
         Gates*node = [nodeArray objectAtIndex:j];
@@ -123,7 +128,7 @@
     for (int i = 0;i<[array count];i++) {
         NSArray*subArray = [array objectAtIndex:i];
         NSArray*inArray = [subArray objectAtIndex:4];
-        for (int j = 0;j<[array count];j++) {
+        for (int j = 0;j<[inArray count];j++) {
             NSArray*indexArray = [inArray objectAtIndex:j];
             NSNumber* gateIndexNum = [indexArray objectAtIndex:0];
             NSNumber* portIndexNum = [indexArray objectAtIndex:1];

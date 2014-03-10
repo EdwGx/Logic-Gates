@@ -26,6 +26,7 @@
 -(id)initMapWithScene:(SKScene*)newScene;
 -(void)moveByPoint:(CGPoint)point;
 -(void)saveMap;
+-(void)readMap;
 
 @property(weak) SKScene* currentScene;
 @property DataManger* dataMgr;
