@@ -21,7 +21,7 @@
 #import "Switch.h"
 
 #import "Port.h"
-
+#import "ButtonSprite.h"
 @implementation MyScene{
     BOOL killMode;
     BOOL changingKillMode;
@@ -120,7 +120,8 @@
             }
         }
     }else if ([node isEqual:self.saveMapButton]){
-        [self.map saveMap];
+        self.slSprite = [[SaveLoadSprite alloc]initWithDataManger:self.map.dataMgr ScreenHeight:self.size.height];
+        [self addChild:self.slSprite];
     }else if (self.selectSp && !menuMoving) {
         CGPoint location = [touch locationInNode:self];
         SKNode* node = [self nodeAtPoint:location];

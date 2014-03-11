@@ -11,6 +11,7 @@
 #import "SelectionSprite.h"
 #import "Gates.h"
 #import "CircuitMap.h"
+#import "SaveLoadSprite.h"
 
 @class Wire;
 @class SelectionSprite;
@@ -30,4 +31,6 @@
 @property SKSpriteNode*saveMapButton;
 @property SKSpriteNode*readMapButton;
 @property SelectionSprite* selectSp;
+@property SaveLoadSprite* slSprite;
+
 @end
