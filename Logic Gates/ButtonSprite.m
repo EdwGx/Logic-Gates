@@ -9,9 +9,10 @@
 #import "ButtonSprite.h"
 #define minWidth 160
 @implementation ButtonSprite
--(id)initWithName:(NSString*)name{
+-(id)initWithName:(NSString*)name buttonID:(NSUInteger)number{
     if (self = [super init]) {
         SKLabelNode* label = [SKLabelNode labelNodeWithFontNamed:@"AmericanTypewriter"];
+        label.name = @"BUTTON";
         label.text =name;
         label.fontSize = 20;
         label.fontColor = [SKColor whiteColor];
@@ -21,6 +22,8 @@
         label.position = CGPointZero;
         [self addChild:label];
         self.color = [SKColor colorWithRed:0.18 green:0.797 blue:0.44 alpha:1.0];
+        self.name = @"BUTTON";
+        self.button_id = number;
     }
     return self;
 }

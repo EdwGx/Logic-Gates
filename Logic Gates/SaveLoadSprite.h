@@ -8,8 +8,9 @@
 
 #import <SpriteKit/SpriteKit.h>
 #import "DataManger.h"
+
 @interface SaveLoadSprite : SKSpriteNode
--(id)initWithDataManger:(DataManger *)dataManger ScreenHeight:(CGFloat)height;
+-(id)initWithDataManger:(DataManger *)dataManger ScreenSize:(CGSize)screenS;
 
 @property(weak) DataManger *dataMgr;
 @end

@@ -9,5 +9,6 @@
 #import <SpriteKit/SpriteKit.h>
 
 @interface ButtonSprite : SKSpriteNode
--(id)initWithName:(NSString*)name;
+-(id)initWithName:(NSString*)name buttonID:(NSUInteger)number;
+@property NSUInteger button_id;
 @end
