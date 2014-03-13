@@ -120,8 +120,11 @@
             }
         }
     }else if ([node isEqual:self.saveMapButton]){
-        self.slSprite = [[SaveLoadSprite alloc]initWithDataManger:self.map.dataMgr ScreenHeight:self.size.height];
+        self.slSprite = [[SaveLoadSprite alloc]initWithMap:self.map ScreenSize:self.size];
+        SKAction* action = [SKAction moveByX:-self.slSprite.size.width y:0 duration:0.5];
+        [self.slSprite runAction:action];
         [self addChild:self.slSprite];
+        
     }else if (self.selectSp && !menuMoving) {
         CGPoint location = [touch locationInNode:self];
         SKNode* node = [self nodeAtPoint:location];
@@ -135,6 +138,8 @@
                 }
             }
         }
+    } else if (self.slSprite) {
+        [self.slSprite touchNodeAtPoint:[self convertPoint:lastTouchLocation toNode:self.slSprite]];
     } else if ([self nodeIsEmptySpace:node]){
         //What happend when touch empty space(Actully there are some nodes)
         BOOL returnValue = [self findPortCloseToLocation:[self convertPoint:lastTouchLocation toNode:self.map]];

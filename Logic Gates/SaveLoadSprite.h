@@ -8,9 +8,10 @@
 
 #import <SpriteKit/SpriteKit.h>
 #import "DataManger.h"
+#import "CircuitMap.h"
 
-@interface SaveLoadSprite : SKSpriteNode
--(id)initWithDataManger:(DataManger *)dataManger ScreenSize:(CGSize)screenS;
-
-@property(weak) DataManger *dataMgr;
+@interface SaveLoadSprite : SKSpriteNode<UIAlertViewDelegate>
+-(id)initWithMap:(CircuitMap *)map ScreenSize:(CGSize)screenS;
+-(void)touchNodeAtPoint:(CGPoint)point;
+@property(weak) CircuitMap *map;
 @end

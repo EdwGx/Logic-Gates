@@ -25,8 +25,8 @@
 @interface CircuitMap : SKNode
 -(id)initMapWithScene:(SKScene*)newScene;
 -(void)moveByPoint:(CGPoint)point;
--(void)saveMap;
--(void)readMap;
+-(void)saveMap:(NSString*)fileName;
+-(void)readMap:(NSString*)fileName;
 
 @property(weak) SKScene* currentScene;
 @property DataManger* dataMgr;

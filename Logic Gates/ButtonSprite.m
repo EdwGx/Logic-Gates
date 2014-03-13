@@ -7,7 +7,7 @@
 //
 
 #import "ButtonSprite.h"
-#define minWidth 160
+#define minWidth 100
 @implementation ButtonSprite
 -(id)initWithName:(NSString*)name buttonID:(NSUInteger)number{
     if (self = [super init]) {

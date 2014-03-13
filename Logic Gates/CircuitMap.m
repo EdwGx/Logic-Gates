@@ -50,7 +50,7 @@
     return point;
 }
 
--(void)saveMap{
+-(void)saveMap:(NSString*)fileName{
     NSMutableArray* nodeArray = [NSMutableArray arrayWithArray:[self children]];
     for (int k = 0; k < [nodeArray count]; k++) {
         if (![[nodeArray objectAtIndex:k] isKindOfClass:[Gates class]]) {
@@ -89,15 +89,15 @@
         NSArray*  gateSaveArray = [NSArray arrayWithObjects:type,posX,posY,status,inArray, nil];
         [saveArray setObject:gateSaveArray atIndexedSubscript:j];
     }
-    [self.dataMgr saveMap:@"NONE" NodeArray:saveArray];
+    [self.dataMgr saveMap:fileName NodeArray:saveArray];
     
 }
 
--(void)readMap{
+-(void)readMap:(NSString*)fileName{
     for (Gates*gate in [self children]) {
         [gate kill];
     }
-    NSArray*array = [self.dataMgr readMap:@"NONE"];
+    NSArray*array = [self.dataMgr readMap:fileName];
     if (!array) {
         return;
     }
