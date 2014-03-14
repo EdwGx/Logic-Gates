@@ -12,4 +12,5 @@
 @property NSMutableArray* saveFileList;
 -(void)saveMap:(NSString*)name NodeArray:(NSMutableArray*)array;
 -(NSArray*)readMap:(NSString*)name;
+-(void)removeMap:(NSString*)name;
 @end

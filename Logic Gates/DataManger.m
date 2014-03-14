@@ -56,8 +56,12 @@
     NSString* path = [[self getSaveDir] stringByAppendingPathComponent:[name stringByAppendingString:@".plist"]];
     BOOL noError = [array writeToFile:path atomically:YES];
     if (noError) {
-        [self.saveFileList addObject:name];
-        [self performSelectorInBackground:@selector(writeSafeList) withObject:nil];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+            if ([self.saveFileList indexOfObject:name] == NSNotFound) {
+                [self.saveFileList addObject:name];
+                [self performSelectorInBackground:@selector(writeSafeList) withObject:nil];
+            }
+        }
     }
 }
 
@@ -68,6 +72,15 @@
 -(NSArray*)readMap:(NSString*)name{
     NSString* filePath = [[self getSaveDir] stringByAppendingPathComponent:[name stringByAppendingString:@".plist"]];
     return [NSArray arrayWithContentsOfFile:filePath];
+}
+
+-(void)removeMap:(NSString*)name{
+    NSString* path = [[self getSaveDir] stringByAppendingPathComponent:[name stringByAppendingString:@".plist"]];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+        [self.saveFileList removeObject:name];
+        NSError* err;
+        [[NSFileManager defaultManager] removeItemAtPath:path error:&err];
+    }
 }
 
 -(void)removeSaveDir{

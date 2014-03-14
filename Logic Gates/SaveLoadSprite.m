@@ -7,17 +7,17 @@
 //
 
 #import "SaveLoadSprite.h"
-#import "ButtonSprite.h"
+
 #define leftBorder 20
 #define barWidth 120
 @implementation SaveLoadSprite{
     NSUInteger numberOfFiles;
     CGSize screenSize;
-    NSUInteger outID;
 }
--(id)initWithMap:(CircuitMap *)map ScreenSize:(CGSize)screenS{
+-(id)initWithMap:(CircuitMap *)map ScreenSize:(CGSize)screenS Delegate:(id)delegate{
     if (self = [super init]) {
         self.map = map;
+        self.delegate = delegate;
         numberOfFiles = [self.map.dataMgr.saveFileList count];
         CGFloat height = MAX(screenS.height, numberOfFiles*50);
         self.size = CGSizeMake(barWidth, height);
@@ -65,31 +65,77 @@
                 UITextField* textField = [alertView textFieldAtIndex:0];
                 textField.placeholder = @"Enter a name";
                 [alertView show];
-                /*
-                
-                 */
             }else{
-                if (BNode.button_id == outID) {
+                if ([BNode isEqual:self.buttonOut]) {
                     SKAction* action = [SKAction moveToX:leftBorder+BNode.size.width/2-self.size.width/2 duration:0.2];
                     [BNode runAction:action completion:^{
-                        outID = 0;
+                        self.buttonOut = nil;
                     }];
+                    [[self childNodeWithName:@"save"] removeFromParent];
+                    [[self childNodeWithName:@"load"] removeFromParent];
+                    [[self childNodeWithName:@"remove"] removeFromParent];
                 }else{
-                    outID = BNode.button_id;
-                    CGFloat posX = MAX(screenSize.width-BNode.size.width/2-leftBorder*2, BNode.size.width/2);
+                    if (self.buttonOut) {
+                        SKAction* action = [SKAction moveToX:leftBorder+self.buttonOut.size.width/2-self.size.width/2 duration:0.2];
+                        [self.buttonOut runAction:action];
+                        [[self childNodeWithName:@"save"] removeFromParent];
+                        [[self childNodeWithName:@"load"] removeFromParent];
+                        [[self childNodeWithName:@"remove"] removeFromParent];
+                    }
+                    self.buttonOut = BNode;
+                    CGFloat posX = MAX(screenSize.width-BNode.size.width/2-leftBorder-210, BNode.size.width/2);
                     posX = posX - self.position.x;
                     SKAction* action = [SKAction moveToX:posX duration:0.2];
-                    [BNode runAction:action];
+                    [BNode runAction:action completion:^{
+                        [self setUpMenu];
+                    }];
                 }
             }
         }
     }
+    else if ([node.name isEqualToString:@"save"]){
+        NSString*name = [self.map.dataMgr.saveFileList objectAtIndex:self.buttonOut.button_id];
+        [self.map saveMap:name];
+        [self kill];
+    } else if ([node.name isEqualToString:@"load"]){
+        NSString*name = [self.map.dataMgr.saveFileList objectAtIndex:self.buttonOut.button_id];
+        [self.map readMap:name];
+        [self kill];
+    } else if ([node.name isEqualToString:@"remove"]){
+        NSString*name = [self.map.dataMgr.saveFileList objectAtIndex:self.buttonOut.button_id];
+        [self.map.dataMgr removeMap:name];
+        [self kill];
+    }
+}
+
+-(void)setUpMenu{
+    CGFloat posX = self.buttonOut.position.x - self.buttonOut.size.width/2 + 25;
+    CGFloat posY = self.buttonOut.position.y - self.buttonOut.size.height/2 - 30;
+    
+    SKSpriteNode* sprite1 = [SKSpriteNode spriteNodeWithImageNamed:@"save_button"];
+    sprite1.name = @"save";
+    sprite1.position = CGPointMake(posX, posY);
+    [self addChild:sprite1];
+    
+    posX += 60;
+    SKSpriteNode* sprite2 = [SKSpriteNode spriteNodeWithImageNamed:@"load_button"];
+    sprite2.name = @"load";
+    sprite2.position = CGPointMake(posX, posY);
+    [self addChild:sprite2];
+    
+    posX += 60;
+    SKSpriteNode* sprite3 = [SKSpriteNode spriteNodeWithImageNamed:@"remove_button"];
+    sprite3.name = @"remove";
+    sprite3.position = CGPointMake(posX, posY);
+    [self addChild:sprite3];
+    
 }
 
 -(void)kill{
     SKAction *fadeAction = [SKAction moveByX:self.size.width y:0 duration:0.2];
-    SKAction *remove = [SKAction removeFromParent];
-    [self runAction:[SKAction sequence:@[fadeAction,remove]]];
+    [self runAction:fadeAction completion:^{
+        [self.delegate setToNil];
+    }];
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{

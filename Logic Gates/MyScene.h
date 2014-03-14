@@ -15,7 +15,7 @@
 
 @class Wire;
 @class SelectionSprite;
-@interface MyScene : SKScene<wireProtocol>{
+@interface MyScene : SKScene<wireProtocol,SaveLoadSpriteProtocol>{
     CGPoint lastTouchLocation;
 }
 -(void)handlePinchFrom:(UIPinchGestureRecognizer*)recognizer;

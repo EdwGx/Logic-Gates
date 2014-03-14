@@ -9,9 +9,17 @@
 #import <SpriteKit/SpriteKit.h>
 #import "DataManger.h"
 #import "CircuitMap.h"
+#import "ButtonSprite.h"
+@class SaveLoadSprite;
+@protocol SaveLoadSpriteProtocol
 
+-(void)setToNil;
+
+@end
 @interface SaveLoadSprite : SKSpriteNode<UIAlertViewDelegate>
--(id)initWithMap:(CircuitMap *)map ScreenSize:(CGSize)screenS;
+-(id)initWithMap:(CircuitMap *)map ScreenSize:(CGSize)screenS Delegate:(id)delegate;
 -(void)touchNodeAtPoint:(CGPoint)point;
+@property(weak) id<SaveLoadSpriteProtocol> delegate;
 @property(weak) CircuitMap *map;
+@property(weak) ButtonSprite *buttonOut;
 @end

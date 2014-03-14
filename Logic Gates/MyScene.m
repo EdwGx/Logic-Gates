@@ -83,7 +83,9 @@
     UITouch* touch = [touches anyObject];
     lastTouchLocation = [touch locationInNode:self];
     SKNode* node = [self nodeAtPoint:lastTouchLocation];
-    if ([node isKindOfClass:[Gates class]]) {
+    if (self.slSprite) {
+        [self.slSprite touchNodeAtPoint:[self convertPoint:lastTouchLocation toNode:self.slSprite]];
+    }else if ([node isKindOfClass:[Gates class]]) {
         Gates*GNode = (Gates*)node;
         Port *inNode = [GNode portCloseToPointInScene:[self convertPoint:lastTouchLocation toNode:self.map] Range:0.5];
         if (inNode) {
@@ -120,7 +122,7 @@
             }
         }
     }else if ([node isEqual:self.saveMapButton]){
-        self.slSprite = [[SaveLoadSprite alloc]initWithMap:self.map ScreenSize:self.size];
+        self.slSprite = [[SaveLoadSprite alloc]initWithMap:self.map ScreenSize:self.size Delegate:self];
         SKAction* action = [SKAction moveByX:-self.slSprite.size.width y:0 duration:0.5];
         [self.slSprite runAction:action];
         [self addChild:self.slSprite];
@@ -138,8 +140,6 @@
                 }
             }
         }
-    } else if (self.slSprite) {
-        [self.slSprite touchNodeAtPoint:[self convertPoint:lastTouchLocation toNode:self.slSprite]];
     } else if ([self nodeIsEmptySpace:node]){
         //What happend when touch empty space(Actully there are some nodes)
         BOOL returnValue = [self findPortCloseToLocation:[self convertPoint:lastTouchLocation toNode:self.map]];
@@ -363,9 +363,15 @@
     }
 }
 
+-(void)setToNil{
+    [self.slSprite removeFromParent];
+    self.slSprite = nil;
+}
+
 -(CGPoint)getDragingPosition{
     return [self convertPoint:lastTouchLocation toNode:self.map];
 }
+
 
 -(void)update:(CFTimeInterval)currentTime {
     /* Called before each frame is rendered */
