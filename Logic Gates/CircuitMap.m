@@ -57,6 +57,9 @@
             [nodeArray removeObjectAtIndex:k];
         }
     }
+    if ([nodeArray count] == 0) {
+        return;
+    }
     NSMutableArray* saveArray = [NSMutableArray arrayWithCapacity:[nodeArray count]];
     for (int j = 0;j < [nodeArray count];j++) {
         Gates*node = [nodeArray objectAtIndex:j];
@@ -202,5 +205,7 @@
     self.position = [self boundPosition:self.position];
     [super setScale:currentScale];
 }
+
+
 
 @end
