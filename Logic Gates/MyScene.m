@@ -28,6 +28,7 @@
     BOOL menuMoving;
     BOOL menuOut;
     BOOL dragMap;
+    BOOL normalMode;
 }
 
 -(id)initWithSize:(CGSize)size {    
@@ -44,8 +45,7 @@
         [self.ModeChanger runAction:action1];
         [self addChild:self.ModeChanger];
         
-        self.saveMapButton = [SKSpriteNode spriteNodeWithColor:[SKColor colorWithRed:0.2 green:0.2 blue:1.0 alpha:1.0]
-                                                          size:CGSizeMake(30, 30)];
+        self.saveMapButton = [SKSpriteNode spriteNodeWithImageNamed:@"menu"];
         self.saveMapButton.zPosition = 10;
         self.saveMapButton.position = CGPointMake(size.width-30, size.height-30);
         [self addChild:self.saveMapButton];
@@ -54,6 +54,8 @@
         self.selectionMenu.zPosition = 16;
         self.selectionMenu.position = CGPointMake(0, size.height/2);
         [self addChild:self.selectionMenu];
+        
+        normalMode = YES;
         
         self.map = [[CircuitMap alloc]initMapWithScene:self];
         [self addChild:self.map];
@@ -73,10 +75,27 @@
 -(void)handlePinchFrom:(UIPinchGestureRecognizer *)recognizer{
     if (recognizer.state == UIGestureRecognizerStateChanged) {
         [self.map setScale:recognizer.scale*self.map.xScale];
+        if (self.map.xScale == 1.0) {
+            [self updateZoomMode:YES];
+        }else{
+            [self updateZoomMode:NO];
+        }
         recognizer.scale = 1.0;
     }
 }
 
+-(void)updateZoomMode:(BOOL)new{
+    if (new != normalMode) {
+        normalMode = new;
+        if (!normalMode) {
+            [self.ModeChanger runAction:[SKAction moveByX:0 y:-60 duration:0.2]];
+            [self.selectionMenu runAction:[SKAction moveByX:-50 y:0 duration:0.2]];
+        } else {
+            [self.ModeChanger runAction:[SKAction moveByX:0 y:60 duration:0.2]];
+            [self.selectionMenu runAction:[SKAction moveByX:50 y:0 duration:0.2]];
+        }
+    }
+}
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     //Called when a touch begins
@@ -84,8 +103,12 @@
     lastTouchLocation = [touch locationInNode:self];
     SKNode* node = [self nodeAtPoint:lastTouchLocation];
     if (self.slSprite) {
-        [self.slSprite touchNodeAtPoint:[self convertPoint:lastTouchLocation toNode:self.slSprite]];
-    }else if ([node isKindOfClass:[Gates class]]) {
+        if ([self nodeIsEmptySpace:node]) {
+            [self.slSprite kill];
+        }else{
+            [self.slSprite touchNodeAtPoint:[self convertPoint:lastTouchLocation toNode:self.slSprite]];
+        }
+    }else if ([node isKindOfClass:[Gates class]]&&normalMode) {
         Gates*GNode = (Gates*)node;
         Port *inNode = [GNode portCloseToPointInScene:[self convertPoint:lastTouchLocation toNode:self.map] Range:0.5];
         if (inNode) {
@@ -107,13 +130,13 @@
                 self.dragingObject = GNode;
             }
         }
-    } else if ([node isEqual:self.ModeChanger]){
+    } else if ([node isEqual:self.ModeChanger]&&normalMode){
         if (!changingKillMode) {
             killMode = !killMode;
             [self.ModeChanger runAction:[SKAction rotateByAngle:1.75*M_PI duration:0.5]completion:^{
                 changingKillMode = NO;}];
         }
-    } else if ([node isEqual:self.selectionMenu]){
+    } else if ([node isEqual:self.selectionMenu]&&normalMode){
         if (!menuMoving) {
             if (menuOut) {
                 [self moveMenuIn];
@@ -123,9 +146,10 @@
         }
     }else if ([node isEqual:self.saveMapButton]){
         self.slSprite = [[SaveLoadSprite alloc]initWithMap:self.map ScreenSize:self.size Delegate:self];
-        SKAction* action = [SKAction moveByX:-self.slSprite.size.width y:0 duration:0.5];
+        SKAction* action = [SKAction moveByX:-self.slSprite.size.width y:0 duration:0.2];
         [self.slSprite runAction:action];
         [self addChild:self.slSprite];
+        [self updateZoomMode:NO];
         
     }else if (self.selectSp && !menuMoving) {
         CGPoint location = [touch locationInNode:self];
@@ -151,7 +175,7 @@
 }
 
 -(void)handleDoubleTapFrom:(UITapGestureRecognizer *)recognizer{
-    if (recognizer.state == UIGestureRecognizerStateEnded) {
+    if (recognizer.state == UIGestureRecognizerStateEnded && !self.slSprite && self.map.xScale != 1.0) {
         CGPoint pointInScene = [self convertPointFromView:[recognizer locationInView:self.view]];
         CGPoint targetPoint = [self convertPoint:pointInScene toNode:self.map];
         CGPoint centerPoint = [self convertPoint:CGPointMake(self.size.width/2.0,self.size.height/2.0) toNode:self.map];
@@ -159,6 +183,7 @@
         
         [self.map runAction:[SKAction moveBy:vector duration:0.2]];
         [self.map runAction:[SKAction scaleTo:1.0 duration:0.2]];
+        [self updateZoomMode:YES];
     }
 }
 
@@ -364,6 +389,9 @@
 }
 
 -(void)setToNil{
+    if (self.map.xScale == 1.0) {
+        [self updateZoomMode:YES];
+    }
     [self.slSprite removeFromParent];
     self.slSprite = nil;
 }

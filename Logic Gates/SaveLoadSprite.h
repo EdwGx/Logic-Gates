@@ -19,6 +19,7 @@
 @interface SaveLoadSprite : SKSpriteNode<UIAlertViewDelegate>
 -(id)initWithMap:(CircuitMap *)map ScreenSize:(CGSize)screenS Delegate:(id)delegate;
 -(void)touchNodeAtPoint:(CGPoint)point;
+-(void)kill;
 @property(weak) id<SaveLoadSpriteProtocol> delegate;
 @property(weak) CircuitMap *map;
 @property(weak) ButtonSprite *buttonOut;
