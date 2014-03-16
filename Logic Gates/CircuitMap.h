@@ -7,7 +7,6 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
-#import "DataManger.h"
 
 #import "AND_Gate.h"
 #import "OR_Gate.h"
@@ -21,13 +20,22 @@
 #import "LightBulb.h"
 #import "Switch.h"
 
-@class DataManger;
+@class CircuitMap;
+@protocol circuitMapDelegate
+-(CGSize)getScreenSize;
+@optional
+-(void)mapDidSave;
+-(void)fileSystemDidSetup;
+@end
+
 @interface CircuitMap : SKNode
--(id)initMapWithScene:(SKScene*)newScene;
+-(id)initMapWithDelegate:(id)delegate;
 -(void)moveByPoint:(CGPoint)point;
 -(void)saveMap:(NSString*)fileName;
--(void)readMap:(NSString*)fileName;
+-(void)loadMap:(NSString*)fileName;
+-(void)removeMapFile:(NSString*)name;
 
-@property(weak) SKScene* currentScene;
-@property DataManger* dataMgr;
+@property(weak) id<circuitMapDelegate> delegate;
+@property NSMutableArray* filesList;
+@property BOOL isFileSystemWork;
 @end

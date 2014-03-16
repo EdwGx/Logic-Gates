@@ -45,11 +45,6 @@
         [self.ModeChanger runAction:action1];
         [self addChild:self.ModeChanger];
         
-        self.saveMapButton = [SKSpriteNode spriteNodeWithImageNamed:@"menu"];
-        self.saveMapButton.zPosition = 10;
-        self.saveMapButton.position = CGPointMake(size.width-30, size.height-30);
-        [self addChild:self.saveMapButton];
-        
         self.selectionMenu = [SKSpriteNode spriteNodeWithImageNamed:@"menuArrow"];
         self.selectionMenu.zPosition = 16;
         self.selectionMenu.position = CGPointMake(0, size.height/2);
@@ -57,7 +52,7 @@
         
         normalMode = YES;
         
-        self.map = [[CircuitMap alloc]initMapWithScene:self];
+        self.map = [[CircuitMap alloc]initMapWithDelegate:self];
         [self addChild:self.map];
     }
     return self;
@@ -388,7 +383,7 @@
     }
 }
 
--(void)setToNil{
+-(void)setSLMenuToNil{
     if (self.map.xScale == 1.0) {
         [self updateZoomMode:YES];
     }
@@ -400,7 +395,16 @@
     return [self convertPoint:lastTouchLocation toNode:self.map];
 }
 
+-(CGSize)getScreenSize{
+    return self.size;
+}
 
+-(void)fileSystemDidSetup{
+    self.saveMapButton = [SKSpriteNode spriteNodeWithImageNamed:@"menu"];
+    self.saveMapButton.zPosition = 10;
+    self.saveMapButton.position = CGPointMake(self.size.width-30, self.size.height-30);
+    [self addChild:self.saveMapButton];
+}
 -(void)update:(CFTimeInterval)currentTime {
     /* Called before each frame is rendered */
 }

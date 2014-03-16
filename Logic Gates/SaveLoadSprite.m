@@ -17,8 +17,9 @@
 -(id)initWithMap:(CircuitMap *)map ScreenSize:(CGSize)screenS Delegate:(id)delegate{
     if (self = [super init]) {
         self.map = map;
+        [self.map addObserver:self forKeyPath:@"filesList" options:NSKeyValueObservingOptionNew context:nil];
         self.delegate = delegate;
-        numberOfFiles = [self.map.dataMgr.saveFileList count];
+        numberOfFiles = [self.map.filesList count];
         CGFloat height = MAX(screenS.height, numberOfFiles*50);
         self.size = CGSizeMake(barWidth, height);
         self.color = [SKColor colorWithRed:0.1 green:0.73 blue:0.6 alpha:1.0];
@@ -31,12 +32,13 @@
 }
 -(void)setupLabels{
     CGFloat yPos = 25.0;
+    [self removeAllChildren];
     ButtonSprite* button = [[ButtonSprite alloc]initWithName:@"add" buttonID:0];
     button.position = [self convertCoordinateCenterFromTopLeftToCenter:CGPointMake(leftBorder+button.size.width/2, yPos)];
     [self addChild:button];
     yPos += 50.0;
-    for (NSUInteger i = 1; i  < [self.map.dataMgr.saveFileList count]; i++) {
-        NSString* name = [self.map.dataMgr.saveFileList objectAtIndex:i];
+    for (NSUInteger i = 1; i  < [self.map.filesList count]; i++) {
+        NSString* name = [self.map.filesList objectAtIndex:i];
         ButtonSprite* button = [[ButtonSprite alloc]initWithName:name buttonID:i];
         button.position = [self convertCoordinateCenterFromTopLeftToCenter:CGPointMake(leftBorder+button.size.width/2, yPos)];
         [self addChild:button];
@@ -94,16 +96,16 @@
         }
     }
     else if ([node.name isEqualToString:@"save"]){
-        NSString*name = [self.map.dataMgr.saveFileList objectAtIndex:self.buttonOut.button_id];
+        NSString*name = [self.map.filesList objectAtIndex:self.buttonOut.button_id];
         [self.map saveMap:name];
         [self kill];
     } else if ([node.name isEqualToString:@"load"]){
-        NSString*name = [self.map.dataMgr.saveFileList objectAtIndex:self.buttonOut.button_id];
-        [self.map readMap:name];
+        NSString*name = [self.map.filesList objectAtIndex:self.buttonOut.button_id];
+        [self.map loadMap:name];
         [self kill];
     } else if ([node.name isEqualToString:@"remove"]){
-        NSString*name = [self.map.dataMgr.saveFileList objectAtIndex:self.buttonOut.button_id];
-        [self.map.dataMgr removeMap:name];
+        NSString*name = [self.map.filesList objectAtIndex:self.buttonOut.button_id];
+        [self.map removeMapFile:name];
         [self kill];
     }
 }
@@ -134,7 +136,7 @@
 -(void)kill{
     SKAction *fadeAction = [SKAction moveByX:self.size.width y:0 duration:0.2];
     [self runAction:fadeAction completion:^{
-        [self.delegate setToNil];
+        [self.delegate setSLMenuToNil];
     }];
 }
 
@@ -148,11 +150,22 @@
         
     }
 }
+
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
+    if ([object isEqual:self.map]) {
+        if ([keyPath isEqualToString:@"filesList"]) {
+            [self setupLabels];
+        }
+    }
+}
                                 
 -(CGPoint)convertCoordinateCenterFromTopLeftToCenter:(CGPoint)point{
     return CGPointMake(point.x-self.size.width/2, -point.y+self.size.height/2);
 }
 
+-(void)dealloc{
+    [self.map removeObserver:self forKeyPath:@"filesList"];
+}
 
 
 @end

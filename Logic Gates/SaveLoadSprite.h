@@ -7,13 +7,12 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
-#import "DataManger.h"
 #import "CircuitMap.h"
 #import "ButtonSprite.h"
 @class SaveLoadSprite;
 @protocol SaveLoadSpriteProtocol
 
--(void)setToNil;
+-(void)setSLMenuToNil;
 
 @end
 @interface SaveLoadSprite : SKSpriteNode<UIAlertViewDelegate>

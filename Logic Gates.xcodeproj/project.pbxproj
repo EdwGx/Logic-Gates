@@ -10,7 +10,6 @@
 		963E9CE018C27F3600C43451 /* XOR_Gate.m in Sources */ = {isa = PBXBuildFile; fileRef = 963E9CDF18C27F3600C43451 /* XOR_Gate.m */; };
 		963E9CE318C2802200C43451 /* NOR_Gate.m in Sources */ = {isa = PBXBuildFile; fileRef = 963E9CE218C2802200C43451 /* NOR_Gate.m */; };
 		963E9CE618C2809D00C43451 /* XNOR_Gate.m in Sources */ = {isa = PBXBuildFile; fileRef = 963E9CE518C2809D00C43451 /* XNOR_Gate.m */; };
-		966FA11818C9FE40004BD73D /* DataManger.m in Sources */ = {isa = PBXBuildFile; fileRef = 966FA11718C9FE40004BD73D /* DataManger.m */; };
 		96727A8918C13EB600E79A39 /* LightBulb.m in Sources */ = {isa = PBXBuildFile; fileRef = 96727A8818C13EB600E79A39 /* LightBulb.m */; };
 		96727A8E18C14D7A00E79A39 /* NOT_Gate.m in Sources */ = {isa = PBXBuildFile; fileRef = 96727A8D18C14D7A00E79A39 /* NOT_Gate.m */; };
 		96730B7418C21948003287C0 /* SelectionSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 96730B7318C21948003287C0 /* SelectionSprite.m */; };
@@ -62,8 +61,6 @@
 		963E9CE218C2802200C43451 /* NOR_Gate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = NOR_Gate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		963E9CE418C2809D00C43451 /* XNOR_Gate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XNOR_Gate.h; sourceTree = "<group>"; };
 		963E9CE518C2809D00C43451 /* XNOR_Gate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = XNOR_Gate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		966FA11618C9FE40004BD73D /* DataManger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataManger.h; sourceTree = "<group>"; };
-		966FA11718C9FE40004BD73D /* DataManger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataManger.m; sourceTree = "<group>"; };
 		96727A8718C13EB600E79A39 /* LightBulb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LightBulb.h; sourceTree = "<group>"; };
 		96727A8818C13EB600E79A39 /* LightBulb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = LightBulb.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		96727A8C18C14D7A00E79A39 /* NOT_Gate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NOT_Gate.h; sourceTree = "<group>"; };
@@ -293,8 +290,6 @@
 		9690F9A818CDE893000DDC7F /* UI Support */ = {
 			isa = PBXGroup;
 			children = (
-				966FA11618C9FE40004BD73D /* DataManger.h */,
-				966FA11718C9FE40004BD73D /* DataManger.m */,
 				96730B7218C21948003287C0 /* SelectionSprite.h */,
 				96730B7318C21948003287C0 /* SelectionSprite.m */,
 				9690F9A918CDEA0B000DDC7F /* SaveLoadSprite.h */,
@@ -433,7 +428,6 @@
 				96727A8E18C14D7A00E79A39 /* NOT_Gate.m in Sources */,
 				967D7CD018BBFF8500F72CF9 /* Wire.m in Sources */,
 				96F92DC518C0118F0077958A /* Switch.m in Sources */,
-				966FA11818C9FE40004BD73D /* DataManger.m in Sources */,
 				967D7C9B18BBF96100F72CF9 /* AppDelegate.m in Sources */,
 				96730B7418C21948003287C0 /* SelectionSprite.m in Sources */,
 				96727A8918C13EB600E79A39 /* LightBulb.m in Sources */,

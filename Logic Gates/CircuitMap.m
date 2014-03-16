@@ -10,22 +10,27 @@
 #import "Gates.h"
 
 #define minZoomOut 0.25
+#define formatVersion 1
+
 @implementation CircuitMap{
     CGFloat maxPosX,maxPosY,minPosX,minPosY;
     CGFloat currentScale;
+    
 }
 
--(id)initMapWithScene:(SKScene*)newScene{
+-(id)initMapWithDelegate:(id<circuitMapDelegate>)delegate{
     if (self = [super init]) {
-        self.currentScene = newScene;
         [self setScale:1.0];
-        self.dataMgr = [[DataManger alloc] init];
+        self.delegate = delegate;
+        self.isFileSystemWork = NO;
+        [self performSelectorInBackground:@selector(setupFileSystem) withObject:nil];
     }
     return self;
 }
 
 -(void)updateBound{
-    CGSize halfScene = CGSizeMake(self.currentScene.size.width/2, self.currentScene.size.height/2);
+    CGSize fullSize = [self.delegate getScreenSize];
+    CGSize halfScene = CGSizeMake(fullSize.width/2, fullSize.height/2);
     maxPosX = (halfScene.width*currentScale)/minZoomOut;
     minPosX = halfScene.width*2.0 - maxPosX;
     
@@ -92,15 +97,16 @@
         NSArray*  gateSaveArray = [NSArray arrayWithObjects:type,posX,posY,status,inArray, nil];
         [saveArray setObject:gateSaveArray atIndexedSubscript:j];
     }
-    [self.dataMgr saveMap:fileName NodeArray:saveArray];
+    [saveArray addObject:fileName];
+    [self performSelectorInBackground:@selector(saveMapToFileWithArray:) withObject:saveArray];
     
 }
 
--(void)readMap:(NSString*)fileName{
+-(void)loadMap:(NSString*)fileName{
     for (Gates*gate in [self children]) {
         [gate kill];
     }
-    NSArray*array = [self.dataMgr readMap:fileName];
+    NSArray*array = [self loadMapFromFile:fileName];
     if (!array) {
         return;
     }
@@ -206,6 +212,113 @@
     [super setScale:currentScale];
 }
 
+//Save&Load File Mangement
+-(void)setupFileSystem{
+    //Make sure save folder exist
+    if (![[NSFileManager defaultManager]fileExistsAtPath:[self getSaveDirectory]]) {
+        [[NSFileManager defaultManager] createDirectoryAtPath:[self getSaveDirectory]
+                                  withIntermediateDirectories:YES
+                                                   attributes:nil
+                                                        error:nil];
+    }
+    
+    //Make sure file list exist
+    NSString* filesListPath = [self getFilesListPath];
+    if (![[NSFileManager defaultManager]fileExistsAtPath:filesListPath]) {
+        [self createFilesList];
+    }
+    
+    //Make sure it use lastest version
+    self.filesList = [NSMutableArray arrayWithContentsOfFile:filesListPath];
+    NSNumber* version = [self.filesList objectAtIndex:0];
+    if (![version isEqualToNumber:[NSNumber numberWithInt:formatVersion]]) {
+        //Remove the old version
+        [self removeSaveDirectory];
+        
+        //Create the new version
+        [self createFilesList];
+        
+        //Load new list into array
+        self.filesList = [NSMutableArray arrayWithContentsOfFile:filesListPath];
+    }
+    
+    if ([self.filesList count] > 0 ) {
+        self.isFileSystemWork = YES;
+        [self.delegate fileSystemDidSetup];
+    }else{
+        self.isFileSystemWork = NO;
+    }
+}
+
+-(void)saveMapToFileWithArray:(NSMutableArray*)array{
+    //array Structure
+    //-type
+    //-x(float)
+    //-y(float)
+    //-Bool State
+    //-In Port Array
+    //--Gate Index
+    //--Port Index
+    NSString* name = [array lastObject];
+    NSString* path = [self pathWithFileName:name];
+    [array removeLastObject];
+    BOOL noError = [array writeToFile:path atomically:YES];
+    if (noError) {
+        if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+            if ([self.filesList indexOfObject:name] == NSNotFound) {
+                [self.filesList addObject:name];
+                [self performSelectorInBackground:@selector(writeFilesList) withObject:nil];
+            }
+        }
+    }
+}
+
+-(void)writeFilesList{
+    [self.filesList writeToFile:[self getFilesListPath] atomically:YES];
+}
+
+-(NSArray*)loadMapFromFile:(NSString*)name{
+    NSString* filePath = [self pathWithFileName:name];
+    NSArray* newArray = [NSArray arrayWithContentsOfFile:filePath];
+    if (newArray) {
+        return newArray;
+    }else{
+        [self removeMapFile:name];
+        return nil;
+    }
+}
+
+-(void)removeMapFile:(NSString*)name{
+    NSString* path = [self pathWithFileName:name];
+    [self.filesList removeObject:name];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+        NSError* err;
+        [[NSFileManager defaultManager] removeItemAtPath:path error:&err];
+    }
+}
+
+-(NSString*)pathWithFileName:(NSString*)name{
+    return [[self getSaveDirectory] stringByAppendingPathComponent:[name stringByAppendingString:@".plist"]];
+}
+
+-(void)removeSaveDirectory{
+    NSError *error;
+    [[NSFileManager defaultManager]removeItemAtPath:[self getSaveDirectory] error:&error];
+}
+
+-(NSString*)getSaveDirectory{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *docPath = [paths objectAtIndex:0];
+    return [docPath stringByAppendingPathComponent:@"save"];
+}
+
+-(NSString*)getFilesListPath{
+    return [[self getSaveDirectory] stringByAppendingPathComponent:@"filesList.plist"];
+}
+-(void)createFilesList{
+    NSArray* array = [NSArray arrayWithObject:[NSNumber numberWithInt:formatVersion]];
+    [array writeToFile:[self getFilesListPath] atomically:YES];
+}
 
 
 @end
