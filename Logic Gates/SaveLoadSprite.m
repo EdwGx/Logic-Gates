@@ -17,7 +17,7 @@
 -(id)initWithMap:(CircuitMap *)map ScreenSize:(CGSize)screenS Delegate:(id)delegate{
     if (self = [super init]) {
         self.map = map;
-        [self.map addObserver:self forKeyPath:@"filesList" options:NSKeyValueObservingOptionNew context:nil];
+        [self.map addObserver:self forKeyPath:@"filesList" options:0 context:nil];
         self.delegate = delegate;
         numberOfFiles = [self.map.filesList count];
         CGFloat height = MAX(screenS.height, numberOfFiles*50);

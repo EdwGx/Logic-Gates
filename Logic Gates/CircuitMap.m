@@ -103,9 +103,7 @@
 }
 
 -(void)loadMap:(NSString*)fileName{
-    for (Gates*gate in [self children]) {
-        [gate kill];
-    }
+    [self removeAllChildren];
     NSArray*array = [self loadMapFromFile:fileName];
     if (!array) {
         return;
@@ -117,6 +115,10 @@
         //Fetching Type
         NSNumber*type = [subArray objectAtIndex:0];
         Gates*newGate = [self makeGateWithType:[type intValue]];
+        if (!newGate){
+            [self removeMapFile:fileName];
+            return;
+        }
         //X
         NSNumber* numX = [subArray objectAtIndex:1];
         CGFloat posX = [numX doubleValue];
@@ -148,7 +150,7 @@
                 Port* sPort = [sGate.outPort objectAtIndex:portIndex];
                 
                 Gates* eGate = [newGatesArray objectAtIndex:i];
-                Port* ePort = [eGate.outPort objectAtIndex:j];
+                Port* ePort = [eGate.inPort objectAtIndex:j];
                 
                 Wire* newWire = [[Wire alloc]initWithStartPort:sPort EndPort:ePort];
                 [self addChild:newWire];
