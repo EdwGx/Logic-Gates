@@ -17,6 +17,7 @@
         self.position = CGPointMake(-size.width/2+10, size.height/2);
         self.color = [SKColor colorWithRed:0.2 green:0.594 blue:0.855 alpha:0.9];
         self.typeArray = @[@"and_gate",@"or_gate",@"xor_gate",@"nand_gate",@"nor_gate",@"xnor_gate",@"not_gate",@"switch_off",@"bulb_off" ];
+        NSArray* nameArray = @[@"AND Gate",@"OR Gate",@"XOR Gate",@"NAND Gate",@"NOR Gate",@"XNOR Gate",@"NOT Gate",@"Switch",@"Light Bulb" ];
         self.mainScene = scene;
         CGFloat width = size.width-20 ;
         //Find out how many row
@@ -45,6 +46,14 @@
             sNode.name = name;
             sNode.position = [self convertCoordinateCenterFromTopLeftToCenter:CGPointMake(posX, posY)];
             [self addChild:sNode];
+            
+            SKLabelNode* label = [SKLabelNode labelNodeWithFontNamed:@"Courier"];
+            label.position = CGPointMake(sNode.position.x, sNode.position.y - sNode.size.height/2 - 10);
+            label.verticalAlignmentMode = SKLabelVerticalAlignmentModeCenter;
+            label.fontColor = [SKColor whiteColor];
+            label.fontSize = 16;
+            label.text = [nameArray objectAtIndex:i];
+            [self addChild:label];
             
             if (posX+fitSpace+leftBorderWidth<=size.width) {
                 posX += fitSpace;

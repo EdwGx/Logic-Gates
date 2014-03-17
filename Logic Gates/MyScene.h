@@ -15,7 +15,7 @@
 
 @class Wire;
 @class SelectionSprite;
-@interface MyScene : SKScene<wireProtocol,SaveLoadSpriteProtocol>{
+@interface MyScene : SKScene<wireProtocol,SaveLoadSpriteProtocol,circuitMapDelegate>{
     CGPoint lastTouchLocation;
 }
 -(void)handlePinchFrom:(UIPinchGestureRecognizer*)recognizer;
@@ -23,14 +23,17 @@
 
 -(void)moveMenuIn;
 -(void)moveMenuOut;
+
 @property SKNode *dragingObject;
-@property Wire* dragWire;
 @property SKSpriteNode* ModeChanger;
 @property SKSpriteNode* selectionMenu;
-@property CircuitMap* map;
 @property SKSpriteNode*saveMapButton;
 @property SKSpriteNode*readMapButton;
+
+@property Wire* dragWire;
+@property CircuitMap* map;
 @property SelectionSprite* selectSp;
 @property SaveLoadSprite* slSprite;
 
+@property(weak) UITapGestureRecognizer* doubleTapRecognizer;
 @end

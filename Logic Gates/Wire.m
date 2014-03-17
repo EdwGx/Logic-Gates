@@ -156,7 +156,8 @@
         [self kill];
     }
     if ([@"killWire" isEqualToString:keyPath]) {
-        if ([change objectForKey:NSKeyValueChangeNewKey]) {
+        BOOL willKill = (BOOL)[change objectForKey:NSKeyValueChangeNewKey];
+        if (willKill) {
             [self kill];
         }
     }

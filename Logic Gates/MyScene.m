@@ -45,11 +45,6 @@
         [self.ModeChanger runAction:action1];
         [self addChild:self.ModeChanger];
         
-        self.saveMapButton = [SKSpriteNode spriteNodeWithImageNamed:@"menu"];
-        self.saveMapButton.zPosition = 10;
-        self.saveMapButton.position = CGPointMake(size.width-30, size.height-30);
-        [self addChild:self.saveMapButton];
-        
         self.selectionMenu = [SKSpriteNode spriteNodeWithImageNamed:@"menuArrow"];
         self.selectionMenu.zPosition = 16;
         self.selectionMenu.position = CGPointMake(0, size.height/2);
@@ -57,7 +52,7 @@
         
         normalMode = YES;
         
-        self.map = [[CircuitMap alloc]initMapWithScene:self];
+        self.map = [[CircuitMap alloc]initMapWithDelegate:self];
         [self addChild:self.map];
     }
     return self;
@@ -68,8 +63,10 @@
     UIPinchGestureRecognizer* pinchGestureRecognizer = [[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(handlePinchFrom:)];
     UITapGestureRecognizer* doubleTapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleDoubleTapFrom:)];
     doubleTapGestureRecognizer.numberOfTapsRequired = 2;
+    doubleTapGestureRecognizer.enabled = NO;
     [[self view] addGestureRecognizer:pinchGestureRecognizer];
     [[self view] addGestureRecognizer:doubleTapGestureRecognizer];
+    self.doubleTapRecognizer = doubleTapGestureRecognizer;
 }
 
 -(void)handlePinchFrom:(UIPinchGestureRecognizer *)recognizer{
@@ -77,8 +74,10 @@
         [self.map setScale:recognizer.scale*self.map.xScale];
         if (self.map.xScale == 1.0) {
             [self updateZoomMode:YES];
+            self.doubleTapRecognizer.enabled = NO;
         }else{
             [self updateZoomMode:NO];
+            self.doubleTapRecognizer.enabled = YES;
         }
         recognizer.scale = 1.0;
     }
@@ -184,6 +183,8 @@
         [self.map runAction:[SKAction moveBy:vector duration:0.2]];
         [self.map runAction:[SKAction scaleTo:1.0 duration:0.2]];
         [self updateZoomMode:YES];
+        
+        self.doubleTapRecognizer.enabled = NO;
     }
 }
 
@@ -388,7 +389,7 @@
     }
 }
 
--(void)setToNil{
+-(void)setSLMenuToNil{
     if (self.map.xScale == 1.0) {
         [self updateZoomMode:YES];
     }
@@ -400,6 +401,16 @@
     return [self convertPoint:lastTouchLocation toNode:self.map];
 }
 
+-(CGSize)getScreenSize{
+    return self.size;
+}
+
+-(void)fileSystemDidSetup{
+    self.saveMapButton = [SKSpriteNode spriteNodeWithImageNamed:@"menu"];
+    self.saveMapButton.zPosition = 10;
+    self.saveMapButton.position = CGPointMake(self.size.width-30, self.size.height-30);
+    [self addChild:self.saveMapButton];
+}
 
 -(void)update:(CFTimeInterval)currentTime {
     /* Called before each frame is rendered */
