@@ -143,8 +143,8 @@
 
 -(void)dealloc{
     for (NSInteger i = 0; i<[self.inPort count]; i++) {
-            [[self.inPort objectAtIndex:i] removeObserver:self forKeyPath:@"boolStatus"];
-            [[self.inPort objectAtIndex:i] removeObserver:self forKeyPath:@"realInput"];
+            [[self.inPort objectAtIndex:i] removeObserver:self forKeyPath:@"boolStatus" context:nil];
+            [[self.inPort objectAtIndex:i] removeObserver:self forKeyPath:@"realInput" context:nil];
     }
 }
 

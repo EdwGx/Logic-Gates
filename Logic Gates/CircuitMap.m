@@ -57,7 +57,7 @@
 
 -(void)saveMap:(NSString*)fileName{
     NSMutableArray* nodeArray = [NSMutableArray arrayWithArray:[self children]];
-    for (int k = 0; k < [nodeArray count]; k++) {
+    for (NSInteger k = [nodeArray count] - 1; k >= 0; k--) {
         if (![[nodeArray objectAtIndex:k] isKindOfClass:[Gates class]]) {
             [nodeArray removeObjectAtIndex:k];
         }
@@ -103,7 +103,7 @@
 }
 
 -(void)loadMap:(NSString*)fileName{
-    [self removeAllChildren];
+    [self killAllGates];
     NSArray*array = [self loadMapFromFile:fileName];
     if (!array) {
         return;
@@ -201,6 +201,16 @@
         default:
             return nil;
             break;
+    }
+}
+
+-(void)killAllGates{
+    NSArray* childrenArray = [self children];
+    for (SKNode*node in childrenArray) {
+        if ([node isKindOfClass:[Gates class]]) {
+            Gates* gNode = (Gates*)node;
+            [gNode kill];
+        }
     }
 }
                           

@@ -35,4 +35,5 @@
 @property SelectionSprite* selectSp;
 @property SaveLoadSprite* slSprite;
 
+@property(weak) UITapGestureRecognizer* doubleTapRecognizer;
 @end

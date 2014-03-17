@@ -21,10 +21,9 @@
 #import "Switch.h"
 
 @class CircuitMap;
-@protocol circuitMapDelegate
+@protocol circuitMapDelegate<NSObject>
 -(CGSize)getScreenSize;
 @optional
--(void)mapDidSave;
 -(void)fileSystemDidSetup;
 @end
 
