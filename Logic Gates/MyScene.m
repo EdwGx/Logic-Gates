@@ -330,6 +330,11 @@
     } else if (dragMap){
         [self.map moveByPoint:
          CGPointMake(newTouchLocation.x - lastTouchLocation.x, newTouchLocation.y - lastTouchLocation.y)];
+    } else if (self.slSprite){
+        SKNode *node = [self nodeAtPoint:lastTouchLocation];
+        if ([node isEqual:self.slSprite]) {
+            [self.slSprite moveToPosition:CGPointMake(self.slSprite.position.x + newTouchLocation.x - lastTouchLocation.x,self.slSprite.position.y + newTouchLocation.y - lastTouchLocation.y)];
+        }
     }
     lastTouchLocation = newTouchLocation;
     

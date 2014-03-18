@@ -20,11 +20,11 @@
         [self.map addObserver:self forKeyPath:@"filesList" options:0 context:nil];
         self.delegate = delegate;
         numberOfFiles = [self.map.filesList count];
-        CGFloat height = MAX(screenS.height, numberOfFiles*50);
+        CGFloat height = MAX(screenS.height, numberOfFiles*50+120);
         self.size = CGSizeMake(barWidth, height);
         self.color = [SKColor colorWithRed:0.1 green:0.73 blue:0.6 alpha:1.0];
         screenSize = screenS;
-        self.position = CGPointMake(barWidth/2+screenS.width, screenSize.height/2);
+        self.position = CGPointMake(barWidth/2+screenS.width, screenSize.height - self.size.height/2);
         self.zPosition = 20;
         [self setupLabels];
     }
@@ -85,7 +85,7 @@
                         [[self childNodeWithName:@"remove"] removeFromParent];
                     }
                     self.buttonOut = BNode;
-                    CGFloat posX = MAX(screenSize.width-BNode.size.width/2-leftBorder-210, BNode.size.width/2);
+                    CGFloat posX = MAX(screenSize.width-BNode.size.width/2-leftBorder-160, BNode.size.width/2);
                     posX = posX - self.position.x;
                     SKAction* action = [SKAction moveToX:posX duration:0.2];
                     [BNode runAction:action completion:^{
@@ -112,7 +112,7 @@
 
 -(void)setUpMenu{
     CGFloat posX = self.buttonOut.position.x - self.buttonOut.size.width/2 + 25;
-    CGFloat posY = self.buttonOut.position.y - self.buttonOut.size.height/2 - 30;
+    CGFloat posY = self.buttonOut.position.y - self.buttonOut.size.height/2 - 20;
     
     SKSpriteNode* sprite1 = [SKSpriteNode spriteNodeWithImageNamed:@"save_button"];
     sprite1.name = @"save";
@@ -131,6 +131,14 @@
     sprite3.position = CGPointMake(posX, posY);
     [self addChild:sprite3];
     
+    CGFloat bottomPosY = sprite3.position.y + self.position.y - sprite3.size.height/2;
+    CGFloat topPosY = self.position.y + self.buttonOut.position.y + self.buttonOut.size.height/2 + 6;
+    
+    if (bottomPosY<10) {
+        [self runAction:[SKAction moveTo:CGPointMake(self.position.x, self.position.y + 10 - bottomPosY) duration:0.1]];
+    } else if (topPosY>screenSize.height){
+        [self runAction:[SKAction moveTo:CGPointMake(self.position.x, self.position.y - topPosY + screenSize.height) duration:0.1]];
+    }
 }
 
 -(void)kill{
@@ -157,6 +165,13 @@
             [self setupLabels];
         }
     }
+}
+
+-(void)moveToPosition:(CGPoint)position{
+    CGFloat newPosY = position.y;
+    newPosY = MAX(screenSize.height - self.size.height/2, newPosY);
+    newPosY = MIN(screenSize.height/2, newPosY);
+    self.position = CGPointMake(self.position.x, newPosY);
 }
                                 
 -(CGPoint)convertCoordinateCenterFromTopLeftToCenter:(CGPoint)point{

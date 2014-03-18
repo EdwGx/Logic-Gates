@@ -19,6 +19,8 @@
 -(id)initWithMap:(CircuitMap *)map ScreenSize:(CGSize)screenS Delegate:(id)delegate;
 -(void)touchNodeAtPoint:(CGPoint)point;
 -(void)kill;
+-(void)moveToPosition:(CGPoint)position;
+
 @property(weak) id<SaveLoadSpriteProtocol> delegate;
 @property(weak) CircuitMap *map;
 @property(weak) ButtonSprite *buttonOut;
