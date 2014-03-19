@@ -14,6 +14,7 @@
     if (self = [super init]) {
         //Initialization
         if (sPort) {
+            self.lineWidth = 3.0;
             self.startPort = nil;
             self.endPort = nil;
             

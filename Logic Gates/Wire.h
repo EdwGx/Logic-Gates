@@ -21,6 +21,7 @@
     BOOL didRegisterStartPort;
     BOOL didRegisterEndPort;
 }
+
 -(id)initWithAnyPort:(Port*)sPort andStartPosition:(CGPoint)sPos;
 -(id)initWithStartPort:(Port*)sPort EndPort:(Port*)ePort;
 
@@ -30,6 +31,7 @@
 -(void) updateRealInput;
 -(void) connectNewPort:(Port*)newPort;
 -(void) connectNewPort:(Port*)newPort withPosition:(CGPoint)point;
+
 -(BOOL) wantConnectThisPort:(Port*)port;
 
 @property(weak) Port* startPort;
