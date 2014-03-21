@@ -10,5 +10,6 @@
 
 @interface ButtonSprite : SKSpriteNode
 -(id)initWithName:(NSString*)name buttonID:(NSUInteger)number;
++(instancetype)buttonWithName:(NSString*)name buttonID:(NSUInteger)number;
 @property NSUInteger button_id;
 @end

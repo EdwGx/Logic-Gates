@@ -103,7 +103,6 @@
 }
 
 -(void)loadMap:(NSString*)fileName{
-    [self performSelectorOnMainThread:@selector(killAllGates) withObject:nil waitUntilDone:YES];
     NSArray*array = [self loadMapFromFile:fileName];
     if (!array) {
         return;
@@ -261,6 +260,7 @@
         self.isFileSystemWork = NO;
     }
 }
+
 
 -(void)saveMapToFileWithArray:(NSMutableArray*)array{
     //array Structure

@@ -7,7 +7,6 @@
 //
 
 #import "ButtonSprite.h"
-#define minWidth 100
 @implementation ButtonSprite
 -(id)initWithName:(NSString*)name buttonID:(NSUInteger)number{
     if (self = [super init]) {
@@ -17,8 +16,6 @@
         label.fontSize = 25;
         label.fontColor = [SKColor whiteColor];
         label.verticalAlignmentMode = SKLabelVerticalAlignmentModeCenter;
-        CGRect labelRect = [label calculateAccumulatedFrame];
-        self.size = CGSizeMake(MAX(labelRect.size.width+20,minWidth), 36);
         label.position = CGPointZero;
         [self addChild:label];
         self.color = [SKColor colorWithRed:0.18 green:0.797 blue:0.44 alpha:1.0];
@@ -26,5 +23,9 @@
         self.button_id = number;
     }
     return self;
+}
+
++(instancetype)buttonWithName:(NSString*)name buttonID:(NSUInteger)number{
+    return [[ButtonSprite alloc]initWithName:name buttonID:number];
 }
 @end
