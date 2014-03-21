@@ -103,7 +103,7 @@
 }
 
 -(void)loadMap:(NSString*)fileName{
-    [self killAllGates];
+    [self performSelectorOnMainThread:@selector(killAllGates) withObject:nil waitUntilDone:YES];
     NSArray*array = [self loadMapFromFile:fileName];
     if (!array) {
         return;

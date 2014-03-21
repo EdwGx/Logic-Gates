@@ -210,7 +210,7 @@
 
 -(void)moveMenuOut{
     menuMoving = YES;
-    self.selectSp = [[SelectionSprite alloc]initWithScene:self Size:self.size];
+    self.selectSp = [[SelectionSprite  alloc]initWithScene:self Size:self.size];
     self.selectSp.zPosition = 15;
     SKAction *action = [SKAction moveByX:self.size.width-20 y:0 duration:0.5];
     SKAction *spin = [SKAction rotateByAngle:M_PI duration:0.5];

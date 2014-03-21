@@ -29,6 +29,8 @@
 
 @interface CircuitMap : SKNode
 -(id)initMapWithDelegate:(id)delegate;
+
+-(void)killAllGates;
 -(void)moveByPoint:(CGPoint)point;
 -(void)saveMap:(NSString*)fileName;
 -(void)loadMap:(NSString*)fileName;

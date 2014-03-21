@@ -14,11 +14,11 @@
         SKLabelNode* label = [SKLabelNode labelNodeWithFontNamed:@"AmericanTypewriter"];
         label.name = @"BUTTON";
         label.text =name;
-        label.fontSize = 20;
+        label.fontSize = 25;
         label.fontColor = [SKColor whiteColor];
         label.verticalAlignmentMode = SKLabelVerticalAlignmentModeCenter;
         CGRect labelRect = [label calculateAccumulatedFrame];
-        self.size = CGSizeMake(MAX(labelRect.size.width+20,minWidth), 30);
+        self.size = CGSizeMake(MAX(labelRect.size.width+20,minWidth), 36);
         label.position = CGPointZero;
         [self addChild:label];
         self.color = [SKColor colorWithRed:0.18 green:0.797 blue:0.44 alpha:1.0];
