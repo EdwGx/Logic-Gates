@@ -7,7 +7,15 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
+#import "CircuitMap.h"
 
 @interface MapFileScene : SKScene
 
+-(id)initWithSize:(CGSize)size MainScene:(SKScene*)mainScene Map:(CircuitMap*)map;
+
+@property SKSpriteNode* backButton;
+@property SKSpriteNode* addButton;
+
+@property(weak) UISwipeGestureRecognizer* swipeRecognizer;
+@property(weak) UITapGestureRecognizer* tapRecognizer;
 @end

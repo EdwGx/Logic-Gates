@@ -7,6 +7,7 @@
 //
 
 #import "MyScene.h"
+#import "MapFileScene.h"
 
 #import "AND_Gate.h"
 #import "OR_Gate.h"
@@ -67,6 +68,14 @@
     [[self view] addGestureRecognizer:pinchGestureRecognizer];
     [[self view] addGestureRecognizer:doubleTapGestureRecognizer];
     self.doubleTapRecognizer = doubleTapGestureRecognizer;
+    self.zoomRecognizer = pinchGestureRecognizer;
+}
+
+-(void)presentMapFileScene{
+    [[self view]removeGestureRecognizer:self.doubleTapRecognizer];
+    [[self view]removeGestureRecognizer:self.zoomRecognizer];
+    MapFileScene* mapFileScene = [[MapFileScene alloc] initWithSize:self.size MainScene:self Map:self.map];
+    [self.view presentScene:mapFileScene];
 }
 
 -(void)handlePinchFrom:(UIPinchGestureRecognizer *)recognizer{

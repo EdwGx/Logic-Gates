@@ -261,6 +261,12 @@
     }
 }
 
+-(void)refreshFilesList{
+    if (self.isFileSystemWork) {
+        self.filesList = [NSMutableArray arrayWithContentsOfFile:[self getFilesListPath]];
+    }
+}
+
 
 -(void)saveMapToFileWithArray:(NSMutableArray*)array{
     //array Structure

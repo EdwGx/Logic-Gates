@@ -36,4 +36,6 @@
 @property SaveLoadSprite* slSprite;
 
 @property(weak) UITapGestureRecognizer* doubleTapRecognizer;
+@property(weak) UIPinchGestureRecognizer* zoomRecognizer;
+
 @end
