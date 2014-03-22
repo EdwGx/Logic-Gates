@@ -7,11 +7,11 @@
 //
 
 #import "MapFileScene.h"
-#import "ButtonSprite.h"
 
 @implementation MapFileScene{
     SKScene *mScene;
     CircuitMap* mMap;
+    CGFloat yLength;
 }
 -(id)initWithSize:(CGSize)size MainScene:(SKScene*)mainScene Map:(CircuitMap*)map{
     if (self = [super initWithSize:size]) {
@@ -28,6 +28,8 @@
         self.addButton.position = CGPointMake(25, 25);
         [self addChild:self.backButton];
         
+        self.buttonMap = [SKNode node];
+        
         [self performSelectorInBackground:@selector(setupButtons) withObject:nil];
         
     }
@@ -35,26 +37,22 @@
 }
 
 -(void)setupButtons{
-    CGFloat yPos = self.size.height;
-    CGFloat xPos = self.size.width/2 + 40;
+    CGFloat yPos = 0;
     CGSize buttonSize = CGSizeMake(self.size.width-60, 36);
-    [self removeAllChildren];
-    
-    yPos -= 25;
-    ButtonSprite* button = [[ButtonSprite alloc]initWithName:@"add" buttonID:0];
-    button.size = buttonSize;
-    button.position = CGPointMake(xPos, yPos);
-    [self addChild:button];
-    yPos -= 50.0;
     
     for (NSUInteger i = 1; i  < [mMap.filesList count]; i++) {
         NSString* name = [mMap.filesList objectAtIndex:i];
         ButtonSprite* button = [[ButtonSprite alloc]initWithName:name buttonID:i];
         button.size = buttonSize;
-        button.position = CGPointMake(xPos, yPos);
+        button.position = CGPointMake(0, yPos);
         [self addChild:button];
         yPos -= 50.0;
+        
+        if (i == 1) {
+            self.buttonMap.position = CGPointMake(self.size.width/2 + 40, self.size.height-25);
+        }
     }
+    yLength = -yPos;
 }
 
 -(void)didMoveToView:(SKView *)view{
@@ -81,7 +79,61 @@
     }
 }
 
+-(void)buttonTouchUp:(NSUInteger)index{
+    if (index>0) {
+        for (ButtonSprite*button in self.buttonMap.children) {
+            if (button.button_id>index) {
+                SKAction* action = [SKAction moveByX:0 y:50 duration:0.2];
+                [button runAction:action];
+            }
+        }
+    }
+}
+
+-(void)setupAddAlertView{
+    UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:@"New Save File"
+                                                       message:nil
+                                                      delegate:self
+                                             cancelButtonTitle:@"cancel"
+                                             otherButtonTitles:@"save", nil];
+    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    UITextField* textField = [alertView textFieldAtIndex:0];
+    textField.placeholder = @"Enter a name";
+    [alertView show];
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if ([alertView.title isEqualToString:@"New Save File"]) {
+        if (buttonIndex == 1) {
+            //UITextField* textField = [alertView textFieldAtIndex:0];
+        }
+        
+    }
+}
+
 -(void)handleTapFrom:(UITapGestureRecognizer*)recognizer{
+    if (recognizer.state == UIGestureRecognizerStateEnded) {
+        CGPoint pointInScene = [self convertPointFromView:[recognizer locationInView:self.view]];
+        SKNode* node = [self nodeAtPoint:pointInScene];
+        if (node) {
+            if ([node.name isEqualToString:@"BUTTON"]) {
+                ButtonSprite* button;
+                if ([node isKindOfClass:[ButtonSprite class]]) {
+                    button = (ButtonSprite*)node;
+                }else if([node isKindOfClass:[SKLabelNode class]]){
+                    button = (ButtonSprite*)node.parent;
+                }
+                if (button) {
+                    [self buttonTouchUp:button.button_id];
+                }
+            } else if ([node isEqual:self.addButton]){
+                [self setupAddAlertView];
+            } else if ([node isEqual:self.backButton]){
+                [self presentMainScene];
+            }
+        }
+        
+    }
     
 }
 @end

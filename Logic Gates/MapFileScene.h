@@ -8,14 +8,17 @@
 
 #import <SpriteKit/SpriteKit.h>
 #import "CircuitMap.h"
+#import "ButtonSprite.h"
 
-@interface MapFileScene : SKScene
+@interface MapFileScene : SKScene<UIAlertViewDelegate>
 
 -(id)initWithSize:(CGSize)size MainScene:(SKScene*)mainScene Map:(CircuitMap*)map;
 
 @property SKSpriteNode* backButton;
 @property SKSpriteNode* addButton;
+@property SKNode* buttonMap;
 
 @property(weak) UISwipeGestureRecognizer* swipeRecognizer;
 @property(weak) UITapGestureRecognizer* tapRecognizer;
+@property(weak) ButtonSprite* selectButton;
 @end
