@@ -27,6 +27,12 @@
 -(void)fileSystemDidSetup;
 @end
 
+@protocol circuitMapFileIODelegate<NSObject>
+-(void)fileDidSave;
+-(void)fileDidLoad;
+-(void)filesListDidUpdate;
+@end
+
 @interface CircuitMap : SKNode
 -(id)initMapWithDelegate:(id)delegate;
 
@@ -37,6 +43,7 @@
 -(void)removeMapFile:(NSString*)name;
 
 @property(weak) id<circuitMapDelegate> delegate;
+@property(weak) id<circuitMapFileIODelegate> fileIOMenu;
 @property NSMutableArray* filesList;
 @property BOOL isFileSystemWork;
 @end

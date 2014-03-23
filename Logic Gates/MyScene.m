@@ -72,10 +72,10 @@
 }
 
 -(void)presentMapFileScene{
-    [[self view]removeGestureRecognizer:self.doubleTapRecognizer];
-    [[self view]removeGestureRecognizer:self.zoomRecognizer];
+    [self.view removeGestureRecognizer:self.doubleTapRecognizer];
+    [self.view removeGestureRecognizer:self.zoomRecognizer];
     MapFileScene* mapFileScene = [[MapFileScene alloc] initWithSize:self.size MainScene:self Map:self.map];
-    [self.view presentScene:mapFileScene];
+    [self.view presentScene:mapFileScene transition:[SKTransition flipHorizontalWithDuration:0.5]];
 }
 
 -(void)handlePinchFrom:(UIPinchGestureRecognizer *)recognizer{
@@ -110,13 +110,7 @@
     UITouch* touch = [touches anyObject];
     lastTouchLocation = [touch locationInNode:self];
     SKNode* node = [self nodeAtPoint:lastTouchLocation];
-    if (self.slSprite) {
-        if ([self nodeIsEmptySpace:node]) {
-            [self.slSprite kill];
-        }else{
-            [self.slSprite touchNodeAtPoint:[self convertPoint:lastTouchLocation toNode:self.slSprite]];
-        }
-    }else if ([node isKindOfClass:[Gates class]]&&normalMode) {
+    if ([node isKindOfClass:[Gates class]]&&normalMode) {
         Gates*GNode = (Gates*)node;
         Port *inNode = [GNode portCloseToPointInScene:[self convertPoint:lastTouchLocation toNode:self.map] Range:0.5];
         if (inNode) {
@@ -153,11 +147,7 @@
             }
         }
     }else if ([node isEqual:self.saveMapButton]){
-        self.slSprite = [[SaveLoadSprite alloc]initWithMap:self.map ScreenSize:self.size Delegate:self];
-        SKAction* action = [SKAction moveByX:-self.slSprite.size.width y:0 duration:0.2];
-        [self.slSprite runAction:action];
-        [self addChild:self.slSprite];
-        [self updateZoomMode:NO];
+        [self presentMapFileScene];
         
     }else if (self.selectSp && !menuMoving) {
         CGPoint location = [touch locationInNode:self];
@@ -183,7 +173,7 @@
 }
 
 -(void)handleDoubleTapFrom:(UITapGestureRecognizer *)recognizer{
-    if (recognizer.state == UIGestureRecognizerStateEnded && !self.slSprite && self.map.xScale != 1.0) {
+    if (recognizer.state == UIGestureRecognizerStateEnded && self.map.xScale != 1.0) {
         CGPoint pointInScene = [self convertPointFromView:[recognizer locationInView:self.view]];
         CGPoint targetPoint = [self convertPoint:pointInScene toNode:self.map];
         CGPoint centerPoint = [self convertPoint:CGPointMake(self.size.width/2.0,self.size.height/2.0) toNode:self.map];
@@ -339,11 +329,6 @@
     } else if (dragMap){
         [self.map moveByPoint:
          CGPointMake(newTouchLocation.x - lastTouchLocation.x, newTouchLocation.y - lastTouchLocation.y)];
-    } else if (self.slSprite){
-        SKNode *node = [self nodeAtPoint:lastTouchLocation];
-        if ([node isEqual:self.slSprite]) {
-            [self.slSprite moveToPosition:CGPointMake(self.slSprite.position.x + newTouchLocation.x - lastTouchLocation.x,self.slSprite.position.y + newTouchLocation.y - lastTouchLocation.y)];
-        }
     }
     lastTouchLocation = newTouchLocation;
     
@@ -403,13 +388,6 @@
     }
 }
 
--(void)setSLMenuToNil{
-    if (self.map.xScale == 1.0) {
-        [self updateZoomMode:YES];
-    }
-    [self.slSprite removeFromParent];
-    self.slSprite = nil;
-}
 
 -(CGPoint)getDragingPosition{
     return [self convertPoint:lastTouchLocation toNode:self.map];

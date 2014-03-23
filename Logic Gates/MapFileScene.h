@@ -10,7 +10,7 @@
 #import "CircuitMap.h"
 #import "ButtonSprite.h"
 
-@interface MapFileScene : SKScene<UIAlertViewDelegate>
+@interface MapFileScene : SKScene<UIAlertViewDelegate,circuitMapFileIODelegate>
 
 -(id)initWithSize:(CGSize)size MainScene:(SKScene*)mainScene Map:(CircuitMap*)map;
 

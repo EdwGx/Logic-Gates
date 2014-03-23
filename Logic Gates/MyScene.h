@@ -11,11 +11,10 @@
 #import "SelectionSprite.h"
 #import "Gates.h"
 #import "CircuitMap.h"
-#import "SaveLoadSprite.h"
 
 @class Wire;
 @class SelectionSprite;
-@interface MyScene : SKScene<wireProtocol,SaveLoadSpriteProtocol,circuitMapDelegate>{
+@interface MyScene : SKScene<wireProtocol,circuitMapDelegate>{
     CGPoint lastTouchLocation;
 }
 -(void)handlePinchFrom:(UIPinchGestureRecognizer*)recognizer;
@@ -33,7 +32,6 @@
 @property Wire* dragWire;
 @property CircuitMap* map;
 @property SelectionSprite* selectSp;
-@property SaveLoadSprite* slSprite;
 
 @property(weak) UITapGestureRecognizer* doubleTapRecognizer;
 @property(weak) UIPinchGestureRecognizer* zoomRecognizer;

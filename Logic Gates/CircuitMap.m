@@ -289,6 +289,9 @@
             }
         }
     }
+    if (self.fileIOMenu) {
+        [self.fileIOMenu fileDidSave];
+    }
 }
 
 -(void)writeFilesList{
