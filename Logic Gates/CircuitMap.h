@@ -30,7 +30,6 @@
 @protocol circuitMapFileIODelegate<NSObject>
 -(void)fileDidSave;
 -(void)fileDidLoad;
--(void)filesListDidUpdate;
 @end
 
 @interface CircuitMap : SKNode

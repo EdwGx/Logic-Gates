@@ -12,6 +12,7 @@
     SKScene *mScene;
     CircuitMap* mMap;
     CGFloat yLength;
+    BOOL lockButton;
 }
 -(id)initWithSize:(CGSize)size MainScene:(SKScene*)mainScene Map:(CircuitMap*)map{
     if (self = [super initWithSize:size]) {
@@ -20,6 +21,7 @@
         mScene = mainScene;
         mMap = map;
         
+        lockButton = false;
         mMap.fileIOMenu = self;
         
         //BackButton
@@ -178,10 +180,12 @@
 }
 
 -(void)saveMapWithFileName:(NSString*)name{
+    lockButton = YES;
     [mMap performSelectorInBackground:@selector(saveMap:) withObject:name];
 }
 
 -(void)loadMapWithFileName:(NSString*)name{
+    lockButton = YES;
     [mMap killAllGates];
     [mMap performSelectorInBackground:@selector(loadMap:) withObject:name];
 }
@@ -194,7 +198,7 @@
     if (recognizer.state == UIGestureRecognizerStateEnded) {
         CGPoint pointInScene = [self convertPointFromView:[recognizer locationInView:self.view]];
         SKNode* node = [self nodeAtPoint:pointInScene];
-        if (node) {
+        if (node && !lockButton) {
             if ([node.name isEqualToString:@"BUTTON"]) {
                 ButtonSprite* button;
                 if ([node isKindOfClass:[ButtonSprite class]]) {
@@ -236,15 +240,12 @@
 }
 
 -(void)fileDidSave{
-    
+    lockButton = false;
 }
 
 -(void)fileDidLoad{
-    
+    lockButton = false;
 }
 
--(void)filesListDidUpdate{
-    
-}
 
 @end

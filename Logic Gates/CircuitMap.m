@@ -157,6 +157,7 @@
             
         }
     }
+    [self.fileIOMenu fileDidLoad];
 }
 
 -(Gates*)makeGateWithType:(int)type{
