@@ -16,7 +16,7 @@
 }
 -(id)initWithSize:(CGSize)size MainScene:(SKScene*)mainScene Map:(CircuitMap*)map{
     if (self = [super initWithSize:size]) {
-        self.backgroundColor = [SKColor yellowColor];
+        self.backgroundColor = [SKColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0];
         
         mScene = mainScene;
         mMap = map;
@@ -25,12 +25,12 @@
         mMap.fileIOMenu = self;
         
         //BackButton
-        self.backButton = [[SKSpriteNode alloc]initWithColor:[SKColor grayColor] size:CGSizeMake(45, 45)];
+        self.backButton = [[SKSpriteNode alloc]initWithImageNamed:@"backButton"];
         self.backButton.position = CGPointMake(40, self.size.height - 40);
         [self addChild:self.backButton];
         
         //AddButton
-        self.addButton = [[SKSpriteNode alloc]initWithColor:[SKColor blackColor] size:CGSizeMake(45, 45)];
+        self.addButton = [[SKSpriteNode alloc]initWithImageNamed:@"addButton"];
         self.addButton.position = CGPointMake(40, 40);
         [self addChild:self.addButton];
         
@@ -89,12 +89,17 @@
     ButtonSprite* newSelectButton;
     
     for (ButtonSprite*button in self.buttonMap.children) {
-        if (button.button_id>index && button.button_id<=self.selectButton.button_id) {
-            SKAction* action = [SKAction moveByX:0 y:50 duration:0.2];
-            [button runAction:action];
-        } else if (self.selectButton){
-            if (button.button_id<=index && button.button_id>self.selectButton.button_id){
-                [button runAction:[SKAction moveByX:0 y:-50 duration:0.2]];
+        if (self.selectButton) {
+            if (button.button_id>index && button.button_id<=self.selectButton.button_id) {
+                SKAction* action = [SKAction moveByX:0 y:-20 duration:0.2];
+                [button runAction:action];
+            } else if (button.button_id<=index && button.button_id>self.selectButton.button_id){
+                [button runAction:[SKAction moveByX:0 y:20 duration:0.2]];
+            }
+        } else {
+            if (button.button_id>index) {
+                SKAction* action = [SKAction moveByX:0 y:-20 duration:0.2];
+                [button runAction:action];
             }
         }
         if (button.button_id == index) {
@@ -104,57 +109,57 @@
     if (index != 0) {
         if (index == self.selectButton.button_id) {
             self.selectButton = nil;
-            SKNode* saveButton = [self childNodeWithName:@"save"];
-            SKNode* loadButton = [self childNodeWithName:@"load"];
-            SKNode* removeButton = [self childNodeWithName:@"remove"];
-            
-            SKAction* fade = [SKAction fadeOutWithDuration:0.2];
-            SKAction* remove = [SKAction removeFromParent];
-            SKAction* actions = [SKAction sequence:@[fade,remove]];
-            
-            [saveButton runAction:actions];
-            [loadButton runAction:actions];
-            [removeButton runAction:actions];
+            [self removeButtons];
             
         } else {
             self.selectButton = newSelectButton;
+            CGPoint selectPos = [self convertPoint:self.selectButton.position fromNode:self.buttonMap];
             
-            CGFloat posX = self.selectButton.position.x - self.selectButton.size.width/2 + 25;
-            CGFloat posY = self.selectButton.position.y - self.selectButton.size.height/2 - 20;
+            CGFloat posX = selectPos.x - self.selectButton.size.width/2 + 25;
+            CGFloat posY = selectPos.y - self.selectButton.size.height/2 - 20;
             
             SKSpriteNode* saveButton = [SKSpriteNode spriteNodeWithImageNamed:@"save_button"];
             saveButton.name = @"save";
             saveButton.position = CGPointMake(posX, posY);
-            [self.buttonMap addChild:saveButton];
+            [self addChild:saveButton];
             
             posX += 60;
             SKSpriteNode* loadButton = [SKSpriteNode spriteNodeWithImageNamed:@"load_button"];
             loadButton.name = @"load";
             loadButton.position = CGPointMake(posX, posY);
-            [self.buttonMap addChild:loadButton];
+            [self addChild:loadButton];
             
             posX += 60;
             SKSpriteNode* removeButton = [SKSpriteNode spriteNodeWithImageNamed:@"remove_button"];
             removeButton.name = @"remove";
             removeButton.position = CGPointMake(posX, posY);
-            [self.buttonMap addChild:removeButton];
+            [self addChild:removeButton];
         }
     }else{
         if (self.selectButton) {
-            SKNode* saveButton = [self childNodeWithName:@"save"];
-            SKNode* loadButton = [self childNodeWithName:@"load"];
-            SKNode* removeButton = [self childNodeWithName:@"remove"];
-            
-            SKAction* fade = [SKAction fadeOutWithDuration:0.2];
-            SKAction* remove = [SKAction removeFromParent];
-            SKAction* actions = [SKAction sequence:@[fade,remove]];
-            
-            [saveButton runAction:actions];
-            [loadButton runAction:actions];
-            [removeButton runAction:actions];
+            [self removeButtons];
         }
         self.selectButton = nil;
     }
+}
+
+-(void)removeButtons{
+    SKNode* saveButton = [self childNodeWithName:@"save"];
+    SKNode* loadButton = [self childNodeWithName:@"load"];
+    SKNode* removeButton = [self childNodeWithName:@"remove"];
+    
+    [saveButton removeFromParent];
+    [loadButton removeFromParent];
+    [removeButton removeFromParent];
+    
+    /*
+    SKAction* fade = [SKAction fadeOutWithDuration:0.2];
+    SKAction* remove = [SKAction removeFromParent];
+    SKAction* actions = [SKAction sequence:@[fade,remove]];
+    
+    [saveButton runAction:actions];
+    [loadButton runAction:actions];
+    [removeButton runAction:actions];*/
 }
 
 -(void)setupAddAlertView{
@@ -218,17 +223,17 @@
                 [self presentMainScene];
                 
             } else if ([node.name isEqualToString:@"save"] && self.selectButton){
-                
+                [self removeButtons];
                 NSString*name = [mMap.filesList objectAtIndex:self.selectButton.button_id];
                 [self saveMapWithFileName:name];
                 
             } else if ([node.name isEqualToString:@"load"] && self.selectButton){
-                
+                [self removeButtons];
                 NSString*name = [mMap.filesList objectAtIndex:self.selectButton.button_id];
                 [self loadMapWithFileName:name];
                 
             } else if ([node.name isEqualToString:@"remove"] && self.selectButton){
-                
+                [self removeButtons];
                 NSString*name = [mMap.filesList objectAtIndex:self.selectButton.button_id];
                 [self removeMapWithFileName:name];
                 
