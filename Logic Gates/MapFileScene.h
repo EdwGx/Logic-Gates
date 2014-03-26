@@ -20,5 +20,6 @@
 
 @property(weak) UISwipeGestureRecognizer* swipeRecognizer;
 @property(weak) UITapGestureRecognizer* tapRecognizer;
+@property(weak) UIPanGestureRecognizer* panRecognizer;
 @property(weak) ButtonSprite* selectButton;
 @end

@@ -75,7 +75,7 @@
     [self.view removeGestureRecognizer:self.doubleTapRecognizer];
     [self.view removeGestureRecognizer:self.zoomRecognizer];
     MapFileScene* mapFileScene = [[MapFileScene alloc] initWithSize:self.size MainScene:self Map:self.map];
-    [self.view presentScene:mapFileScene transition:[SKTransition flipHorizontalWithDuration:0.5]];
+    [self.view presentScene:mapFileScene transition:[SKTransition pushWithDirection:SKTransitionDirectionLeft duration:0.5]];
 }
 
 -(void)handlePinchFrom:(UIPinchGestureRecognizer *)recognizer{

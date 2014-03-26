@@ -21,6 +21,7 @@
         mScene = mainScene;
         mMap = map;
         
+        yLength = 0;
         lockButton = false;
         mMap.fileIOMenu = self;
         
@@ -64,17 +65,50 @@
 -(void)didMoveToView:(SKView *)view{
     UISwipeGestureRecognizer* swipeGestureRecognizer = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipeFrom:)];
     UITapGestureRecognizer* tapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleTapFrom:)];
+    UIPanGestureRecognizer* panGestureRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePanFrom:)];
     [self.view addGestureRecognizer:swipeGestureRecognizer];
     [self.view addGestureRecognizer:tapGestureRecognizer];
+    [self.view addGestureRecognizer:panGestureRecognizer];
     self.swipeRecognizer = swipeGestureRecognizer;
     self.tapRecognizer = tapGestureRecognizer;
+    self.panRecognizer = panGestureRecognizer;
     
+}
+
+-(void)mapMove:(CGFloat)y{
+    [self setMapPosition:self.buttonMap.position.y-y];
+}
+
+-(void)setMapPosition:(CGFloat)y{
+    CGFloat newY;
+    
+    if (yLength > self.size.height) {
+        newY = y;
+        newY = MIN(self.size.height-30, newY);
+        newY = MAX(self.size.height-yLength-60, newY);
+    }else{
+        newY = self.buttonMap.position.y;
+    }
+
+    self.buttonMap.position = CGPointMake(self.buttonMap.position.x, newY);
+}
+
+-(void)handlePanFrom:(UIPanGestureRecognizer*)recognizer{
+    if (recognizer.state == UIGestureRecognizerStateChanged) {
+        CGPoint pointInMap = [self convertPointFromView:[recognizer locationInView:self.view]];
+        if (pointInMap.x > 100) {
+            [self mapMove:[recognizer translationInView:self.view].y];
+        }
+        [recognizer setTranslation:CGPointZero inView:self.view];
+        
+    }
 }
 
 -(void)presentMainScene{
     [self.view removeGestureRecognizer:self.swipeRecognizer];
     [self.view removeGestureRecognizer:self.tapRecognizer];
-    [self.view presentScene:mScene];
+    [self.view presentScene:mScene
+                 transition:[SKTransition pushWithDirection:SKTransitionDirectionRight duration:0.5]];
 }
 
 -(void)handleSwipeFrom:(UISwipeGestureRecognizer*)recognizer{
@@ -88,31 +122,37 @@
 -(void)buttonTouchUp:(NSUInteger)index{
     ButtonSprite* newSelectButton;
     
-    for (ButtonSprite*button in self.buttonMap.children) {
-        if (self.selectButton) {
-            if (button.button_id>index && button.button_id<=self.selectButton.button_id) {
-                SKAction* action = [SKAction moveByX:0 y:-20 duration:0.2];
-                [button runAction:action];
-            } else if (button.button_id<=index && button.button_id>self.selectButton.button_id){
-                [button runAction:[SKAction moveByX:0 y:20 duration:0.2]];
-            }
-        } else {
-            if (button.button_id>index) {
-                SKAction* action = [SKAction moveByX:0 y:-20 duration:0.2];
-                [button runAction:action];
-            }
-        }
-        if (button.button_id == index) {
-            newSelectButton = button;
-        }
-    }
     if (index != 0) {
+        
+        for (ButtonSprite*button in self.buttonMap.children) {
+            if (self.selectButton) {
+                if (button.button_id>index && button.button_id<=self.selectButton.button_id) {
+                    SKAction* action = [SKAction moveByX:0 y:-20 duration:0.2];
+                    [button runAction:action];
+                } else if (button.button_id<=index && button.button_id>self.selectButton.button_id){
+                    [button runAction:[SKAction moveByX:0 y:20 duration:0.2]];
+                }
+            } else {
+                if (button.button_id>index) {
+                    SKAction* action = [SKAction moveByX:0 y:-20 duration:0.2];
+                    [button runAction:action];
+                }
+            }
+            if (button.button_id == index) {
+                newSelectButton = button;
+            }
+        }
+        
         if (index == self.selectButton.button_id) {
             self.selectButton = nil;
             [self removeButtons];
             
         } else {
+            if (self.selectButton) {
+                [self removeButtons];
+            }
             self.selectButton = newSelectButton;
+            
             CGPoint selectPos = [self convertPoint:self.selectButton.position fromNode:self.buttonMap];
             
             CGFloat posX = selectPos.x - self.selectButton.size.width/2 + 25;
@@ -136,10 +176,16 @@
             [self addChild:removeButton];
         }
     }else{
+        for (ButtonSprite*button in self.buttonMap.children) {
+            if (button.button_id > self.selectButton.button_id) {
+                [button runAction:[SKAction moveByX:0 y:20 duration:0.2]];
+            }
+        }
         if (self.selectButton) {
             [self removeButtons];
         }
         self.selectButton = nil;
+        
     }
 }
 
@@ -148,18 +194,15 @@
     SKNode* loadButton = [self childNodeWithName:@"load"];
     SKNode* removeButton = [self childNodeWithName:@"remove"];
     
-    [saveButton removeFromParent];
-    [loadButton removeFromParent];
-    [removeButton removeFromParent];
-    
-    /*
     SKAction* fade = [SKAction fadeOutWithDuration:0.2];
     SKAction* remove = [SKAction removeFromParent];
     SKAction* actions = [SKAction sequence:@[fade,remove]];
     
     [saveButton runAction:actions];
     [loadButton runAction:actions];
-    [removeButton runAction:actions];*/
+    [removeButton runAction:actions];
+    
+    
 }
 
 -(void)setupAddAlertView{
@@ -212,7 +255,11 @@
                     button = (ButtonSprite*)node.parent;
                 }
                 if (button) {
-                    [self buttonTouchUp:button.button_id];
+                    if ([button isEqual:self.selectButton]) {
+                        [self buttonTouchUp:0];
+                    } else {
+                        [self buttonTouchUp:button.button_id];
+                    }
                 }
             } else if ([node isEqual:self.addButton]){
                 
