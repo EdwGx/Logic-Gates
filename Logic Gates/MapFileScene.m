@@ -76,20 +76,14 @@
 }
 
 -(void)mapMove:(CGFloat)y{
-    [self setMapPosition:self.buttonMap.position.y-y];
-}
-
--(void)setMapPosition:(CGFloat)y{
-    CGFloat newY;
-    
-    if (yLength > self.size.height) {
-        newY = y;
-        newY = MIN(self.size.height-30, newY);
-        newY = MAX(self.size.height-yLength-60, newY);
-    }else{
+    CGFloat newY = self.buttonMap.position.y-y;
+    if (yLength>self.size.height) {
+        newY = MAX(self.size.height-30, newY);
+        newY = MIN(self.size.height+yLength-300, newY);
+    } else {
         newY = self.buttonMap.position.y;
     }
-
+    
     self.buttonMap.position = CGPointMake(self.buttonMap.position.x, newY);
 }
 
