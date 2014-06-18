@@ -30,8 +30,6 @@
 -(CGPoint) mapPosition;
 -(BOOL)isAbleToConnect;
 
-@property(weak,nonatomic) id<PortDelegate> delegate;
-
 @property BOOL multiConnect;
 @property BOOL realInput;
 @property BOOL boolStatus;
@@ -39,6 +37,6 @@
 @property BOOL killWire;
 
 @property(weak) Wire* inWire;
-@property(weak) Gates* ownerGate;
+@property(weak,nonatomic) Gates<PortDelegate>* ownerGate;
 @property CGPoint position;
 @end
