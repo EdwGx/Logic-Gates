@@ -12,8 +12,8 @@
 
 @class Port;
 @protocol PortDelegate <NSObject>
--(void)realInputDidChange;
--(void)boolStatusDidChange;
+-(void)portRealInputDidChange;
+-(void)portBoolStatusDidChange;
 @end
 
 @class Gates;
