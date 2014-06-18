@@ -17,6 +17,7 @@
     outP1.boolStatus = NO;
     outputState = outP1.boolStatus;
     self.outPort = [NSArray arrayWithObject:outP1];
+    self.userInteractionEnabled = YES;
 }
 
 -(NSString*)imageName{
@@ -40,6 +41,19 @@
         return [super portCloseToPointInScene:point Range:0.1];
     }else{
         return [super portCloseToPointInScene:point Range:range];
+    }
+}
+
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
+    [super touchesEnded:touches withEvent:event];
+    for UITouch* touch in touches{
+        CGPoint touchLocation = [touch locationInNode:self];
+        if ((touchLocation.x>-5 && touchLocation.x<3) && (touchLocation.y>-10 && touchLocation.y<10)){
+            Port *outP1 = [self.outPort objectAtIndex:0];
+            outputState = !outputState;
+            outP1.boolStatus = outputState;
+            [self initImage];
+        }
     }
 }
 
