@@ -19,7 +19,6 @@
         [self initPort];
         [self initImage];
         [self updateRealIntput];
-        [self addObserserToInPort];
     }
     return self;
 }
@@ -122,31 +121,12 @@
     
 }
 
--(void)addObserserToInPort{
-    for (NSInteger i = 0; i<[self.inPort count]; i++) {
-        if ([self.inPort objectAtIndex:i]) {
-            [[self.inPort objectAtIndex:i] addObserver:self forKeyPath:@"boolStatus" options:0 context:nil];
-            [[self.inPort objectAtIndex:i] addObserver:self forKeyPath:@"realInput" options:0 context:nil];
-        }
-    }
+-(void)realInputDidChange{
+    [self performSelectorInBackground:@selector(updateRealIntput) withObject:nil];
 }
 
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
-    if ([keyPath isEqualToString:@"boolStatus"]) {
-        if (self.realInput) {
-            [self performSelectorInBackground:@selector(updateOutput) withObject:nil];
-        }
-    }else if ([keyPath isEqualToString:@"realInput"]){
-        [self performSelectorInBackground:@selector(updateRealIntput) withObject:nil];
-    }
+-(void)boolStatusDidChange{
+     [self performSelectorInBackground:@selector(updateOutput) withObject:nil];
 }
-
--(void)dealloc{
-    for (NSInteger i = 0; i<[self.inPort count]; i++) {
-            [[self.inPort objectAtIndex:i] removeObserver:self forKeyPath:@"boolStatus" context:nil];
-            [[self.inPort objectAtIndex:i] removeObserver:self forKeyPath:@"realInput" context:nil];
-    }
-}
-
 
 @end
