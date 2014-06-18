@@ -121,11 +121,11 @@
     
 }
 
--(void)realInputDidChange{
+-(void)portRealInputDidChange{
     [self performSelectorInBackground:@selector(updateRealIntput) withObject:nil];
 }
 
--(void)boolStatusDidChange{
+-(void)portBoolStatusDidChange{
      [self performSelectorInBackground:@selector(updateOutput) withObject:nil];
 }
 
