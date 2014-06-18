@@ -10,7 +10,7 @@
 #import "Port.h"
 
 @class Port;
-@interface Gates : SKSpriteNode
+@interface Gates : SKSpriteNode<PortDelegate>
 
 -(void)initPort;
 -(void)initImage;
