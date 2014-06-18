@@ -10,6 +10,12 @@
 #import "Wire.h"
 #import "Gates.h"
 
+@class Port;
+@protocol PortDelegate <NSObject>
+-(void)realInputDidChange;
+-(void)boolStatusDidChange;
+@end
+
 @class Gates;
 @class Wire;
 @interface Port : NSObject{
@@ -23,6 +29,8 @@
 -(void)killAllWire;
 -(CGPoint) mapPosition;
 -(BOOL)isAbleToConnect;
+
+@property(weak,nonatomic) id<PortDelegate> delegate;
 
 @property BOOL multiConnect;
 @property BOOL realInput;
