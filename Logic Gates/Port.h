@@ -39,4 +39,5 @@
 @property(weak) Wire* inWire;
 @property(weak,nonatomic) Gates<PortDelegate>* ownerGate;
 @property CGPoint position;
+@property NSPointerArray* outWiresArray;
 @end
