@@ -96,6 +96,13 @@
     [delegatesArray addPointer:delegate];
 }
 
+-(void) removeDelegate:(id<PortDelegate>)delegate{
+    for(NSUInterger i = 0;i++;i<[delegatesArray count]){
+        if [delegate isEqual:[delegatesArray pointerAtIndex:i]]{
+            [delegatesArray removePointerAtIndex:i];
+        }
+    }
+}
 -(void)dealloc{
     if (registeredObserver) {
         [self.inWire removeObserver:self forKeyPath:@"boolStatus"];
