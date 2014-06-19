@@ -92,6 +92,10 @@
     }
 }
 
+-(void) addDelegate:(id<PortDelegate>)delegate{
+    [delegatesArray addPointer:delegate];
+}
+
 -(void)dealloc{
     if (registeredObserver) {
         [self.inWire removeObserver:self forKeyPath:@"boolStatus"];
