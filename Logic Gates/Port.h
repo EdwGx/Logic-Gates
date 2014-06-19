@@ -14,7 +14,8 @@
 @protocol PortDelegate <NSObject>
 -(void)portRealInputDidChange;
 -(void)portBoolStatusDidChange;
--(void)portWillRemoveWires
+-(void)portWillRemoveWires;
+-(void)portPositionWillChange;
 @end
 
 @class Gates;
