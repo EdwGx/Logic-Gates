@@ -92,6 +92,17 @@
     }
 }
 
+-(void) setBoolStatus:(BOOL)value{
+    if(_boolStatus != value){
+        _boolStatus = value;
+        [delegatesArray compact]
+        for id<PortDelegate> pointer in delegatesArray{
+            [pointer portBoolStatusDidChange];
+        }
+        
+    }
+}
+
 -(void) addDelegate:(id<PortDelegate>)delegate{
     [delegatesArray addPointer:delegate];
 }
