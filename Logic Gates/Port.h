@@ -21,7 +21,6 @@
 @class Gates;
 @class Wire;
 @interface Port : NSObject{
-    BOOL registeredObserver;
     NSPointerArray* delegatesArray;
 }
 
@@ -30,7 +29,10 @@
 -(void) finishedConnectProcess;
 -(void) willRemoveWire;
 -(void) killAllWire;
- 
+
+-(void) inWireBoolStatusDidChange;
+-(void) inWireRealInputDidChange;
+
 -(void) addDelegate:(id<PortDelegate>)delegate;
 -(void) removeDelegate:(id<PortDelegate>)delegate;
 

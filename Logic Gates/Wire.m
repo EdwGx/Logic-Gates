@@ -17,15 +17,15 @@
             self.lineWidth = 3.0;
             self.startPort = nil;
             self.endPort = nil;
-            
+
             self.startGate = nil;
             self.endGate = nil;
-            
+
             self.realInput = NO;
-            
+
             didRegisterStartPort = NO;
             didRegisterEndPort = NO;
-            
+
             [self connectNewPort:sPort withPosition:sPos];
             if (self.startPort) {
                 self.boolStatus = self.startPort.boolStatus;
@@ -44,15 +44,15 @@
         if (sPort&&ePort) {
             self.startPort = sPort;
             self.endPort = ePort;
-            
+
             self.startGate = sPort.ownerGate;
             self.endGate = ePort.ownerGate;
-            
+
             self.realInput = NO;
-            
+
             didRegisterStartPort = NO;
             didRegisterEndPort = NO;
-            
+
             [sPort connectToWire:self];
             [ePort connectToWire:self];
             [self didConnectBothSides];
@@ -139,7 +139,7 @@
         }
     }
     [self kill];
-    
+
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
@@ -163,6 +163,25 @@
         }
     }
 
+}
+
+-(void) setBoolStatus:(BOOL)value{
+    if(_boolStatus != value){
+        _boolStatus = value;
+        if self.endPort{
+          [self.endPort inWireBoolStatusDidChange];
+        }
+    }
+}
+
+-(void) setRealInput:(BOOL)value{
+    if(_realInput != value){
+        _realInput = value;
+        if self.endPort{
+          [self.endPort inWireRealInputDidChange];
+        }
+
+    }
 }
 
 -(void)updateColor{
@@ -189,6 +208,7 @@
     [self.startPort addObserver:self forKeyPath:@"boolStatus" options:0 context:nil];
     [self.startPort addObserver:self forKeyPath:@"realInput" options:0 context:nil];
     [self.startPort addObserver:self forKeyPath:@"killWire" options:NSKeyValueObservingOptionNew context:nil];
+
     [self.startGate addObserver:self forKeyPath:@"position" options:0 context:nil];
     [self.startGate addObserver:self forKeyPath:@"willKill" options:0 context:nil];
     didRegisterStartPort = YES;
@@ -196,11 +216,11 @@
     [self.endGate addObserver:self forKeyPath:@"willKill" options:0 context:nil];
     [self.endGate addObserver:self forKeyPath:@"position" options:0 context:nil];
     didRegisterEndPort = YES;
-    
+
     [self updateRealInput];
     self.boolStatus = self.startPort.boolStatus;
     [self updateColor];
-    
+
     [self.startPort finishedConnectProcess];
     [self.endPort finishedConnectProcess];
 }
@@ -222,7 +242,7 @@
         [self kill];
         return;
     }
-    
+
     CGMutablePathRef drawPath = CGPathCreateMutable();
     CGPathMoveToPoint(drawPath, NULL, startPos.x, startPos.y);
     CGPathAddLineToPoint(drawPath, NULL, endPos.x, endPos.y);
@@ -247,7 +267,7 @@
         [self kill];
         return;
     }
-    
+
     CGMutablePathRef drawPath = CGPathCreateMutable();
     CGPathMoveToPoint(drawPath, NULL, startPos.x, startPos.y);
     CGPathAddLineToPoint(drawPath, NULL, endPos.x, endPos.y);

@@ -14,7 +14,6 @@
         self.boolStatus = NO;
         self.realInput = NO;
         self.wireConnectable = YES;
-        registeredObserver = NO;
         self.killWire = NO;
         self.multiConnect = multiConn;
         self.position = pos;
@@ -50,11 +49,6 @@
 
 -(void)willRemoveWire{
     if (!self.multiConnect) {
-        if (registeredObserver) {
-            [self.inWire removeObserver:self forKeyPath:@"boolStatus"];
-            [self.inWire removeObserver:self forKeyPath:@"realInput"];
-            registeredObserver = NO;
-        }
         self.boolStatus = NO;
         self.realInput = NO;
         self.inWire = nil;
@@ -63,10 +57,6 @@
 
 -(void)finishedConnectProcess{
     if (!self.multiConnect){
-        [self.inWire addObserver:self forKeyPath:@"boolStatus" options:0 context:nil];
-        [self.inWire addObserver:self forKeyPath:@"realInput" options:0 context:nil];
-        registeredObserver = YES;
-        
         self.boolStatus = self.inWire.boolStatus;
         self.realInput = self.inWire.realInput;
 
@@ -83,13 +73,12 @@
     }
 }
 
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
-    if ([@"boolStatus" isEqualToString:keyPath]) {
-        self.boolStatus = self.inWire.boolStatus;
-    }
-    if ([@"realInput" isEqualToString:keyPath]) {
-        self.realInput = self.inWire.realInput;
-    }
+-(void) inWireBoolStatusDidChange{
+  self.boolStatus = self.inWire.boolStatus;
+}
+
+-(void) inWireRealInputDidChange{
+  self.realInput = self.inWire.realInput;
 }
 
 -(void) setBoolStatus:(BOOL)value{
@@ -99,7 +88,18 @@
         for id<PortDelegate> pointer in delegatesArray{
             [pointer portBoolStatusDidChange];
         }
-        
+
+    }
+}
+
+-(void) setRealInput:(BOOL)value{
+    if(_realInput != value){
+        _realInput = value;
+        [delegatesArray compact]
+        for id<PortDelegate> pointer in delegatesArray{
+            [pointer portRealInputDidChange];
+        }
+
     }
 }
 
@@ -114,11 +114,6 @@
         }
     }
 }
--(void)dealloc{
-    if (registeredObserver) {
-        [self.inWire removeObserver:self forKeyPath:@"boolStatus"];
-        [self.inWire removeObserver:self forKeyPath:@"realInput"];
-    }
-}
+
 
 @end

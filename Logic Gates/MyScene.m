@@ -32,11 +32,11 @@
     BOOL normalMode;
 }
 
--(id)initWithSize:(CGSize)size {    
+-(id)initWithSize:(CGSize)size {
     if (self = [super initWithSize:size]) {
         /* Setup your scene here */
         self.backgroundColor = [SKColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0];
-        
+
         killMode = NO;
         changingKillMode = NO;
         self.ModeChanger = [SKSpriteNode spriteNodeWithImageNamed:@"ModeImage"];
@@ -45,14 +45,14 @@
         SKAction *action1 = [SKAction rotateToAngle:0.25*M_PI duration:0];
         [self.ModeChanger runAction:action1];
         [self addChild:self.ModeChanger];
-        
+
         self.selectionMenu = [SKSpriteNode spriteNodeWithImageNamed:@"menuArrow"];
         self.selectionMenu.zPosition = 16;
         self.selectionMenu.position = CGPointMake(0, size.height/2);
         [self addChild:self.selectionMenu];
-        
+
         normalMode = YES;
-        
+
         self.map = [[CircuitMap alloc]initMapWithDelegate:self];
         [self addChild:self.map];
     }
@@ -148,7 +148,7 @@
         }
     }else if ([node isEqual:self.saveMapButton]){
         [self presentMapFileScene];
-        
+
     }else if (self.selectSp && !menuMoving) {
         CGPoint location = [touch locationInNode:self];
         SKNode* node = [self nodeAtPoint:location];
@@ -169,7 +169,7 @@
             dragMap = YES;
         }
     }
-    
+
 }
 
 -(void)handleDoubleTapFrom:(UITapGestureRecognizer *)recognizer{
@@ -178,11 +178,11 @@
         CGPoint targetPoint = [self convertPoint:pointInScene toNode:self.map];
         CGPoint centerPoint = [self convertPoint:CGPointMake(self.size.width/2.0,self.size.height/2.0) toNode:self.map];
         CGVector vector = CGVectorMake(centerPoint.x - targetPoint.x, centerPoint.y -targetPoint.y);
-        
+
         [self.map runAction:[SKAction moveBy:vector duration:0.2]];
         [self.map runAction:[SKAction scaleTo:1.0 duration:0.2]];
         [self updateZoomMode:YES];
-        
+
         self.doubleTapRecognizer.enabled = NO;
     }
 }
@@ -253,39 +253,39 @@
         case 1:
             newGate = [[AND_Gate alloc]initGate];
             break;
-            
+
         case 2:
             newGate = [[OR_Gate alloc]initGate];
             break;
-            
+
         case 3:
             newGate = [[XOR_Gate alloc]initGate];
             break;
-            
+
         case 4:
             newGate = [[NAND_Gate alloc]initGate];
             break;
-            
+
         case 5:
             newGate = [[NOR_Gate alloc]initGate];
             break;
-            
+
         case 6:
             newGate = [[XNOR_Gate alloc]initGate];
             break;
-            
+
         case 7:
             newGate = [[NOT_Gate alloc]initGate];
             break;
-            
+
         case 8:
             newGate = [[Switch alloc]initGate];
             break;
-            
+
         case 9:
             newGate = [[LightBulb alloc]initGate];
             break;
-            
+
         default:
             newGate = nil;
             break;
@@ -294,14 +294,14 @@
         newGate.position = [self convertPoint:point toNode:self.map];
         [self.map addChild:newGate];
         self.dragingObject = newGate;
-        
+
         SKAction* back = [SKAction runBlock:^{
             self.selectionMenu.position = CGPointMake(-30, self.size.height/2);
         }];
         SKAction* spin = [SKAction rotateToAngle:0 duration:0.2];
         SKAction* showUp = [SKAction moveToX:0 duration:0.2];
         SKAction* allActions = [SKAction sequence:@[back,spin,showUp]];
-        
+
         menuMoving = YES;
         [self.selectionMenu runAction:allActions completion:^{
             menuOut = NO;
@@ -331,7 +331,7 @@
          CGPointMake(newTouchLocation.x - lastTouchLocation.x, newTouchLocation.y - lastTouchLocation.y)];
     }
     lastTouchLocation = newTouchLocation;
-    
+
 }
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{

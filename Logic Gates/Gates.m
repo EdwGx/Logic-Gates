@@ -57,7 +57,7 @@
 -(void)updateRealIntput{
     /*Get the real input boolean*/
     BOOL real = YES;
-    
+
     //Check do all ports have real input
     for (int i = 0; i < [self.inPort count]; i++) {
         Port* portObject = [self.inPort objectAtIndex:i];
@@ -86,7 +86,7 @@
 }
 
 -(void)touchUpWithPointInNode:(CGPoint)point{
-    
+
 }
 
 -(BOOL)isPossibleHavePortCloseToPoint:(CGPoint)point{
@@ -98,7 +98,7 @@
 -(Port*)portCloseToPointInScene:(CGPoint)point Range:(float)range{
     float shortest = powf((portRange*range),2);
     Port* sPort = nil;
-    
+
     for (int i=0; i < [self.inPort count]; i++) {
         Port* cPort = [self.inPort objectAtIndex:i];
         float dis = powf((cPort.position.x + self.position.x - point.x), 2) + powf((cPort.position.y + self.position.y - point.y), 2);
@@ -107,7 +107,7 @@
             sPort = cPort;
         }
     }
-    
+
     for (int i=0; i < [self.outPort count]; i++) {
         Port* cPort = [self.outPort objectAtIndex:i];
         float dis = powf((cPort.position.x + self.position.x - point.x), 2) + powf((cPort.position.y + self.position.y - point.y), 2);
@@ -116,9 +116,9 @@
             sPort = cPort;
         }
     }
-    
+
     return sPort;
-    
+
 }
 
 -(void)portRealInputDidChange{
