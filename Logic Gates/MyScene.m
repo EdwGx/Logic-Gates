@@ -61,6 +61,7 @@
 
 -(void)didMoveToView:(SKView *)view{
     [super didMoveToView:view];
+    //Setup GestureRecognizers
     UIPinchGestureRecognizer* pinchGestureRecognizer = [[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(handlePinchFrom:)];
     UITapGestureRecognizer* doubleTapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleDoubleTapFrom:)];
     doubleTapGestureRecognizer.numberOfTapsRequired = 2;
@@ -223,11 +224,15 @@
 }
 
 -(BOOL)findPortCloseToLocation:(CGPoint)point{
+    //Loop every Nodes in map
     for (SKNode* childNode in [self.map children]) {
+        //Check if the child node is a Gate
         if ([childNode isKindOfClass:[Gates class]]) {
             Gates* gChild = (Gates*)childNode;
+            //Check if location collide with a max possible rectangle
             if ([gChild isPossibleHavePortCloseToPoint:point]) {
                 Port* cloestPort = [gChild portCloseToPointInScene:point Range:1.0];
+                //if closetPort is nil means nothing
                 if (cloestPort) {
                     if (killMode) {
                         [cloestPort removeAllWire];
