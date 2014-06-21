@@ -16,6 +16,7 @@
 @class SelectionSprite;
 @interface MyScene : SKScene<wireProtocol,circuitMapDelegate>{
     CGPoint lastTouchLocation;
+    CGPoint dragingObjectStartLocation;
 }
 -(void)handlePinchFrom:(UIPinchGestureRecognizer*)recognizer;
 -(void)handleDoubleTapFrom:(UITapGestureRecognizer*)recognizer;
@@ -23,7 +24,8 @@
 -(void)moveMenuIn;
 -(void)moveMenuOut;
 
-@property SKNode *dragingObject;
+//@property SKNode *dragingObject;
+@property SKNode* dragingObject;
 @property SKSpriteNode* ModeChanger;
 @property SKSpriteNode* selectionMenu;
 @property SKSpriteNode*saveMapButton;

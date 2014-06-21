@@ -22,10 +22,7 @@
             self.endGate = nil;
 
             self.realInput = NO;
-
-            didRegisterStartPort = NO;
-            didRegisterEndPort = NO;
-
+            
             [self connectNewPort:sPort withPosition:sPos];
             if (self.startPort) {
                 self.boolStatus = self.startPort.boolStatus;
@@ -50,9 +47,6 @@
 
             self.realInput = NO;
 
-            didRegisterStartPort = NO;
-            didRegisterEndPort = NO;
-
             [sPort connectToWire:self];
             [ePort connectToWire:self];
             [self didConnectBothSides];
@@ -69,10 +63,10 @@
 }
 
 -(BOOL)wantConnectThisPort:(Port *)port{
-    if (self.startPort && port.multiConnect) {
+    if (self.startPort && port.type == OutputPortType) {
         return NO;
     }
-    if (self.endPort && !port.multiConnect) {
+    if (self.endPort && port.type == InputPortType) {
         return NO;
     }
     if (self.startGate) {
@@ -88,18 +82,11 @@
     return YES;
 }
 
--(void)updateRealInput{
-    if (self.startPort) {
-        self.realInput = self.startPort.realInput;
-        [self updateColor];
-    }
-}
-
 -(void)connectNewPort:(Port*)newPort{
     if (newPort) {
         if ([self wantConnectThisPort:newPort]){
             if ([newPort isAbleToConnect]) {
-                if (newPort.multiConnect) {
+                if (newPort.type == OutputPortType) {
                     self.startPort = newPort;
                     self.startGate = newPort.ownerGate;
                 } else {
@@ -122,7 +109,7 @@
     if (newPort) {
         if ([self wantConnectThisPort:newPort]){
             if ([newPort isAbleToConnect]) {
-                if (newPort.multiConnect) {
+                if (newPort.type == OutputPortType) {
                     self.startPort = newPort;
                     self.startGate = newPort.ownerGate;
                 } else {
@@ -142,33 +129,12 @@
 
 }
 
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
-    if ([@"position" isEqualToString:keyPath]) {
-        [self performSelectorInBackground:@selector(drawLine) withObject:nil];
-    }
-    if ([@"boolStatus" isEqualToString:keyPath]) {
-        self.boolStatus = self.startPort.boolStatus;
-        [self updateColor];
-    }
-    if ([@"realInput" isEqualToString:keyPath]) {
-        [self performSelectorInBackground:@selector(updateRealInput) withObject:nil];
-    }
-    if ([@"willKill" isEqualToString:keyPath]) {
-        [self kill];
-    }
-    if ([@"killWire" isEqualToString:keyPath]) {
-        BOOL willKill = (BOOL)[change objectForKey:NSKeyValueChangeNewKey];
-        if (willKill) {
-            [self kill];
-        }
-    }
-
-}
 
 -(void) setBoolStatus:(BOOL)value{
     if(_boolStatus != value){
         _boolStatus = value;
-        if self.endPort{
+        [self updateColor];
+        if (self.endPort) {
           [self.endPort inWireBoolStatusDidChange];
         }
     }
@@ -177,11 +143,32 @@
 -(void) setRealInput:(BOOL)value{
     if(_realInput != value){
         _realInput = value;
-        if self.endPort{
+        [self updateColor];
+        if (self.endPort){
           [self.endPort inWireRealInputDidChange];
         }
 
     }
+}
+
+-(void)portBoolStatusDidChange:(PortType)portType{
+    if (self.startPort && portType == OutputPortType) {
+        self.boolStatus = self.startPort.boolStatus;
+    }
+}
+
+-(void)portPositionDidChange{
+    [self performSelectorInBackground:@selector(drawLine) withObject:nil];
+}
+
+-(void)portRealInputDidChange:(PortType)portType{
+    if (self.startPort && portType == OutputPortType) {
+        self.realInput = self.startPort.realInput;
+    }
+}
+
+-(void)portWillRemoveWires{
+    [self kill];
 }
 
 -(void)updateColor{
@@ -197,29 +184,23 @@
 }
 
 -(void)kill{
+    if (self.startPort) {
+        [self.startPort removeDelegate:self];
+    }
     if (self.endPort){
-        [self.endPort willRemoveWire];
+        [self.endPort inWireWillRemove];
+        [self.endPort removeDelegate:self];
     }
     [self removeAllActions];
     [self removeFromParent];
 }
 
 -(void)didConnectBothSides{
-    [self.startPort addObserver:self forKeyPath:@"boolStatus" options:0 context:nil];
-    [self.startPort addObserver:self forKeyPath:@"realInput" options:0 context:nil];
-    [self.startPort addObserver:self forKeyPath:@"killWire" options:NSKeyValueObservingOptionNew context:nil];
-
-    [self.startGate addObserver:self forKeyPath:@"position" options:0 context:nil];
-    [self.startGate addObserver:self forKeyPath:@"willKill" options:0 context:nil];
-    didRegisterStartPort = YES;
-    [self.endPort addObserver:self forKeyPath:@"killWire" options:NSKeyValueObservingOptionNew context:nil];
-    [self.endGate addObserver:self forKeyPath:@"willKill" options:0 context:nil];
-    [self.endGate addObserver:self forKeyPath:@"position" options:0 context:nil];
-    didRegisterEndPort = YES;
-
-    [self updateRealInput];
+    [self.startPort addDelegate:self];
+    [self.endPort addDelegate:self];
+    
+    self.realInput = self.startPort.realInput;
     self.boolStatus = self.startPort.boolStatus;
-    [self updateColor];
 
     [self.startPort finishedConnectProcess];
     [self.endPort finishedConnectProcess];
@@ -242,12 +223,7 @@
         [self kill];
         return;
     }
-
-    CGMutablePathRef drawPath = CGPathCreateMutable();
-    CGPathMoveToPoint(drawPath, NULL, startPos.x, startPos.y);
-    CGPathAddLineToPoint(drawPath, NULL, endPos.x, endPos.y);
-    self.path = drawPath;
-    CGPathRelease(drawPath);
+    [self drawPathWithStartPosition:startPos andEndPosition:endPos];
 }
 
 -(void)drawLineWithPosition:(CGPoint)point{
@@ -267,27 +243,14 @@
         [self kill];
         return;
     }
+    [self drawPathWithStartPosition:startPos andEndPosition:endPos];
+}
 
+-(void)drawPathWithStartPosition:(CGPoint)startPos andEndPosition:(CGPoint)endPos{
     CGMutablePathRef drawPath = CGPathCreateMutable();
     CGPathMoveToPoint(drawPath, NULL, startPos.x, startPos.y);
     CGPathAddLineToPoint(drawPath, NULL, endPos.x, endPos.y);
     self.path = drawPath;
     CGPathRelease(drawPath);
-}
-
-
--(void)dealloc{
-    if (didRegisterStartPort) {
-        [self.startGate removeObserver:self forKeyPath:@"position"];
-        [self.startPort removeObserver:self forKeyPath:@"boolStatus"];
-        [self.startPort removeObserver:self forKeyPath:@"realInput"];
-        [self.startPort removeObserver:self forKeyPath:@"killWire"];
-        [self.startGate removeObserver:self forKeyPath:@"willKill"];
-    }
-    if (didRegisterEndPort) {
-        [self.endPort removeObserver:self forKeyPath:@"killWire"];
-        [self.endGate removeObserver:self forKeyPath:@"willKill"];
-        [self.endGate removeObserver:self forKeyPath:@"position"];
-    }
 }
 @end

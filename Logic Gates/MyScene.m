@@ -115,7 +115,7 @@
         Port *inNode = [GNode portCloseToPointInScene:[self convertPoint:lastTouchLocation toNode:self.map] Range:0.5];
         if (inNode) {
             if (killMode) {
-                [inNode killAllWire];
+                [inNode removeAllWire];
             } else {
                 if ([inNode isAbleToConnect]) {
                     self.dragWire = [[Wire alloc]initWithAnyPort:inNode andStartPosition:[self convertPoint:lastTouchLocation toNode:self.map]];
@@ -127,9 +127,9 @@
             if (killMode) {
                 [GNode kill];
             } else {
-                CGPoint locInNode = [touch locationInNode:node];
-                [GNode touchDownWithPointInNode:locInNode];
                 self.dragingObject = GNode;
+                dragingObjectStartLocation = lastTouchLocation;
+                [GNode touchBeganInGate:touch];
             }
         }
     } else if ([node isEqual:self.ModeChanger]&&normalMode){
@@ -230,7 +230,7 @@
                 Port* cloestPort = [gChild portCloseToPointInScene:point Range:1.0];
                 if (cloestPort) {
                     if (killMode) {
-                        [cloestPort killAllWire];
+                        [cloestPort removeAllWire];
                     } else {
                         if ([cloestPort isAbleToConnect]) {
                             self.dragWire = [[Wire alloc]initWithAnyPort:cloestPort andStartPosition:point];
@@ -324,7 +324,8 @@
         self.dragingObject.position = CGPointMake(
               self.dragingObject.position.x + newTouchLocation.x - lastTouchLocation.x,
               self.dragingObject.position.y + newTouchLocation.y - lastTouchLocation.y);
-    } else if (self.dragWire){
+    }
+    else if (self.dragWire){
         [self.dragWire drawLine];
     } else if (dragMap){
         [self.map moveByPoint:
@@ -337,7 +338,14 @@
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
     UITouch* touch = [touches anyObject];
     if (self.dragingObject) {
+        CGPoint currentLocation = [touch locationInNode:self];
+        CGFloat distance = sqrt(pow((currentLocation.x-dragingObjectStartLocation.x), 2.0) + pow((currentLocation.y-dragingObjectStartLocation.y), 2.0));
+        
+        if ([self.dragingObject isKindOfClass:[Gates class]] && distance <= 3.0) {
+            [(Gates*)self.dragingObject touchEndedInGate:touch];
+        }
         self.dragingObject = nil;
+        
     }
     if (self.dragWire) {
         [self dragWireEndWithLocation:touch];

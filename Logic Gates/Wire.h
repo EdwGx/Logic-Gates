@@ -8,6 +8,7 @@
 
 #import <SpriteKit/SpriteKit.h>
 #import "Port.h"
+#import "PortDelegate.h"
 #import "Gates.h"
 
 @class Port;
@@ -17,21 +18,15 @@
 -(CGPoint)getDragingPosition;
 
 @end
-@interface Wire : SKShapeNode{
-    BOOL didRegisterStartPort;
-    BOOL didRegisterEndPort;
-}
+@interface Wire : SKShapeNode<PortDelegate>
 
 -(id)initWithAnyPort:(Port*)sPort andStartPosition:(CGPoint)sPos;
 -(id)initWithStartPort:(Port*)sPort EndPort:(Port*)ePort;
 
 -(void) drawLine;
--(void) drawLineWithPosition:(CGPoint)point;
 -(void) kill;
--(void) updateRealInput;
 -(void) connectNewPort:(Port*)newPort;
 -(void) connectNewPort:(Port*)newPort withPosition:(CGPoint)point;
-
 -(BOOL) wantConnectThisPort:(Port*)port;
 
 @property(weak) Port* startPort;
@@ -40,8 +35,8 @@
 @property(weak) Gates* startGate;
 @property(weak) Gates* endGate;
 
-@property BOOL boolStatus;
-@property BOOL realInput;
+@property(nonatomic) BOOL boolStatus;
+@property(nonatomic) BOOL realInput;
 
 @property(weak) id delegate;
 @end

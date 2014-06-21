@@ -7,20 +7,18 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
+#import "PortDelegate.h"
 #import "Port.h"
 
 @class Port;
-@interface Gates : SKSpriteNode<PortDelegate>
+
+@interface Gates : SKSpriteNode <PortDelegate>
 
 -(void)initPort;
 -(void)initImage;
 -(void)updateOutput;
--(void)addObserserToInPort;
 -(void)updateRealIntput;
 -(void)kill;
-
--(BOOL)touchDownWithPointInNode:(CGPoint)point;
--(void)touchUpWithPointInNode:(CGPoint)point;
 
 -(id)initGate;
 -(NSString*)imageName;
@@ -28,6 +26,9 @@
 -(BOOL)isRealInputSource;
 -(Port*)portCloseToPointInScene:(CGPoint)point Range:(float)range;
 -(BOOL)isPossibleHavePortCloseToPoint:(CGPoint)point;
+
+-(void)touchEndedInGate:(UITouch*)touch;
+-(void)touchBeganInGate:(UITouch*)touch;
 
 @property int8_t gateType;
 @property BOOL realInput;

@@ -10,10 +10,10 @@
 
 @implementation NOT_Gate
 -(void)initPort{
-    Port *inP1 = [[Port alloc]initWithPosition:CGPointMake(-25, 0) andStatusOfMultiConnection:NO andOwner:self];
+    Port *inP1 = [[Port alloc]initWithPosition:CGPointMake(-25, 0) andPortType:InputPortType andOwner:self];
     self.inPort = [NSArray arrayWithObject:inP1];
     
-    Port *outP1 = [[Port alloc]initWithPosition:CGPointMake(25, 0) andStatusOfMultiConnection:YES andOwner:self];
+    Port *outP1 = [[Port alloc]initWithPosition:CGPointMake(25, 0) andPortType:OutputPortType andOwner:self];
     self.outPort = [NSArray arrayWithObject:outP1];
     
 }

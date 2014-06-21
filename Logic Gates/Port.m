@@ -9,16 +9,16 @@
 #import "Port.h"
 
 @implementation Port
--(id)initWithPosition:(CGPoint)pos andStatusOfMultiConnection:(BOOL)multiConn andOwner:(Gates*)newOwner{
+-(id)initWithPosition:(CGPoint)pos andPortType:(PortType)type andOwner:(Gates*)newOwner{
     if (self = [super init]) {
         self.boolStatus = NO;
         self.realInput = NO;
         self.wireConnectable = YES;
-        self.killWire = NO;
-        self.multiConnect = multiConn;
+        self.type = type;
         self.position = pos;
         self.ownerGate = newOwner;
         self.inWire = nil;
+        delegatesSet = [NSMutableSet set];
     }
     return self;
 }
@@ -27,16 +27,19 @@
     return CGPointMake(self.position.x+self.ownerGate.position.x,self.position.y+self.ownerGate.position.y);
 }
 
--(void)killAllWire{
-    self.killWire = YES;
-    self.killWire = NO;
+-(void)removeAllWire{
+    for (id<PortDelegate> pointer in delegatesSet){
+        if ([pointer respondsToSelector:@selector(portWillRemoveWires)]) {
+            [pointer portWillRemoveWires];
+        }
+    }
 }
 
 -(BOOL)isAbleToConnect{
     if (!self.wireConnectable) {
         return NO;
     }
-    if (self.multiConnect) {
+    if (self.type == OutputPortType) {
         return YES;
     }else{
         if (self.inWire){
@@ -47,16 +50,14 @@
     }
 }
 
--(void)willRemoveWire{
-    if (!self.multiConnect) {
-        self.boolStatus = NO;
-        self.realInput = NO;
-        self.inWire = nil;
-    }
+-(void)inWireWillRemove{
+    self.boolStatus = NO;
+    self.realInput = NO;
+    self.inWire = nil;
 }
 
 -(void)finishedConnectProcess{
-    if (!self.multiConnect){
+    if (self.type == InputPortType){
         self.boolStatus = self.inWire.boolStatus;
         self.realInput = self.inWire.realInput;
 
@@ -67,7 +68,7 @@
 
 -(void)connectToWire:(Wire *)newWire{
     if (newWire) {
-        if (!self.multiConnect){
+        if (self.type == InputPortType){
             self.inWire = newWire;
         }
     }
@@ -84,9 +85,10 @@
 -(void) setBoolStatus:(BOOL)value{
     if(_boolStatus != value){
         _boolStatus = value;
-        [delegatesArray compact]
-        for id<PortDelegate> pointer in delegatesArray{
-            [pointer portBoolStatusDidChange];
+        for (id<PortDelegate> pointer in delegatesSet){
+            if ([pointer respondsToSelector:@selector(portBoolStatusDidChange:)]) {
+                [pointer portBoolStatusDidChange:self.type];
+            }
         }
 
     }
@@ -95,24 +97,29 @@
 -(void) setRealInput:(BOOL)value{
     if(_realInput != value){
         _realInput = value;
-        [delegatesArray compact]
-        for id<PortDelegate> pointer in delegatesArray{
-            [pointer portRealInputDidChange];
+        for (id<PortDelegate> pointer in delegatesSet){
+            if ([pointer respondsToSelector:@selector(portRealInputDidChange:)]) {
+                [pointer portRealInputDidChange:self.type];
+            }
         }
 
+    }
+}
+
+-(void)gatePositionDidChange{
+    for (id<PortDelegate> pointer in delegatesSet){
+        if ([pointer respondsToSelector:@selector(portPositionDidChange)]) {
+            [pointer portPositionDidChange];
+        }
     }
 }
 
 -(void) addDelegate:(id<PortDelegate>)delegate{
-    [delegatesArray addPointer:delegate];
+    [delegatesSet addObject:delegate];
 }
 
 -(void) removeDelegate:(id<PortDelegate>)delegate{
-    for(NSUInterger i = 0;i++;i<[delegatesArray count]){
-        if [delegate isEqual:[delegatesArray pointerAtIndex:i]]{
-            [delegatesArray removePointerAtIndex:i];
-        }
-    }
+    [delegatesSet removeObject:delegate];
 }
 
 

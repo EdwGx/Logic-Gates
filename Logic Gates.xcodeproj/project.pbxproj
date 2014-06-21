@@ -55,6 +55,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2B018D5B1955C311001CA694 /* PortDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PortDelegate.h; sourceTree = "<group>"; };
 		963E9CDE18C27F3600C43451 /* XOR_Gate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XOR_Gate.h; sourceTree = "<group>"; };
 		963E9CDF18C27F3600C43451 /* XOR_Gate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = XOR_Gate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		963E9CE118C2802200C43451 /* NOR_Gate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NOR_Gate.h; sourceTree = "<group>"; };
@@ -283,6 +284,7 @@
 				967D7CC918BBFA8000F72CF9 /* Gates.m */,
 				967D7CCB18BBFC2800F72CF9 /* Port.h */,
 				967D7CCC18BBFC2800F72CF9 /* Port.m */,
+				2B018D5B1955C311001CA694 /* PortDelegate.h */,
 				967D7CCE18BBFF8500F72CF9 /* Wire.h */,
 				967D7CCF18BBFF8500F72CF9 /* Wire.m */,
 			);

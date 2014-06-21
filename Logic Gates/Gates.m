@@ -18,16 +18,27 @@
         self.willKill = NO;
         [self initPort];
         [self initImage];
+        [self setInPortDelegate];
         [self updateRealIntput];
     }
     return self;
 }
 
 -(void)kill{
-    self.willKill = YES;
+    for (Port *aPort in self.inPort){
+        [aPort removeAllWire];
+    }
+    for (Port *aPort in self.outPort){
+        [aPort removeAllWire];
+    }
     [self removeAllActions];
-    [self removeAllChildren];
     [self removeFromParent];
+}
+
+-(void)setInPortDelegate{
+    for (Port* port in self.inPort){
+        [port addDelegate:self];
+    }
 }
 
 -(void)initPort{
@@ -59,19 +70,17 @@
     BOOL real = YES;
 
     //Check do all ports have real input
-    for (int i = 0; i < [self.inPort count]; i++) {
-        Port* portObject = [self.inPort objectAtIndex:i];
-        if (!portObject.realInput) {
+    for (Port* anInPort in self.inPort) {
+        if (!anInPort.realInput) {
             real = NO;
-            break;
+            //break;
         }
     }
 
     if (self.realInput != real || [self isRealInputSource]){
-        self.realInput = !self.realInput;
-        for (int i = 0; i < [self.outPort count]; i++) {
-            Port* portObject = [self.outPort objectAtIndex:i];
-            portObject.realInput = self.realInput;
+        self.realInput = real || [self isRealInputSource];
+        for (Port* anOutPort in self.outPort) {
+            anOutPort.realInput = self.realInput;
         }
     }
 }
@@ -80,14 +89,6 @@
     return NO;
 }
 
--(BOOL)touchDownWithPointInNode:(CGPoint)point{
-    //Return Value Mean Want To Call When Touch End or Not;
-    return NO;
-}
-
--(void)touchUpWithPointInNode:(CGPoint)point{
-
-}
 
 -(BOOL)isPossibleHavePortCloseToPoint:(CGPoint)point{
     float dis = sqrtf(powf((self.position.x - point.x), 2) + powf((self.position.y - point.y), 2));
@@ -121,12 +122,33 @@
 
 }
 
--(void)portRealInputDidChange{
-    [self performSelectorInBackground:@selector(updateRealIntput) withObject:nil];
+-(void)setPosition:(CGPoint)position{
+    [super setPosition:position];
+    for (Port *aPort in self.inPort){
+        [aPort gatePositionDidChange];
+    }
+    for (Port *aPort in self.outPort){
+        [aPort gatePositionDidChange];
+    }
 }
 
--(void)portBoolStatusDidChange{
-     [self performSelectorInBackground:@selector(updateOutput) withObject:nil];
+-(void)portRealInputDidChange:(PortType)portType{
+    if (portType == InputPortType) {
+        [self performSelectorInBackground:@selector(updateRealIntput) withObject:nil];
+    }
+}
+
+-(void)portBoolStatusDidChange:(PortType)portType{
+    if (portType == InputPortType) {
+        [self performSelectorInBackground:@selector(updateOutput) withObject:nil];
+    }
+}
+
+-(void)touchEndedInGate:(UITouch*)touch{
+    
+}
+-(void)touchBeganInGate:(UITouch*)touch{
+    
 }
 
 @end

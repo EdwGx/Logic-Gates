@@ -9,27 +9,24 @@
 #import <SpriteKit/SpriteKit.h>
 #import "Wire.h"
 #import "Gates.h"
+#import "PortDelegate.h"
+
 
 @class Port;
-@protocol PortDelegate <NSObject>
--(void)portRealInputDidChange;
--(void)portBoolStatusDidChange;
--(void)portWillRemoveWires;
--(void)portPositionWillChange;
-@end
-
 @class Gates;
 @class Wire;
+
 @interface Port : NSObject{
-    NSPointerArray* delegatesArray;
+    NSMutableSet* delegatesSet;
 }
 
--(id)initWithPosition:(CGPoint)pos andStatusOfMultiConnection:(BOOL)multiConn andOwner:(Gates*)newOwner;
+-(id)initWithPosition:(CGPoint)pos andPortType:(PortType)type andOwner:(Gates*)newOwner;
 -(void) connectToWire:(Wire*)newWire;
 -(void) finishedConnectProcess;
--(void) willRemoveWire;
--(void) killAllWire;
+-(void) inWireWillRemove;
+-(void) removeAllWire;
 
+-(void) gatePositionDidChange;
 -(void) inWireBoolStatusDidChange;
 -(void) inWireRealInputDidChange;
 
@@ -39,12 +36,13 @@
 -(CGPoint) mapPosition;
 -(BOOL)isAbleToConnect;
 
-@property BOOL multiConnect;
-@property BOOL realInput;
-@property BOOL boolStatus;
+@property(nonatomic) PortType type;
+@property(nonatomic) BOOL realInput;
+@property(nonatomic) BOOL boolStatus;
 @property BOOL wireConnectable;
 
-@property(weak) Wire* inWire;
+@property(nonatomic,weak) Gates* ownerGate;
+@property(nonatomic,weak) Wire* inWire;
 
 @property CGPoint position;
 @end
