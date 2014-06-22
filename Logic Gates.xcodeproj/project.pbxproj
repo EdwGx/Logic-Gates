@@ -39,7 +39,6 @@
 		967D7CD018BBFF8500F72CF9 /* Wire.m in Sources */ = {isa = PBXBuildFile; fileRef = 967D7CCF18BBFF8500F72CF9 /* Wire.m */; };
 		9687D42C18C7C16500D2B3F2 /* CircuitMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 9687D42B18C7C16500D2B3F2 /* CircuitMap.m */; };
 		968F4A7D18C2795D009263CE /* NAND_Gate.m in Sources */ = {isa = PBXBuildFile; fileRef = 968F4A7C18C2795D009263CE /* NAND_Gate.m */; };
-		9697B9F718DCC8BE00C9CFE8 /* MapFileScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9697B9F618DCC8BE00C9CFE8 /* MapFileScene.m */; };
 		96A0FB6118CE645C00537E5C /* ButtonSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A0FB6018CE645C00537E5C /* ButtonSprite.m */; };
 		96F92DC218C00F350077958A /* OR_Gate.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F92DC118C00F350077958A /* OR_Gate.m */; };
 		96F92DC518C0118F0077958A /* Switch.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F92DC418C0118F0077958A /* Switch.m */; };
@@ -108,8 +107,6 @@
 		9687D42B18C7C16500D2B3F2 /* CircuitMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircuitMap.m; sourceTree = "<group>"; };
 		968F4A7B18C2795D009263CE /* NAND_Gate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NAND_Gate.h; sourceTree = "<group>"; };
 		968F4A7C18C2795D009263CE /* NAND_Gate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = NAND_Gate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		9697B9F518DCC8BE00C9CFE8 /* MapFileScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapFileScene.h; sourceTree = "<group>"; };
-		9697B9F618DCC8BE00C9CFE8 /* MapFileScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapFileScene.m; sourceTree = "<group>"; };
 		96A0FB5F18CE645C00537E5C /* ButtonSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonSprite.h; sourceTree = "<group>"; };
 		96A0FB6018CE645C00537E5C /* ButtonSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ButtonSprite.m; sourceTree = "<group>"; };
 		96F92DC018C00F350077958A /* OR_Gate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OR_Gate.h; sourceTree = "<group>"; };
@@ -240,8 +237,6 @@
 				967D7CA618BBF96100F72CF9 /* MyScene.m */,
 				2B5D62C419573C6400766353 /* MapIOView.h */,
 				2B5D62C519573C6400766353 /* MapIOView.m */,
-				9697B9F518DCC8BE00C9CFE8 /* MapFileScene.h */,
-				9697B9F618DCC8BE00C9CFE8 /* MapFileScene.m */,
 				9687D42A18C7C16500D2B3F2 /* CircuitMap.h */,
 				9687D42B18C7C16500D2B3F2 /* CircuitMap.m */,
 				9690F9A818CDE893000DDC7F /* UI Support */,
@@ -422,7 +417,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				96773E1D18BD55B4002F5266 /* AND_Gate.m in Sources */,
-				9697B9F718DCC8BE00C9CFE8 /* MapFileScene.m in Sources */,
 				963E9CE018C27F3600C43451 /* XOR_Gate.m in Sources */,
 				967D7CCD18BBFC2800F72CF9 /* Port.m in Sources */,
 				96A0FB6118CE645C00537E5C /* ButtonSprite.m in Sources */,

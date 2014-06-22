@@ -163,7 +163,6 @@
 }
 
 -(void)fileDidLoad{
-    NSLog(@"Y");
     [self unlockButtons];
 }
 
