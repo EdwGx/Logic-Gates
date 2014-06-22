@@ -37,6 +37,14 @@
     if (self = [super initWithSize:size]) {
         /* Setup your scene here */
         self.backgroundColor = [SKColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0];
+        
+        SKTextureAtlas* gateTextureAtlas = [SKTextureAtlas atlasNamed:@"GateImages"];
+        [gateTextureAtlas preloadWithCompletionHandler:^{
+            self.selectionMenu = [SKSpriteNode spriteNodeWithImageNamed:@"menuArrow"];
+            self.selectionMenu.zPosition = 16;
+            self.selectionMenu.position = CGPointMake(0, size.height/2);
+            [self addChild:self.selectionMenu];
+        }];
 
         killMode = NO;
         changingKillMode = NO;
@@ -46,11 +54,6 @@
         SKAction *action1 = [SKAction rotateToAngle:0.25*M_PI duration:0];
         [self.ModeChanger runAction:action1];
         [self addChild:self.ModeChanger];
-
-        self.selectionMenu = [SKSpriteNode spriteNodeWithImageNamed:@"menuArrow"];
-        self.selectionMenu.zPosition = 16;
-        self.selectionMenu.position = CGPointMake(0, size.height/2);
-        [self addChild:self.selectionMenu];
 
         normalMode = YES;
 
