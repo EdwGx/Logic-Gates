@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B5D62C619573C6400766353 /* MapIOView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5D62C519573C6400766353 /* MapIOView.m */; };
 		963E9CE018C27F3600C43451 /* XOR_Gate.m in Sources */ = {isa = PBXBuildFile; fileRef = 963E9CDF18C27F3600C43451 /* XOR_Gate.m */; };
 		963E9CE318C2802200C43451 /* NOR_Gate.m in Sources */ = {isa = PBXBuildFile; fileRef = 963E9CE218C2802200C43451 /* NOR_Gate.m */; };
 		963E9CE618C2809D00C43451 /* XNOR_Gate.m in Sources */ = {isa = PBXBuildFile; fileRef = 963E9CE518C2809D00C43451 /* XNOR_Gate.m */; };
@@ -56,6 +57,8 @@
 
 /* Begin PBXFileReference section */
 		2B018D5B1955C311001CA694 /* PortDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PortDelegate.h; sourceTree = "<group>"; };
+		2B5D62C419573C6400766353 /* MapIOView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapIOView.h; sourceTree = "<group>"; };
+		2B5D62C519573C6400766353 /* MapIOView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapIOView.m; sourceTree = "<group>"; };
 		963E9CDE18C27F3600C43451 /* XOR_Gate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XOR_Gate.h; sourceTree = "<group>"; };
 		963E9CDF18C27F3600C43451 /* XOR_Gate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = XOR_Gate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		963E9CE118C2802200C43451 /* NOR_Gate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NOR_Gate.h; sourceTree = "<group>"; };
@@ -235,6 +238,8 @@
 				967D7CA318BBF96100F72CF9 /* ViewController.m */,
 				967D7CA518BBF96100F72CF9 /* MyScene.h */,
 				967D7CA618BBF96100F72CF9 /* MyScene.m */,
+				2B5D62C419573C6400766353 /* MapIOView.h */,
+				2B5D62C519573C6400766353 /* MapIOView.m */,
 				9697B9F518DCC8BE00C9CFE8 /* MapFileScene.h */,
 				9697B9F618DCC8BE00C9CFE8 /* MapFileScene.m */,
 				9687D42A18C7C16500D2B3F2 /* CircuitMap.h */,
@@ -424,6 +429,7 @@
 				967D7CA718BBF96100F72CF9 /* MyScene.m in Sources */,
 				96F92DC218C00F350077958A /* OR_Gate.m in Sources */,
 				963E9CE318C2802200C43451 /* NOR_Gate.m in Sources */,
+				2B5D62C619573C6400766353 /* MapIOView.m in Sources */,
 				9687D42C18C7C16500D2B3F2 /* CircuitMap.m in Sources */,
 				967D7CA418BBF96100F72CF9 /* ViewController.m in Sources */,
 				967D7CCA18BBFA8000F72CF9 /* Gates.m in Sources */,

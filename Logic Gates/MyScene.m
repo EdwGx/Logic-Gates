@@ -9,6 +9,8 @@
 #import "MyScene.h"
 #import "MapFileScene.h"
 
+#import "MapIOView.h"
+
 #import "AND_Gate.h"
 #import "OR_Gate.h"
 #import "XOR_Gate.h"
@@ -75,8 +77,14 @@
 -(void)presentMapFileScene{
     [self.view removeGestureRecognizer:self.doubleTapRecognizer];
     [self.view removeGestureRecognizer:self.zoomRecognizer];
-    MapFileScene* mapFileScene = [[MapFileScene alloc] initWithSize:self.size MainScene:self Map:self.map];
-    [self.view presentScene:mapFileScene transition:[SKTransition pushWithDirection:SKTransitionDirectionLeft duration:0.5]];
+    
+    MapIOView * mioView = [[MapIOView alloc]initWithFrame:CGRectMake(0, 0,
+                                                                     CGRectGetHeight(self.view.frame),
+                                                                     CGRectGetWidth(self.view.frame))
+                                                    Scene:self
+                                                      Map:self.map];
+    //self.view.userInteractionEnabled = NO;
+    [self.view addSubview:mioView];
 }
 
 -(void)handlePinchFrom:(UIPinchGestureRecognizer *)recognizer{
@@ -129,6 +137,10 @@
                 [GNode kill];
             } else {
                 self.dragingObject = GNode;
+                self.dragingObject.alpha = 0.8;
+                [self.dragingObject setScale:1.2];
+                self.dragingObject.position = self.dragingObject.position;
+                self.dragingObject.zPosition += 1;
                 dragingObjectStartLocation = lastTouchLocation;
                 [GNode touchBeganInGate:touch];
             }
@@ -299,6 +311,9 @@
         newGate.position = [self convertPoint:point toNode:self.map];
         [self.map addChild:newGate];
         self.dragingObject = newGate;
+        self.dragingObject.alpha = 0.8;
+        [self.dragingObject setScale:1.2];
+        self.dragingObject.zPosition += 1;
 
         SKAction* back = [SKAction runBlock:^{
             self.selectionMenu.position = CGPointMake(-30, self.size.height/2);
@@ -349,12 +364,19 @@
         if ([self.dragingObject isKindOfClass:[Gates class]] && distance <= 3.0) {
             [(Gates*)self.dragingObject touchEndedInGate:touch];
         }
+        self.dragingObject.alpha = 1.0;
+        [self.dragingObject setScale:1.0];
+        self.dragingObject.zPosition -= 1;
+        self.dragingObject.position = self.dragingObject.position;
         self.dragingObject = nil;
         
     }
     if (self.dragWire) {
         [self dragWireEndWithLocation:touch];
         self.dragWire = nil;
+    }
+    if (dragMap) {
+        dragMap = NO;
     }
 }
 
@@ -390,6 +412,10 @@
 
 -(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event{
     if (self.dragingObject) {
+        self.dragingObject.alpha = 1.0;
+        [self.dragingObject setScale:1.0];
+        self.dragingObject.zPosition -= 1;
+        self.dragingObject.position = self.dragingObject.position;
         self.dragingObject = nil;
     }
     if (self.dragWire) {

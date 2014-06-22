@@ -22,6 +22,7 @@
     if (self = [super init]) {
         [self setScale:1.0];
         self.delegate = delegate;
+        [self updateBound];
         self.isFileSystemWork = NO;
         [self performSelectorInBackground:@selector(setupFileSystem) withObject:nil];
     }
@@ -157,7 +158,10 @@
             
         }
     }
-    [self.fileIOMenu fileDidLoad];
+    if (self.fileIOMenu) {
+        [self.fileIOMenu fileDidLoad];
+    }
+    
 }
 
 -(Gates*)makeGateWithType:(int)type{
@@ -317,6 +321,7 @@
         NSError* err;
         [[NSFileManager defaultManager] removeItemAtPath:path error:&err];
     }
+    [self performSelectorInBackground:@selector(writeFilesList) withObject:nil];
 }
 
 -(NSString*)pathWithFileName:(NSString*)name{

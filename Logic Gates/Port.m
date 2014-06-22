@@ -24,7 +24,7 @@
 }
 
 -(CGPoint)mapPosition{
-    return CGPointMake(self.position.x+self.ownerGate.position.x,self.position.y+self.ownerGate.position.y);
+    return CGPointMake(self.position.x*self.ownerGate.xScale+self.ownerGate.position.x,self.position.y*self.ownerGate.yScale+self.ownerGate.position.y);
 }
 
 -(void)removeAllWire{

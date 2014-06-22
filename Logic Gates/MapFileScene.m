@@ -13,6 +13,8 @@
     CircuitMap* mMap;
     CGFloat yLength;
     BOOL lockButton;
+    
+    UITableView* _tableView;
 }
 -(id)initWithSize:(CGSize)size MainScene:(SKScene*)mainScene Map:(CircuitMap*)map{
     if (self = [super initWithSize:size]) {
@@ -35,13 +37,33 @@
         self.addButton.position = CGPointMake(40, 40);
         [self addChild:self.addButton];
         
+                                                                   
+                                                        
+        /*
         self.buttonMap = [SKNode node];
         [self addChild:self.buttonMap];
         
         [self performSelectorInBackground:@selector(setupButtons) withObject:nil];
+        */
         
     }
     return self;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return 20;//mMap.filesList.count - 1;
+}
+
+-(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCell* cell = [_tableView dequeueReusableCellWithIdentifier:@"cell"];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        cell.backgroundView.backgroundColor = [UIColor clearColor];
+        cell.backgroundColor = [UIColor clearColor];
+        cell.contentView.backgroundColor = [UIColor clearColor];
+    }
+    cell.textLabel.text = mMap.filesList[1];
+    return cell;
 }
 
 -(void)setupButtons{
@@ -73,6 +95,18 @@
     self.tapRecognizer = tapGestureRecognizer;
     self.panRecognizer = panGestureRecognizer;
     
+    CGRect viewRect = self.view.frame;
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(100,
+                                                               0,
+                                                               CGRectGetHeight(viewRect)-100,
+                                                               CGRectGetWidth(viewRect))
+                                              style:UITableViewStylePlain];
+    _tableView.backgroundColor = [UIColor clearColor];
+    _tableView.separatorColor = [UIColor blueColor];
+    _tableView.dataSource = self;
+    _tableView.delegate = self;
+    [self.view addSubview:_tableView];
+    
 }
 
 -(void)mapMove:(CGFloat)y{
@@ -101,6 +135,7 @@
 -(void)presentMainScene{
     [self.view removeGestureRecognizer:self.swipeRecognizer];
     [self.view removeGestureRecognizer:self.tapRecognizer];
+    [_tableView removeFromSuperview];
     [self.view presentScene:mScene
                  transition:[SKTransition pushWithDirection:SKTransitionDirectionRight duration:0.5]];
 }
