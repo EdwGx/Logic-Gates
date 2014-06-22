@@ -177,6 +177,10 @@
                 }
             }
         }
+    } else if ([node isKindOfClass:[Wire class]]){
+        if (killMode) {
+            [(Wire*)node kill];
+        }
     } else if ([self nodeIsEmptySpace:node]){
         //What happend when touch empty space(Actully there are some nodes)
         BOOL returnValue = [self findPortCloseToLocation:[self convertPoint:lastTouchLocation toNode:self.map]];
@@ -203,7 +207,7 @@
 }
 
 -(BOOL) nodeIsEmptySpace:(SKNode*)node{
-    return ([node isEqual:self]||[node isKindOfClass:[Wire class]]||[node isEqual:self.map]);
+    return ([node isEqual:self]||[node isEqual:self.map]);
 }
 
 -(void)moveMenuIn{

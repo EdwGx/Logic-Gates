@@ -18,7 +18,7 @@
 -(CGPoint)getDragingPosition;
 
 @end
-@interface Wire : SKShapeNode<PortDelegate>
+@interface Wire : SKSpriteNode<PortDelegate>
 
 -(id)initWithAnyPort:(Port*)sPort andStartPosition:(CGPoint)sPos;
 -(id)initWithStartPort:(Port*)sPort EndPort:(Port*)ePort;

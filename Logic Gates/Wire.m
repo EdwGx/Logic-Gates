@@ -14,7 +14,6 @@
     if (self = [super init]) {
         //Initialization
         if (sPort) {
-            self.lineWidth = 3.0;
             self.startPort = nil;
             self.endPort = nil;
 
@@ -173,12 +172,12 @@
 
 -(void)updateColor{
     if (!self.realInput) {
-        self.strokeColor = [SKColor redColor];
+        self.color = [SKColor redColor];
     } else {
         if (self.boolStatus) {
-            self.strokeColor = [SKColor greenColor];
+            self.color = [SKColor greenColor];
         } else {
-            self.strokeColor = [SKColor blackColor];
+            self.color = [SKColor blackColor];
         }
     }
 }
@@ -247,10 +246,30 @@
 }
 
 -(void)drawPathWithStartPosition:(CGPoint)startPos andEndPosition:(CGPoint)endPos{
+    CGFloat length = (CGFloat)sqrt(pow(startPos.x-endPos.x, 2)+pow(startPos.y-endPos.y, 2));
+    self.size = CGSizeMake(length, 4);
+    CGFloat x = endPos.x - startPos.x;
+    CGFloat y = endPos.y - startPos.y;
+    CGFloat rotation;
+    if (x == 0.0) {
+        rotation = M_PI_2;
+    } else{
+        rotation = atan(y/x);
+        if (x<0.0) {
+            rotation += M_PI;
+        }else{
+            rotation += M_PI*2;
+        }
+    }
+    self.zRotation = rotation;
+    self.position = CGPointMake((endPos.x + startPos.x)/2, (endPos.y + startPos.y)/2);
+    
+    /*
     CGMutablePathRef drawPath = CGPathCreateMutable();
     CGPathMoveToPoint(drawPath, NULL, startPos.x, startPos.y);
     CGPathAddLineToPoint(drawPath, NULL, endPos.x, endPos.y);
     self.path = drawPath;
     CGPathRelease(drawPath);
+     */
 }
 @end
