@@ -47,9 +47,8 @@
 
 -(void)initImage{
     /* Initialization of Image*/
-    UIImage *image = [UIImage imageNamed:[self imageName]];
-    self.texture = [SKTexture textureWithImage:image];
-    self.size = [image size];
+    self.texture = [SKTexture textureWithImageNamed:[self imageName]];
+    self.size = self.texture.size;
 }
 
 

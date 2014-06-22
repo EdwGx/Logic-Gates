@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2B5D62C619573C6400766353 /* MapIOView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5D62C519573C6400766353 /* MapIOView.m */; };
+		2BF1D9A419577665007E836B /* GateImages.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 2BF1D9A319577665007E836B /* GateImages.atlas */; };
 		963E9CE018C27F3600C43451 /* XOR_Gate.m in Sources */ = {isa = PBXBuildFile; fileRef = 963E9CDF18C27F3600C43451 /* XOR_Gate.m */; };
 		963E9CE318C2802200C43451 /* NOR_Gate.m in Sources */ = {isa = PBXBuildFile; fileRef = 963E9CE218C2802200C43451 /* NOR_Gate.m */; };
 		963E9CE618C2809D00C43451 /* XNOR_Gate.m in Sources */ = {isa = PBXBuildFile; fileRef = 963E9CE518C2809D00C43451 /* XNOR_Gate.m */; };
@@ -16,7 +17,6 @@
 		96730B7418C21948003287C0 /* SelectionSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 96730B7318C21948003287C0 /* SelectionSprite.m */; };
 		96773E1D18BD55B4002F5266 /* AND_Gate.m in Sources */ = {isa = PBXBuildFile; fileRef = 96773E1C18BD55B4002F5266 /* AND_Gate.m */; };
 		96778AA218D2661B0030E4F2 /* UI Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96778AA118D2661B0030E4F2 /* UI Images.xcassets */; };
-		967C274918BEA5C800824AF6 /* Gates Image.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 967C274818BEA5C800824AF6 /* Gates Image.xcassets */; };
 		967D7C8918BBF96100F72CF9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 967D7C8818BBF96100F72CF9 /* Foundation.framework */; };
 		967D7C8B18BBF96100F72CF9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 967D7C8A18BBF96100F72CF9 /* CoreGraphics.framework */; };
 		967D7C8D18BBF96100F72CF9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 967D7C8C18BBF96100F72CF9 /* UIKit.framework */; };
@@ -58,6 +58,7 @@
 		2B018D5B1955C311001CA694 /* PortDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PortDelegate.h; sourceTree = "<group>"; };
 		2B5D62C419573C6400766353 /* MapIOView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapIOView.h; sourceTree = "<group>"; };
 		2B5D62C519573C6400766353 /* MapIOView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapIOView.m; sourceTree = "<group>"; };
+		2BF1D9A319577665007E836B /* GateImages.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = GateImages.atlas; sourceTree = "<group>"; };
 		963E9CDE18C27F3600C43451 /* XOR_Gate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XOR_Gate.h; sourceTree = "<group>"; };
 		963E9CDF18C27F3600C43451 /* XOR_Gate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = XOR_Gate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		963E9CE118C2802200C43451 /* NOR_Gate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NOR_Gate.h; sourceTree = "<group>"; };
@@ -73,7 +74,6 @@
 		96773E1B18BD55B4002F5266 /* AND_Gate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AND_Gate.h; sourceTree = "<group>"; };
 		96773E1C18BD55B4002F5266 /* AND_Gate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AND_Gate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		96778AA118D2661B0030E4F2 /* UI Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "UI Images.xcassets"; sourceTree = "<group>"; };
-		967C274818BEA5C800824AF6 /* Gates Image.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Gates Image.xcassets"; sourceTree = "<group>"; };
 		967D7C8518BBF96100F72CF9 /* Logic Gates.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Logic Gates.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		967D7C8818BBF96100F72CF9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		967D7C8A18BBF96100F72CF9 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -306,12 +306,12 @@
 		96BB52A818BD4A4E001F53B0 /* Logic Gates */ = {
 			isa = PBXGroup;
 			children = (
+				2BF1D9A319577665007E836B /* GateImages.atlas */,
 				963E9CEB18C281A200C43451 /* NOT */,
 				963E9CEA18C2819100C43451 /* XOR */,
 				963E9CE918C2815F00C43451 /* OR */,
 				963E9CE818C2814800C43451 /* AND */,
 				96727A8B18C14D1600E79A39 /* Special Gates */,
-				967C274818BEA5C800824AF6 /* Gates Image.xcassets */,
 			);
 			name = "Logic Gates";
 			sourceTree = "<group>";
@@ -393,10 +393,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				96778AA218D2661B0030E4F2 /* UI Images.xcassets in Resources */,
-				967C274918BEA5C800824AF6 /* Gates Image.xcassets in Resources */,
 				967D7CAB18BBF96100F72CF9 /* Images.xcassets in Resources */,
 				967D7CA118BBF96100F72CF9 /* Main_iPad.storyboard in Resources */,
 				967D7C9E18BBF96100F72CF9 /* Main_iPhone.storyboard in Resources */,
+				2BF1D9A419577665007E836B /* GateImages.atlas in Resources */,
 				967D7C9518BBF96100F72CF9 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

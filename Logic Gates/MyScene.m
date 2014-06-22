@@ -7,7 +7,6 @@
 //
 
 #import "MyScene.h"
-#import "MapFileScene.h"
 
 #import "MapIOView.h"
 
