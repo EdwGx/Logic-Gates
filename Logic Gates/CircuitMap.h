@@ -41,8 +41,8 @@
 -(void)loadMap:(NSString*)fileName;
 -(void)removeMapFile:(NSString*)name;
 
-@property(weak) id<circuitMapDelegate> delegate;
-@property(weak) id<circuitMapFileIODelegate> fileIOMenu;
-@property NSMutableArray* filesList;
-@property BOOL isFileSystemWork;
+@property (nonatomic, weak) id<circuitMapDelegate> delegate;
+@property (nonatomic, weak) id<circuitMapFileIODelegate> fileIOMenu;
+@property (nonatomic) NSMutableArray* filesList;
+@property (nonatomic) BOOL isFileSystemWork;
 @end

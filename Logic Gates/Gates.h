@@ -30,9 +30,9 @@
 -(void)touchEndedInGate:(UITouch*)touch;
 -(void)touchBeganInGate:(UITouch*)touch;
 
-@property int8_t gateType;
-@property BOOL realInput;
-@property BOOL willKill;
-@property(strong) NSArray* inPort;
-@property(strong) NSArray* outPort;
+@property (nonatomic) int8_t gateType;
+@property (nonatomic) BOOL realInput;
+@property (nonatomic) BOOL willKill;
+@property (nonatomic) NSArray* inPort;
+@property (nonatomic) NSArray* outPort;
 @end

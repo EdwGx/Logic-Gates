@@ -29,14 +29,14 @@
 -(void) connectNewPort:(Port*)newPort withPosition:(CGPoint)point;
 -(BOOL) wantConnectThisPort:(Port*)port;
 
-@property(weak) Port* startPort;
-@property(weak) Port* endPort;
+@property(nonatomic, weak) Port* startPort;
+@property(nonatomic, weak) Port* endPort;
 
-@property(weak) Gates* startGate;
-@property(weak) Gates* endGate;
+@property(nonatomic, weak) Gates* startGate;
+@property(nonatomic, weak) Gates* endGate;
 
 @property(nonatomic) BOOL boolStatus;
 @property(nonatomic) BOOL realInput;
 
-@property(weak) id delegate;
+@property(nonatomic, weak) id delegate;
 @end

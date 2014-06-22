@@ -12,6 +12,6 @@
 -(id)initWithScene:(SKScene*)scene Size:(CGSize)size;
 -(int8_t)getTouchGateTypeWithName:(NSString*)name;
 
-@property NSArray* typeArray;
-@property(weak) SKScene* mainScene;
+@property (nonatomic) NSArray* typeArray;
+@property (nonatomic, weak) SKScene* mainScene;
 @end

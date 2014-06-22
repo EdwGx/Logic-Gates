@@ -36,13 +36,13 @@
 -(CGPoint) mapPosition;
 -(BOOL)isAbleToConnect;
 
-@property(nonatomic) PortType type;
-@property(nonatomic) BOOL realInput;
-@property(nonatomic) BOOL boolStatus;
-@property BOOL wireConnectable;
+@property (nonatomic) PortType type;
+@property (nonatomic) BOOL realInput;
+@property (nonatomic) BOOL boolStatus;
+@property (nonatomic) BOOL wireConnectable;
 
-@property(nonatomic,weak) Gates* ownerGate;
-@property(nonatomic,weak) Wire* inWire;
+@property (nonatomic,weak) Gates* ownerGate;
+@property (nonatomic,weak) Wire* inWire;
 
-@property CGPoint position;
+@property (nonatomic) CGPoint position;
 @end

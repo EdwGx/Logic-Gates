@@ -24,18 +24,17 @@
 -(void)moveMenuIn;
 -(void)moveMenuOut;
 
-//@property SKNode *dragingObject;
-@property SKNode* dragingObject;
-@property SKSpriteNode* ModeChanger;
-@property SKSpriteNode* selectionMenu;
-@property SKSpriteNode*saveMapButton;
-@property SKSpriteNode*readMapButton;
+@property (nonatomic) SKNode* dragingObject;
+@property (nonatomic) SKSpriteNode* ModeChanger;
+@property (nonatomic) SKSpriteNode* selectionMenu;
+@property (nonatomic) SKSpriteNode*saveMapButton;
+@property (nonatomic) SKSpriteNode*readMapButton;
 
-@property Wire* dragWire;
-@property CircuitMap* map;
-@property SelectionSprite* selectSp;
+@property (nonatomic) Wire* dragWire;
+@property (nonatomic) CircuitMap* map;
+@property (nonatomic) SelectionSprite* selectSp;
 
-@property(weak) UITapGestureRecognizer* doubleTapRecognizer;
-@property(weak) UIPinchGestureRecognizer* zoomRecognizer;
+@property (weak, nonatomic) UITapGestureRecognizer* doubleTapRecognizer;
+@property (weak, nonatomic) UIPinchGestureRecognizer* zoomRecognizer;
 
 @end
