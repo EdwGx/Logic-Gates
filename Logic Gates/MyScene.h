@@ -12,10 +12,12 @@
 #import "Gates.h"
 #import "CircuitMap.h"
 #import "Button.h"
+#import "CornerView.h"
+#import "CornerViewDelegate.h"
 
 @class Wire;
 @class SelectionSprite;
-@interface MyScene : SKScene<circuitMapDelegate>{
+@interface MyScene : SKScene<circuitMapDelegate,CornerViewDelegate>{
     CGPoint lastTouchLocation;
     CGPoint dragingObjectStartLocation;
 }

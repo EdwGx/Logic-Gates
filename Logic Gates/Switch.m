@@ -18,6 +18,7 @@
     outputState = outP1.boolStatus;
     self.outPort = [NSArray arrayWithObject:outP1];
     self.userInteractionEnabled = YES;
+    [self.userData setObject:@"" forKey:@"InputName"];
 }
 
 -(NSString*)imageName{

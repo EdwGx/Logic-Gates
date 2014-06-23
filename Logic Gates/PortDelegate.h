@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(BOOL, PortType){
+typedef NS_ENUM(NSUInteger, PortType){
     InputPortType,
     OutputPortType
 };

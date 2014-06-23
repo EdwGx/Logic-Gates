@@ -43,6 +43,9 @@
     __weak UITapGestureRecognizer* _singleTapRecognizer;
     __weak UITapGestureRecognizer* _doubleTapRecognizer;
     __weak UIPinchGestureRecognizer* _zoomRecognizer;
+    
+    __weak CornerView* _cornerView;
+    __weak Gates* _cornerViewSelectedGate;
 }
 
 -(id)initWithSize:(CGSize)size {
@@ -88,7 +91,7 @@
 }
 
 -(void)touchModeChanger:(Button*)button{
-    if (normalMode){
+    if (normalMode&&!self.selectSp){
         if (!changingKillMode) {
             killMode = !killMode;
             [self.ModeChanger runAction:[SKAction rotateByAngle:1.75*M_PI duration:0.5]completion:^{
@@ -127,38 +130,41 @@
 -(void)handlePanFrom:(MPanGestureRecognizer *)recognizer{
     if (recognizer.state == UIGestureRecognizerStateBegan) {
         
-        CGPoint currentLocation = [self convertPoint:[self.view convertPoint:[recognizer locationInView:self.view] toScene:self] toNode:self.map];
-        CGPoint translation = [recognizer translationInView:self.view];
-        translation = CGPointMake(translation.x, -translation.y);
-        CGPoint startLocation = [self convertPoint:[self.view convertPoint:recognizer.startLocation toScene:self] toNode:self.map];
-        
-        SKNode* node = [self nodeAtPoint:startLocation];
-        if ([node isKindOfClass:[Gates class]]&&normalMode) {
-            Gates* gateNode = (Gates*)node;
-            Port * portNode = [gateNode portCloseToPointInScene:startLocation Range:0.5];
-            if (portNode) {
-                [portNode removeAllWire];
-                if ([portNode isAbleToConnect]) {
-                    self.dragWire = [[Wire alloc]initWithAnyPort:portNode andStartPosition:currentLocation];
-                    [self.map addChild:self.dragWire];
-                }
-            }
-        }else if ([self nodeIsEmptySpace:node]){
-            Port* portNode = [self findPortCloseToLocation:startLocation];
-            if (!portNode) {
-                dragMap = YES;
-            }else{
-                if (killMode) {
+        if (!self.selectSp) {
+            CGPoint currentLocation = [self convertPoint:[self.view convertPoint:[recognizer locationInView:self.view] toScene:self] toNode:self.map];
+            CGPoint translation = [recognizer translationInView:self.view];
+            translation = CGPointMake(translation.x, -translation.y);
+            CGPoint startLocation = [self convertPoint:[self.view convertPoint:recognizer.startLocation toScene:self] toNode:self.map];
+            
+            SKNode* node = [self nodeAtPoint:startLocation];
+            if ([node isKindOfClass:[Gates class]]&&normalMode) {
+                Gates* gateNode = (Gates*)node;
+                Port * portNode = [gateNode portCloseToPointInScene:startLocation Range:0.5];
+                if (portNode) {
                     [portNode removeAllWire];
-                } else {
                     if ([portNode isAbleToConnect]) {
                         self.dragWire = [[Wire alloc]initWithAnyPort:portNode andStartPosition:currentLocation];
                         [self.map addChild:self.dragWire];
                     }
                 }
+            }else if ([self nodeIsEmptySpace:node]){
+                Port* portNode = [self findPortCloseToLocation:startLocation];
+                if (!portNode) {
+                    dragMap = YES;
+                }else{
+                    if (killMode) {
+                        [portNode removeAllWire];
+                    } else {
+                        if ([portNode isAbleToConnect]) {
+                            self.dragWire = [[Wire alloc]initWithAnyPort:portNode andStartPosition:currentLocation];
+                            [self.map addChild:self.dragWire];
+                        }
+                    }
+                }
             }
+            [recognizer setTranslation:CGPointZero inView:self.view];
         }
-        [recognizer setTranslation:CGPointZero inView:self.view];
+        
         
     }else if (recognizer.state == UIGestureRecognizerStateChanged){
         
@@ -196,7 +202,7 @@
         
         BOOL startDragNode = NO;
         
-        if ([node isKindOfClass:[Gates class]]&&normalMode) {
+        if (([node isKindOfClass:[Gates class]]&&normalMode)&&!self.selectSp) {
             Gates* gateNode = (Gates*)node;
             _dragNodeStartPosition = touchLocation;
             _dragNode = gateNode;
@@ -271,29 +277,62 @@
 
 -(void)handleSingleTapFrom:(UITapGestureRecognizer *)recognizer{
     if (recognizer.state == UIGestureRecognizerStateEnded) {
-        CGPoint touchLocation = [self convertPoint:[self.view convertPoint:[recognizer locationInView:self.view] toScene:self] toNode:self.map];
-        SKNode* node = [self.map nodeAtPoint:touchLocation];
-        
-        if ([node isKindOfClass:[Gates class]]&&normalMode) {
-            Gates* gateNode = (Gates*)node;
-            if (killMode) {
-                [gateNode kill];
-            }else{
-                SKLabelNode* label = [SKLabelNode labelNodeWithFontNamed:@"Avenir-Roman"];
-                label.text = [gateNode gateName];
-                label.fontSize = 12;
-                label.verticalAlignmentMode = SKLabelVerticalAlignmentModeBottom;
-                label.position = CGPointMake(gateNode.position.x, gateNode.position.y - gateNode.size.height);
-                [self.map addChild:label];
-                
-                SKAction* wait = [SKAction waitForDuration:2];
-                SKAction* disappear = [SKAction fadeOutWithDuration:1];
-                SKAction* remove = [SKAction removeFromParent];
-                SKAction* sequence = [SKAction sequence:@[wait,disappear,remove]];
-                [label runAction:sequence];
+        if (!self.selectSp) {
+            CGPoint touchLocation = [self convertPoint:[self.view convertPoint:[recognizer locationInView:self.view] toScene:self] toNode:self.map];
+            SKNode* node = [self.map nodeAtPoint:touchLocation];
+            
+            if ([node isKindOfClass:[Gates class]]&&normalMode) {
+                Gates* gateNode = (Gates*)node;
+                if (killMode) {
+                    [gateNode kill];
+                }else{
+                    SKLabelNode* label = [SKLabelNode labelNodeWithFontNamed:@"Avenir-Roman"];
+                    label.text = [gateNode gateName];
+                    label.fontSize = 12;
+                    label.verticalAlignmentMode = SKLabelVerticalAlignmentModeBottom;
+                    label.position = CGPointMake(gateNode.position.x, gateNode.position.y - gateNode.size.height);
+                    [self.map addChild:label];
+                    
+                    SKAction* wait = [SKAction waitForDuration:2];
+                    SKAction* disappear = [SKAction fadeOutWithDuration:1];
+                    SKAction* remove = [SKAction removeFromParent];
+                    SKAction* sequence = [SKAction sequence:@[wait,disappear,remove]];
+                    [label runAction:sequence];
+                    
+                    int8_t type = [gateNode getDefultGateTypeValue];
+                    if (type == 9 || type == 8) {
+                        if (_cornerView) {
+                            if (_cornerView.state == CornerViewWaitingState || _cornerView.state == CornerViewAppearingState){
+                                [_cornerView removeFromSuperview];
+                                _cornerView = nil;
+                            }
+                        }
+                        if (!_cornerView) {
+                            _cornerViewSelectedGate = gateNode;
+                            CornerView* cView = [[CornerView alloc] initWithFrame:self.view.frame DisplayType:(type == 9)?OutputBooleanFormulaType:InputNameEditorType];
+                            cView.delegate = self;
+                            [self.view addSubview:cView];
+                            _cornerView = cView;
+                            [_cornerView showUp];
+                            
+                        }
+                    }
+                }
             }
         }
     }
+}
+
+-(NSString*)getSelectedInputName{
+    return [_cornerViewSelectedGate.userData objectForKey:@"InputName"];
+}
+
+-(void)changeSelectedInputNameTo:(NSString*)name{
+    
+}
+
+-(void)getBooleanFormulaOfSelectedOutput:(CornerView*)cornerView{
+    
 }
 
 -(void)presentMapFileScene{
@@ -508,13 +547,15 @@
 }
 
 -(void)touchSaveMapButton:(Button*)button{
-    [self presentMapFileScene];
+    if (!self.selectSp) {
+        [self presentMapFileScene];
+    }
 }
 
 -(void)fileSystemDidSetup{
     self.saveMapButton = [Button spriteNodeWithImageNamed:@"menu"];
     self.saveMapButton.zPosition = 10;
-    self.saveMapButton.position = CGPointMake(self.size.width-30, self.size.height-30);
+    self.saveMapButton.position = CGPointMake(self.size.width-30, self.size.height-60);
     [self addChild:self.saveMapButton];
     [self.saveMapButton setTouchDownTarget:self Action:@selector(touchSaveMapButton:)];
 }
