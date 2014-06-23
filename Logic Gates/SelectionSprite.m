@@ -14,6 +14,7 @@
 @implementation SelectionSprite
 -(id)initWithScene:(SKScene *)scene Size:(CGSize)size{
     if (self = [super init]) {
+        self.userInteractionEnabled = YES;
         self.position = CGPointMake(-size.width/2+10, size.height/2);
         self.color = [SKColor colorWithRed:0.2 green:0.594 blue:0.855 alpha:0.9];
         self.typeArray = @[@"and_gate",@"or_gate",@"xor_gate",@"nand_gate",@"nor_gate",@"xnor_gate",@"not_gate",@"switch_off",@"bulb_off" ];

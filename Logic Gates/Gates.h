@@ -27,10 +27,9 @@
 -(Port*)portCloseToPointInScene:(CGPoint)point Range:(float)range;
 -(BOOL)isPossibleHavePortCloseToPoint:(CGPoint)point;
 
--(void)touchEndedInGate:(CGPoint)point;
--(void)touchBeganInGate:(CGPoint)point;
-
 -(void)updatePortPositonInDurtion:(NSTimeInterval)duration;
+
+-(NSString*)gateName;
 
 @property (nonatomic) int8_t gateType;
 @property (nonatomic) BOOL realInput;

@@ -137,13 +137,10 @@
             Gates* gateNode = (Gates*)node;
             Port * portNode = [gateNode portCloseToPointInScene:startLocation Range:0.5];
             if (portNode) {
-                if (killMode) {
-                    [portNode removeAllWire];
-                } else {
-                    if ([portNode isAbleToConnect]) {
-                        self.dragWire = [[Wire alloc]initWithAnyPort:portNode andStartPosition:currentLocation];
-                        [self.map addChild:self.dragWire];
-                    }
+                [portNode removeAllWire];
+                if ([portNode isAbleToConnect]) {
+                    self.dragWire = [[Wire alloc]initWithAnyPort:portNode andStartPosition:currentLocation];
+                    [self.map addChild:self.dragWire];
                 }
             }
         }else if ([self nodeIsEmptySpace:node]){
@@ -201,15 +198,10 @@
         
         if ([node isKindOfClass:[Gates class]]&&normalMode) {
             Gates* gateNode = (Gates*)node;
-            if (killMode) {
-                [gateNode kill];
-            } else {
-                _dragNodeStartPosition = touchLocation;
-                _dragNode = gateNode;
-                startDragNode = YES;
-                [gateNode updatePortPositonInDurtion:0.17];
-                [gateNode touchBeganInGate:[self.map convertPoint:touchLocation toNode:_dragNode]];
-            }
+            _dragNodeStartPosition = touchLocation;
+            _dragNode = gateNode;
+            startDragNode = YES;
+            [gateNode updatePortPositonInDurtion:0.17];
         } else if (self.selectSp && !menuMoving) {
             CGPoint location = [self.view convertPoint:[recognizer locationInView:self.view] toScene:self];
             SKNode* node = [self nodeAtPoint:location];
@@ -257,13 +249,9 @@
         
         if (_dragNode) {
             CGPoint currentLocation = [self convertPoint:[self.view convertPoint:[recognizer locationInView:self.view] toScene:self] toNode:self.map];
-            CGFloat distance = sqrt(pow((currentLocation.x-_dragNodeStartPosition.x), 2.0) + pow((currentLocation.y-_dragNodeStartPosition.y), 2.0));
             
             _dragNode.position = currentLocation;
             if ([_dragNode isKindOfClass:[Gates class]]) {
-                if (distance <= 3.0) {
-                    [(Gates*)_dragNode touchEndedInGate:[self.map convertPoint:currentLocation toNode:_dragNode]];
-                }
                 [(Gates*)_dragNode updatePortPositonInDurtion:0.1];
             }
             
@@ -282,7 +270,30 @@
 }
 
 -(void)handleSingleTapFrom:(UITapGestureRecognizer *)recognizer{
-    
+    if (recognizer.state == UIGestureRecognizerStateEnded) {
+        CGPoint touchLocation = [self convertPoint:[self.view convertPoint:[recognizer locationInView:self.view] toScene:self] toNode:self.map];
+        SKNode* node = [self.map nodeAtPoint:touchLocation];
+        
+        if ([node isKindOfClass:[Gates class]]&&normalMode) {
+            Gates* gateNode = (Gates*)node;
+            if (killMode) {
+                [gateNode kill];
+            }else{
+                SKLabelNode* label = [SKLabelNode labelNodeWithFontNamed:@"Avenir-Roman"];
+                label.text = [gateNode gateName];
+                label.fontSize = 12;
+                label.verticalAlignmentMode = SKLabelVerticalAlignmentModeBottom;
+                label.position = CGPointMake(gateNode.position.x, gateNode.position.y - gateNode.size.height);
+                [self.map addChild:label];
+                
+                SKAction* wait = [SKAction waitForDuration:2];
+                SKAction* disappear = [SKAction fadeOutWithDuration:1];
+                SKAction* remove = [SKAction removeFromParent];
+                SKAction* sequence = [SKAction sequence:@[wait,disappear,remove]];
+                [label runAction:sequence];
+            }
+        }
+    }
 }
 
 -(void)presentMapFileScene{
@@ -324,84 +335,6 @@
         }
     }
 }
-
-
-
-/*
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    //Called when a touch begins
-    UITouch* touch = [touches anyObject];
-    lastTouchLocation = [touch locationInNode:self];
-    SKNode* node = [self nodeAtPoint:lastTouchLocation];
-    if ([node isKindOfClass:[Gates class]]&&normalMode) {
-        Gates*GNode = (Gates*)node;
-        Port *inNode = [GNode portCloseToPointInScene:[self convertPoint:lastTouchLocation toNode:self.map] Range:0.5];
-        if (inNode) {
-            if (killMode) {
-                [inNode removeAllWire];
-            } else {
-                if ([inNode isAbleToConnect]) {
-                    self.dragWire = [[Wire alloc]initWithAnyPort:inNode andStartPosition:[self convertPoint:lastTouchLocation toNode:self.map]];
-                    [self.map addChild:self.dragWire];
-                }
-            }
-        } else{
-            if (killMode) {
-                [GNode kill];
-            } else {
-                self.dragingObject = GNode;
-                self.dragingObject.alpha = 0.8;
-                [self.dragingObject setScale:1.2];
-                self.dragingObject.position = self.dragingObject.position;
-                self.dragingObject.zPosition += 1;
-                dragingObjectStartLocation = lastTouchLocation;
-                [GNode touchBeganInGate:touch];
-            }
-        }
-    } else if ([node isEqual:self.ModeChanger]&&normalMode){
-        if (!changingKillMode) {
-            killMode = !killMode;
-            [self.ModeChanger runAction:[SKAction rotateByAngle:1.75*M_PI duration:0.5]completion:^{
-                changingKillMode = NO;}];
-        }
-    } else if ([node isEqual:self.selectionMenu]&&normalMode){
-        if (!menuMoving) {
-            if (menuOut) {
-                [self moveMenuIn];
-            }else{
-                [self moveMenuOut];
-            }
-        }
-    }else if ([node isEqual:self.saveMapButton]){
-        [self presentMapFileScene];
-
-    }else if (self.selectSp && !menuMoving) {
-        CGPoint location = [touch locationInNode:self];
-        SKNode* node = [self nodeAtPoint:location];
-        if (node) {
-            if ([[node parent]isEqual:self.selectSp]){
-                int8_t type = [self.selectSp getTouchGateTypeWithName:node.name];
-                if (type != 0) {
-                    node.alpha = 0.0;
-                    CGPoint point = [self convertPoint:node.position fromNode:self.selectSp];
-                    [self createNewGate:type Position:point];
-                }
-            }
-        }
-    } else if ([node isKindOfClass:[Wire class]]){
-        if (killMode) {
-            [(Wire*)node kill];
-        }
-    } else if ([self nodeIsEmptySpace:node]){
-        //What happend when touch empty space(Actully there are some nodes)
-        BOOL returnValue = [self findPortCloseToLocation:[self convertPoint:lastTouchLocation toNode:self.map]];
-        if (!returnValue) {
-            dragMap = YES;
-        }
-    }
-
-}
-*/
 
 -(void)handleDoubleTapFrom:(UITapGestureRecognizer *)recognizer{
     if (recognizer.state == UIGestureRecognizerStateEnded && self.map.xScale != 1.0) {
@@ -537,51 +470,7 @@
     return nil;
 }
 
-/*
--(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
-    UITouch *touch = [touches anyObject];
-    CGPoint newTouchLocation = [touch locationInNode:self];
-    if (menuOut&&self.selectSp) {
-        CGFloat newY = self.selectSp.position.y + newTouchLocation.y - lastTouchLocation.y;
-        newY = MIN(newY, self.selectSp.size.height/2);
-        newY = MAX(newY, self.size.height-self.selectSp.size.height/2);
-        self.selectSp.position = CGPointMake(self.selectSp.position.x, newY);
-    } else if (self.dragingObject) {
-        self.dragingObject.position = CGPointMake(
-              self.dragingObject.position.x + newTouchLocation.x - lastTouchLocation.x,
-              self.dragingObject.position.y + newTouchLocation.y - lastTouchLocation.y);
-    }
-    else if (self.dragWire){
-        [self.dragWire drawLine];
-    } else if (dragMap){
-        [self.map moveByPoint:
-         CGPointMake(newTouchLocation.x - lastTouchLocation.x, newTouchLocation.y - lastTouchLocation.y)];
-    }
-    lastTouchLocation = newTouchLocation;
 
-}
-
-
--(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
-    UITouch* touch = [touches anyObject];
-    if (self.dragingObject) {
-        CGPoint currentLocation = [touch locationInNode:self];
-        CGFloat distance = sqrt(pow((currentLocation.x-dragingObjectStartLocation.x), 2.0) + pow((currentLocation.y-dragingObjectStartLocation.y), 2.0));
-        
-        if ([self.dragingObject isKindOfClass:[Gates class]] && distance <= 3.0) {
-            [(Gates*)self.dragingObject touchEndedInGate:touch];
-        }
-        
-        
-        self.dragingObject.alpha = 1.0;
-        [self.dragingObject setScale:1.0];
-        self.dragingObject.zPosition -= 1;
-        self.dragingObject.position = self.dragingObject.position;
-        self.dragingObject = nil;
-        
-    }
-}
-*/
 
 -(void)dragWireEndWithLocation:(CGPoint)point{
     SKNode* node = [self nodeAtPoint:[self convertPoint:point toNode:self.map]];
@@ -612,24 +501,7 @@
     }
     [self.dragWire kill];
 }
-/*
--(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event{
-    if (self.dragingObject) {
-        self.dragingObject.alpha = 1.0;
-        [self.dragingObject setScale:1.0];
-        self.dragingObject.zPosition -= 1;
-        self.dragingObject.position = self.dragingObject.position;
-        self.dragingObject = nil;
-    }
-    if (self.dragWire) {
-        [self.dragWire removeFromParent];
-        self.dragWire = nil;
-    }
-    if (dragMap) {
-        dragMap = NO;
-    }
-}
-*/
+
 
 -(CGSize)getScreenSize{
     return self.size;

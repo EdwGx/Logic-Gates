@@ -166,8 +166,16 @@
     }
 }
 
--(void)portWillRemoveWires{
-    [self kill];
+-(void)portWillRemoveWires:(PortType)portType{
+    if (self.startPort && portType != OutputPortType) {
+        [self.startPort removeDelegate:self];
+    }
+    if (self.endPort && portType != InputPortType){
+        [self.endPort inWireWillRemove];
+        [self.endPort removeDelegate:self];
+    }
+    [self removeAllActions];
+    [self removeFromParent];
 }
 
 -(void)updateColor{

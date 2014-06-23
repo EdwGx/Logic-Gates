@@ -143,14 +143,6 @@
     }
 }
 
--(void)touchEndedInGate:(CGPoint)point{
-    
-}
-
--(void)touchBeganInGate:(CGPoint)point{
-    
-}
-
 -(void)updatePortPositonInDurtion:(NSTimeInterval)duration{
     SKAction* update = [SKAction customActionWithDuration:duration actionBlock:^(SKNode *node, CGFloat elapsedTime) {
         for (Port *aPort in self.inPort){
@@ -161,5 +153,9 @@
         }
     }];
     [self runAction:update];
+}
+
+-(NSString*)gateName{
+    return @"GATE";
 }
 @end

@@ -29,8 +29,8 @@
 
 -(void)removeAllWire{
     for (id<PortDelegate> pointer in delegatesSet){
-        if ([pointer respondsToSelector:@selector(portWillRemoveWires)]) {
-            [pointer portWillRemoveWires];
+        if ([pointer respondsToSelector:@selector(portWillRemoveWires:)]) {
+            [pointer portWillRemoveWires:self.type];
         }
     }
 }
