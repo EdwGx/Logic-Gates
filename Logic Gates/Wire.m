@@ -206,23 +206,11 @@
 }
 
 -(void)drawLine{
-    CGPoint startPos;
-    CGPoint endPos;
     if (self.startPort && self.endPort) {
-        startPos = [self.startPort mapPosition];
-        endPos = [self.endPort mapPosition];
-    } else if (self.startPort) {
-        startPos = [self.startPort mapPosition];
-        endPos = [self.delegate getDragingPosition];
-    } else if (self.endPort) {
-        endPos = [self.endPort mapPosition];
-        startPos = [self.delegate getDragingPosition];
-    } else {
-        //Wire should have one or more port
-        [self kill];
-        return;
+        CGPoint startPos = [self.startPort mapPosition];
+        CGPoint endPos = [self.endPort mapPosition];
+        [self drawPathWithStartPosition:startPos andEndPosition:endPos];
     }
-    [self drawPathWithStartPosition:startPos andEndPosition:endPos];
 }
 
 -(void)drawLineWithPosition:(CGPoint)point{
