@@ -24,6 +24,7 @@
 -(id)initWithStartPort:(Port*)sPort EndPort:(Port*)ePort;
 
 -(void) drawLine;
+-(void) drawLineWithPosition:(CGPoint)point;
 -(void) kill;
 -(void) connectNewPort:(Port*)newPort;
 -(void) connectNewPort:(Port*)newPort withPosition:(CGPoint)point;
@@ -37,6 +38,4 @@
 
 @property(nonatomic) BOOL boolStatus;
 @property(nonatomic) BOOL realInput;
-
-@property(nonatomic, weak) id delegate;
 @end

@@ -11,10 +11,11 @@
 #import "SelectionSprite.h"
 #import "Gates.h"
 #import "CircuitMap.h"
+#import "Button.h"
 
 @class Wire;
 @class SelectionSprite;
-@interface MyScene : SKScene<wireProtocol,circuitMapDelegate>{
+@interface MyScene : SKScene<circuitMapDelegate>{
     CGPoint lastTouchLocation;
     CGPoint dragingObjectStartLocation;
 }
@@ -24,17 +25,15 @@
 -(void)moveMenuIn;
 -(void)moveMenuOut;
 
+/*
 @property (nonatomic) SKNode* dragingObject;
-@property (nonatomic) SKSpriteNode* ModeChanger;
-@property (nonatomic) SKSpriteNode* selectionMenu;
-@property (nonatomic) SKSpriteNode*saveMapButton;
-@property (nonatomic) SKSpriteNode*readMapButton;
+*/
+@property (nonatomic) Button* ModeChanger;
+@property (nonatomic) Button* selectionMenu;
+@property (nonatomic) Button* saveMapButton;
 
 @property (nonatomic) Wire* dragWire;
 @property (nonatomic) CircuitMap* map;
 @property (nonatomic) SelectionSprite* selectSp;
-
-@property (weak, nonatomic) UITapGestureRecognizer* doubleTapRecognizer;
-@property (weak, nonatomic) UIPinchGestureRecognizer* zoomRecognizer;
 
 @end

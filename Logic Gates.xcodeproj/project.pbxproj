@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B10DED31958712100CFD7A0 /* Button.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B10DED21958712100CFD7A0 /* Button.m */; };
+		2B10DEDC19588A6900CFD7A0 /* MPanGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B10DEDB19588A6900CFD7A0 /* MPanGestureRecognizer.m */; };
 		2B5D62C619573C6400766353 /* MapIOView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5D62C519573C6400766353 /* MapIOView.m */; };
 		2BF1D9A419577665007E836B /* GateImages.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 2BF1D9A319577665007E836B /* GateImages.atlas */; };
 		963E9CE018C27F3600C43451 /* XOR_Gate.m in Sources */ = {isa = PBXBuildFile; fileRef = 963E9CDF18C27F3600C43451 /* XOR_Gate.m */; };
@@ -56,6 +58,10 @@
 
 /* Begin PBXFileReference section */
 		2B018D5B1955C311001CA694 /* PortDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PortDelegate.h; sourceTree = "<group>"; };
+		2B10DED11958712100CFD7A0 /* Button.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Button.h; sourceTree = "<group>"; };
+		2B10DED21958712100CFD7A0 /* Button.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Button.m; sourceTree = "<group>"; };
+		2B10DEDA19588A6900CFD7A0 /* MPanGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPanGestureRecognizer.h; sourceTree = "<group>"; };
+		2B10DEDB19588A6900CFD7A0 /* MPanGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPanGestureRecognizer.m; sourceTree = "<group>"; };
 		2B5D62C419573C6400766353 /* MapIOView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapIOView.h; sourceTree = "<group>"; };
 		2B5D62C519573C6400766353 /* MapIOView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapIOView.m; sourceTree = "<group>"; };
 		2BF1D9A319577665007E836B /* GateImages.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = GateImages.atlas; sourceTree = "<group>"; };
@@ -298,6 +304,10 @@
 				96730B7318C21948003287C0 /* SelectionSprite.m */,
 				96A0FB5F18CE645C00537E5C /* ButtonSprite.h */,
 				96A0FB6018CE645C00537E5C /* ButtonSprite.m */,
+				2B10DED11958712100CFD7A0 /* Button.h */,
+				2B10DED21958712100CFD7A0 /* Button.m */,
+				2B10DEDA19588A6900CFD7A0 /* MPanGestureRecognizer.h */,
+				2B10DEDB19588A6900CFD7A0 /* MPanGestureRecognizer.m */,
 				96778AA118D2661B0030E4F2 /* UI Images.xcassets */,
 			);
 			name = "UI Support";
@@ -431,6 +441,8 @@
 				967D7CD018BBFF8500F72CF9 /* Wire.m in Sources */,
 				96F92DC518C0118F0077958A /* Switch.m in Sources */,
 				967D7C9B18BBF96100F72CF9 /* AppDelegate.m in Sources */,
+				2B10DEDC19588A6900CFD7A0 /* MPanGestureRecognizer.m in Sources */,
+				2B10DED31958712100CFD7A0 /* Button.m in Sources */,
 				96730B7418C21948003287C0 /* SelectionSprite.m in Sources */,
 				96727A8918C13EB600E79A39 /* LightBulb.m in Sources */,
 				963E9CE618C2809D00C43451 /* XNOR_Gate.m in Sources */,

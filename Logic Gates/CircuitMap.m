@@ -20,9 +20,8 @@
 
 -(id)initMapWithDelegate:(id<circuitMapDelegate>)delegate{
     if (self = [super init]) {
-        [self setScale:1.0];
         self.delegate = delegate;
-        [self updateBound];
+        [self setScale:1.0];
         self.isFileSystemWork = NO;
         [self performSelectorInBackground:@selector(setupFileSystem) withObject:nil];
     }
@@ -32,6 +31,7 @@
 -(void)updateBound{
     CGSize fullSize = [self.delegate getScreenSize];
     CGSize halfScene = CGSizeMake(fullSize.width/2, fullSize.height/2);
+    
     maxPosX = (halfScene.width*currentScale)/minZoomOut;
     minPosX = halfScene.width*2.0 - maxPosX;
     

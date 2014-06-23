@@ -17,7 +17,7 @@
     outP1.boolStatus = NO;
     outputState = outP1.boolStatus;
     self.outPort = [NSArray arrayWithObject:outP1];
-    //self.userInteractionEnabled = YES;
+    self.userInteractionEnabled = YES;
 }
 
 -(NSString*)imageName{
@@ -44,14 +44,28 @@
     }
 }
 
--(void)touchEndedInGate:(UITouch *)touch{
-    CGPoint touchLocation = [touch locationInNode:self];
-    if ((touchLocation.x>-5 && touchLocation.x<3) && (touchLocation.y>-10 && touchLocation.y<10)){
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    [super touchesBegan:touches withEvent:event];
+    for (UITouch* touch in touches) {
+        CGPoint point = [touch locationInNode:self];
+        if ((point.x>-5 && point.x<3) && (point.y>-10 && point.y<10)){
+            Port *outP1 = [self.outPort objectAtIndex:0];
+            outputState = !outputState;
+            outP1.boolStatus = outputState;
+            [self initImage];
+            return;
+        }
+    }
+}
+
+/*
+-(void)touchEndedInGate:(CGPoint)point{
+    if ((point.x>-5 && point.x<3) && (point.y>-10 && point.y<10)){
         Port *outP1 = [self.outPort objectAtIndex:0];
         outputState = !outputState;
         outP1.boolStatus = outputState;
         [self initImage];
     }
 }
-
+*/
 @end
