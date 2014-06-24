@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 Edward Peiliang Guo. All rights reserved.
 //
 
-#import "Gates.h"
+#import "StandardGate.h"
 
-@interface XOR_Gate : Gates
+@interface XOR_Gate : StandardGate
 
 @end

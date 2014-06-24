@@ -30,7 +30,24 @@
     }
 }
 
--(int8_t)getDefultGateTypeValue{
+-(NSUInteger)getDefultGateTypeValue{
     return 7;
+}
+
+-(NSString*)booleanFormula{
+    if (self.inPort.count > 0) {
+        Port*inP1 = self.inPort[0];
+        if (inP1.inWire) {
+            if (inP1.inWire.startGate) {
+                return [NSString stringWithFormat:@"NOT %@",
+                        [inP1.inWire.startGate booleanFormula]];
+            }
+        }
+    }
+    return @"Error";
+}
+
+-(NSString*)gateName{
+    return @"NOT Gate";
 }
 @end

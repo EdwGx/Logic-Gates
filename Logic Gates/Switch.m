@@ -18,7 +18,8 @@
     outputState = outP1.boolStatus;
     self.outPort = [NSArray arrayWithObject:outP1];
     self.userInteractionEnabled = YES;
-    [self.userData setObject:@"" forKey:@"InputName"];
+    self.userData = [NSMutableDictionary dictionary];
+    [self.userData setValue:@"undefine" forKey:@"InputName"];
 }
 
 -(NSString*)imageName{
@@ -29,7 +30,7 @@
     }
 }
 
--(int8_t)getDefultGateTypeValue{
+-(NSUInteger)getDefultGateTypeValue{
     return 8;
 }
 
@@ -45,8 +46,8 @@
     }
 }
 
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
-    [super touchesBegan:touches withEvent:event];
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
+    [super touchesEnded:touches withEvent:event];
     for (UITouch* touch in touches) {
         CGPoint point = [touch locationInNode:self];
         if ((point.x>-5 && point.x<3) && (point.y>-10 && point.y<10)){
@@ -59,14 +60,11 @@
     }
 }
 
-/*
--(void)touchEndedInGate:(CGPoint)point{
-    if ((point.x>-5 && point.x<3) && (point.y>-10 && point.y<10)){
-        Port *outP1 = [self.outPort objectAtIndex:0];
-        outputState = !outputState;
-        outP1.boolStatus = outputState;
-        [self initImage];
-    }
+-(NSString*)booleanFormula{
+    return [self.userData objectForKey:@"InputName"];
 }
-*/
+
+-(NSString*)gateName{
+    return [NSString stringWithFormat:@"Switch (%@)",[self booleanFormula]];
+}
 @end

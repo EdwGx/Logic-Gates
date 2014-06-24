@@ -33,7 +33,15 @@
     }
 }
 
--(int8_t)getDefultGateTypeValue{
+-(NSUInteger)getDefultGateTypeValue{
     return 1;
+}
+
+-(NSString*)gateNameInBooleanFormula{
+    return @"AND";
+}
+
+-(NSString*)gateName{
+    return @"AND Gate";
 }
 @end

@@ -32,7 +32,23 @@
     [self initImage];
 }
 
--(int8_t)getDefultGateTypeValue{
+-(NSUInteger)getDefultGateTypeValue{
     return 9;
+}
+
+-(NSString*)booleanFormula{
+    if (self.realInput) {
+        Port* inP1 = self.inPort[0];
+        if (inP1.inWire) {
+            if (inP1.inWire.startGate) {
+                return [inP1.inWire.startGate booleanFormula];
+            }
+        }
+    }
+    return @"ERROR";
+}
+
+-(NSString*)gateName{
+    return @"Light Bulb";
 }
 @end

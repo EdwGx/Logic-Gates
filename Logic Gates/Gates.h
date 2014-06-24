@@ -22,7 +22,7 @@
 
 -(id)initGate;
 -(NSString*)imageName;
--(int8_t)getDefultGateTypeValue;
+-(NSUInteger)getDefultGateTypeValue;
 -(BOOL)isRealInputSource;
 -(Port*)portCloseToPointInScene:(CGPoint)point Range:(float)range;
 -(BOOL)isPossibleHavePortCloseToPoint:(CGPoint)point;
@@ -30,8 +30,9 @@
 -(void)updatePortPositonInDurtion:(NSTimeInterval)duration;
 
 -(NSString*)gateName;
+-(NSString*)booleanFormula;
 
-@property (nonatomic) int8_t gateType;
+@property (nonatomic) NSUInteger gateType;
 @property (nonatomic) BOOL realInput;
 @property (nonatomic) BOOL willKill;
 @property (nonatomic) NSArray* inPort;

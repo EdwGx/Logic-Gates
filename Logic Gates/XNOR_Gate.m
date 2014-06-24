@@ -32,7 +32,15 @@
     }
 }
 
--(int8_t)getDefultGateTypeValue{
+-(NSUInteger)getDefultGateTypeValue{
     return 6;
+}
+
+-(NSString*)gateNameInBooleanFormula{
+    return @"XNOR";
+}
+
+-(NSString*)gateName{
+    return @"XNOR Gate";
 }
 @end

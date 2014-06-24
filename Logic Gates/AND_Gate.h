@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 Edward Peiliang Guo. All rights reserved.
 //
 
-#import "Gates.h"
+#import "StandardGate.h"
 
-@interface AND_Gate : Gates
+@interface AND_Gate : StandardGate
 
 @end

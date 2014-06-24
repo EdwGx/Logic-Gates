@@ -32,8 +32,15 @@
     }
 }
 
--(int8_t)getDefultGateTypeValue{
+-(NSUInteger)getDefultGateTypeValue{
     return 2;
 }
 
+-(NSString*)gateNameInBooleanFormula{
+    return @"OR";
+}
+
+-(NSString*)gateName{
+    return @"OR Gate";
+}
 @end

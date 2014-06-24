@@ -125,6 +125,7 @@
     UITapGestureRecognizer* singleTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapFrom:)];
     [self.view addGestureRecognizer:singleTapGestureRecognizer];
     _singleTapRecognizer = singleTapGestureRecognizer;
+    _singleTapRecognizer.cancelsTouchesInView = NO;
 }
 
 -(void)handlePanFrom:(MPanGestureRecognizer *)recognizer{
@@ -141,7 +142,7 @@
                 Gates* gateNode = (Gates*)node;
                 Port * portNode = [gateNode portCloseToPointInScene:startLocation Range:0.5];
                 if (portNode) {
-                    [portNode removeAllWire];
+                    //[portNode removeAllWire];
                     if ([portNode isAbleToConnect]) {
                         self.dragWire = [[Wire alloc]initWithAnyPort:portNode andStartPosition:currentLocation];
                         [self.map addChild:self.dragWire];
@@ -213,7 +214,7 @@
             SKNode* node = [self nodeAtPoint:location];
             if (node) {
                 if ([[node parent]isEqual:self.selectSp]){
-                    int8_t type = [self.selectSp getTouchGateTypeWithName:node.name];
+                    NSUInteger type = [self.selectSp getTouchGateTypeWithName:node.name];
                     if (type != 0) {
                         node.alpha = 0.0;
                         
@@ -280,7 +281,6 @@
         if (!self.selectSp) {
             CGPoint touchLocation = [self convertPoint:[self.view convertPoint:[recognizer locationInView:self.view] toScene:self] toNode:self.map];
             SKNode* node = [self.map nodeAtPoint:touchLocation];
-            
             if ([node isKindOfClass:[Gates class]]&&normalMode) {
                 Gates* gateNode = (Gates*)node;
                 if (killMode) {
@@ -299,18 +299,12 @@
                     SKAction* sequence = [SKAction sequence:@[wait,disappear,remove]];
                     [label runAction:sequence];
                     
-                    int8_t type = [gateNode getDefultGateTypeValue];
-                    if (type == 9 || type == 8) {
+                    NSUInteger type = gateNode.gateType;
+                    if ((type == 9 && gateNode.realInput)|| type == 8) {
                         if (_cornerView) {
-                            if (_cornerView.state == CornerViewWaitingState || _cornerView.state == CornerViewAppearingState){
-                                [_cornerView removeFromSuperview];
-                                _cornerView = nil;
-                            }
-                        }
-                        if (!_cornerView) {
-                            _cornerViewSelectedGate = gateNode;
-                            CornerView* cView = [[CornerView alloc] initWithFrame:self.view.frame DisplayType:(type == 9)?OutputBooleanFormulaType:InputNameEditorType];
-                            cView.delegate = self;
+                            _cornerView.selectedGate = gateNode;
+                        }else{
+                            CornerView* cView = [[CornerView alloc] initWithFrame:self.view.frame SelectedGate:gateNode];
                             [self.view addSubview:cView];
                             _cornerView = cView;
                             [_cornerView showUp];
@@ -323,17 +317,16 @@
     }
 }
 
+/*
 -(NSString*)getSelectedInputName{
     return [_cornerViewSelectedGate.userData objectForKey:@"InputName"];
 }
 
 -(void)changeSelectedInputNameTo:(NSString*)name{
-    
+    [_cornerViewSelectedGate.userData setValue:name forKey:@"InputName"];
 }
 
--(void)getBooleanFormulaOfSelectedOutput:(CornerView*)cornerView{
-    
-}
+*/
 
 -(void)presentMapFileScene{
     [self.view removeGestureRecognizer:_doubleTapRecognizer];
@@ -445,7 +438,7 @@
 }
 
 
--(Gates*)createNewGate:(int8_t)type{
+-(Gates*)createNewGate:(NSUInteger)type{
     Gates* newGate;
     switch (type) {
         case 1:

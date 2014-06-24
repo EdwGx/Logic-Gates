@@ -32,7 +32,15 @@
     }
 }
 
--(int8_t)getDefultGateTypeValue{
+-(NSUInteger)getDefultGateTypeValue{
     return 4;
+}
+
+-(NSString*)gateNameInBooleanFormula{
+    return @"NAND";
+}
+
+-(NSString*)gateName{
+    return @"NAND Gate";
 }
 @end

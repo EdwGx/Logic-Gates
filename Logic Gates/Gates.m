@@ -56,7 +56,7 @@
     /*Get the ouput boolean*/
 }
 
--(int8_t)getDefultGateTypeValue{
+-(NSUInteger)getDefultGateTypeValue{
     return 0;
 }
 
@@ -157,5 +157,9 @@
 
 -(NSString*)gateName{
     return @"GATE";
+}
+
+-(NSString*)booleanFormula{
+    return @"DEFULT_GATE";
 }
 @end

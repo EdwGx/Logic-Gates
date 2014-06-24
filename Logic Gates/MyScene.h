@@ -17,7 +17,7 @@
 
 @class Wire;
 @class SelectionSprite;
-@interface MyScene : SKScene<circuitMapDelegate,CornerViewDelegate>{
+@interface MyScene : SKScene<circuitMapDelegate>{
     CGPoint lastTouchLocation;
     CGPoint dragingObjectStartLocation;
 }

@@ -11,9 +11,12 @@
 @implementation CornerView{
     UILabel* _label;
     UITextField* _textField;
+    UIActivityIndicatorView* _activityIndicator;
+    NSUInteger _timerCount;
+    
 }
 
-- (id)initWithFrame:(CGRect)frame DisplayType:(CornerDisplayType)displayType
+- (id)initWithFrame:(CGRect)frame SelectedGate:(Gates*)gate
 {
     CGRect newFrame = CGRectMake(0, -40, CGRectGetHeight(frame), 40);
     self = [super initWithFrame:newFrame];
@@ -21,16 +24,18 @@
         self.alpha = 0.2;
         self.backgroundColor = [UIColor colorWithRed:0.2039 green:0.5961 blue:0.8588 alpha:0.8];
         
-        _displayType = displayType;
+        _selectedGate = gate;
+        _displayType = ([_selectedGate getDefultGateTypeValue] == 8)?InputNameEditorType:OutputBooleanFormulaType;
         
         _label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(newFrame), 30)];
+        _label.textColor = [UIColor whiteColor];
         _label.textAlignment = NSTextAlignmentCenter;
         if (_displayType == InputNameEditorType) {
             _label.text = @"tap to set the input name";
         }else{
             _label.text = @"tap to generate boolean formula";
         }
-        _label.center = CGPointMake(CGRectGetMidX(newFrame), CGRectGetHeight(newFrame)/2);//CGRectGetMidY(newFrame));
+        _label.center = CGPointMake(CGRectGetMidX(newFrame), CGRectGetHeight(newFrame)/2);
         [self addSubview:_label];
         
         UITapGestureRecognizer* tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
@@ -40,15 +45,42 @@
 }
 
 -(void)booleanFormulaOfSelectedOutput:(NSString *)formula{
+    UITextView* textView = [[UITextView alloc]initWithFrame:CGRectMake(10, 10, CGRectGetWidth(self.frame) - 60, 0)];
+    textView.text = formula;
+    textView.editable = NO;
+    textView.textColor = [UIColor whiteColor];
+    textView.alpha = 0.0;
+    textView.backgroundColor = [UIColor clearColor];
+    [textView setFont:[UIFont systemFontOfSize:16]];
+    [self addSubview:textView];
     
+    CGSize maxSize = [textView sizeThatFits:CGSizeMake(CGRectGetWidth(self.frame) - 60, MAXFLOAT)];
+    CGSize textViewSize = CGSizeMake(CGRectGetWidth(self.frame) - 60, MIN(maxSize.height, 100));
+    
+    textView.scrollEnabled = YES;
+    [_activityIndicator stopAnimating];
+    [_activityIndicator removeFromSuperview];
+    
+    UIButton* endButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [endButton setTitle:@"done" forState:UIControlStateNormal];
+    [endButton sizeToFit];
+    endButton.center = CGPointMake(CGRectGetMaxX(self.frame)- CGRectGetWidth(endButton.frame)/2 - 10, CGRectGetHeight(self.frame)/2);
+    [endButton addTarget:self action:@selector(removeFromSuperview) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:endButton];
+    
+    
+    [UIView animateWithDuration:1.0 animations:^{
+        self.frame = CGRectMake(0, 0, self.frame.size.width, textViewSize.height + 20);
+        textView.frame = CGRectMake(10, 10, textViewSize.width, textViewSize.height);
+        textView.alpha = 1.0;
+    }];
 }
 
 -(void)tap:(UITapGestureRecognizer*)recognizer{
     if (recognizer.state == UIGestureRecognizerStateEnded && _state != CornerViewEditingState) {
         _state = CornerViewEditingState;
+        _timerCount += 1;
         if (self.displayType == InputNameEditorType) {
-            
-            [_label removeFromSuperview];
             
             UIButton* doneButton = [UIButton buttonWithType:UIButtonTypeSystem];
             doneButton.frame = CGRectMake(0,0,100,100);
@@ -65,10 +97,7 @@
             _textField.borderStyle = UITextBorderStyleLine;
             _textField.backgroundColor = [UIColor whiteColor];
             
-            NSString* oldName = @"";
-            if (self.delegate) {
-                oldName = [self.delegate getSelectedInputName];
-            }
+            NSString* oldName = [_selectedGate.userData objectForKey:@"InputName"];
             
             if (![oldName isEqualToString:@""]) {
                 _textField.text = oldName;
@@ -77,16 +106,54 @@
             [self addSubview:_textField];
             
             [_textField becomeFirstResponder];
+            
+        } else {
+            
+            [_label removeFromSuperview];
+            
+            _activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+            _activityIndicator.center = _label.center;
+            [self addSubview:_activityIndicator];
+            [_activityIndicator startAnimating];
+            
+            [self performSelectorInBackground:@selector(getSelectedGateBooleanFormula) withObject:nil];
         }
         
     }
 }
 
+-(void)setSelectedGate:(Gates *)selectedGate{
+    if (![selectedGate isEqual:_selectedGate]) {
+        if (_state == CornerViewWaitingState || _state == CornerViewAppearingState) {
+            _displayType = ([selectedGate getDefultGateTypeValue] == 8)?InputNameEditorType:OutputBooleanFormulaType;
+            
+            if (_displayType == InputNameEditorType) {
+                _label.text = @"tap to set the input name";
+            }else{
+                _label.text = @"tap to generate boolean formula";
+            }
+            
+            _selectedGate = selectedGate;
+            
+            [self performSelector:@selector(disappear) withObject:nil afterDelay:5.0];
+            _timerCount += 1;
+        }
+    }
+}
+
+
 -(void)done{
     NSString*testString = [_textField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
     if ([testString length]>0) {
+        [_selectedGate.userData setValue:_textField.text forKey:@"InputName"];
         [_textField resignFirstResponder];
+        [self removeFromSuperview];
     }
+}
+
+-(void)getSelectedGateBooleanFormula{
+    NSString* formula = [_selectedGate booleanFormula];
+    [self performSelectorOnMainThread:@selector(booleanFormulaOfSelectedOutput:) withObject:formula waitUntilDone:NO];
 }
 
 -(void)showUp{
@@ -100,11 +167,13 @@
     }];
     
     [self performSelector:@selector(disappear) withObject:nil afterDelay:5.0];
+    _timerCount += 1;
     
 }
 
 -(void)disappear{
-    if (_state != CornerViewEditingState) {
+    _timerCount -= 1;
+    if (_timerCount == 0) {
         [self removeFromSuperview];
     }
 }

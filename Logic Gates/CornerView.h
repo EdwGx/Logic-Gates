@@ -7,8 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <SpriteKit/SpriteKit.h>
-#import "CornerViewDelegate.h"
+#import "Gates.h"
 
 typedef NS_ENUM(NSUInteger, CornerDisplayType){
     InputNameEditorType,
@@ -26,10 +25,10 @@ typedef NS_ENUM(NSUInteger, CornerViewState){
 @interface CornerView : UIView
 
 @property(nonatomic) CornerDisplayType displayType;
-@property(nonatomic, weak) id<CornerViewDelegate> delegate;
 @property(nonatomic, readonly) CornerViewState state;
-- (id)initWithFrame:(CGRect)frame DisplayType:(CornerDisplayType)displayType;
--(void)booleanFormulaOfSelectedOutput:(NSString*)formula;
+@property(nonatomic, weak) Gates* selectedGate;
+
+- (id)initWithFrame:(CGRect)frame SelectedGate:(Gates*)gate;
 -(void)showUp;
 @end
 

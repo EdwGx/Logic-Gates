@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 Edward Peiliang Guo. All rights reserved.
 //
 
-#import "Gates.h"
+#import "StandardGate.h"
 
-@interface NAND_Gate : Gates
+@interface NAND_Gate : StandardGate
 
 @end

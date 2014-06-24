@@ -67,12 +67,12 @@
     return self;
 }
 
--(int8_t)getTouchGateTypeWithName:(NSString*)name{
+-(NSUInteger)getTouchGateTypeWithName:(NSString*)name{
     NSInteger indexInArray = [self.typeArray indexOfObject:name];
     if (indexInArray == NSNotFound){
-        return (int8_t)0;
+        return (NSUInteger)0;
     }else{
-        return (int8_t)indexInArray+1;
+        return (NSUInteger)indexInArray+1;
     }
 }
 
