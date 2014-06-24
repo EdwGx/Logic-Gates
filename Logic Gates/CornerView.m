@@ -25,7 +25,7 @@
         self.backgroundColor = [UIColor colorWithRed:0.2039 green:0.5961 blue:0.8588 alpha:0.8];
         
         _selectedGate = gate;
-        _displayType = ([_selectedGate getDefultGateTypeValue] == 8)?InputNameEditorType:OutputBooleanFormulaType;
+        _displayType = (_selectedGate.gateType == GateTypeSwitch)?InputNameEditorType:OutputBooleanFormulaType;
         
         _label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(newFrame), 30)];
         _label.textColor = [UIColor whiteColor];
@@ -125,7 +125,7 @@
 -(void)setSelectedGate:(Gates *)selectedGate{
     if (![selectedGate isEqual:_selectedGate]) {
         if (_state == CornerViewWaitingState || _state == CornerViewAppearingState) {
-            _displayType = ([selectedGate getDefultGateTypeValue] == 8)?InputNameEditorType:OutputBooleanFormulaType;
+            _displayType = (selectedGate.gateType == GateTypeSwitch)?InputNameEditorType:OutputBooleanFormulaType;
             
             if (_displayType == InputNameEditorType) {
                 _label.text = @"tap to set the input name";

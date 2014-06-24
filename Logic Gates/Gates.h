@@ -10,6 +10,19 @@
 #import "PortDelegate.h"
 #import "Port.h"
 
+typedef NS_ENUM(NSUInteger, GateType) {
+    GateTypeDefult,
+    GateTypeAND,
+    GateTypeOR,
+    GateTypeXOR,
+    GateTypeNAND,
+    GateTypeNOR,
+    GateTypeXNOR,
+    GateTypeNOT,
+    GateTypeSwitch,
+    GateTypeLightBulb,
+};
+
 @class Port;
 
 @interface Gates : SKSpriteNode <PortDelegate>
@@ -22,7 +35,7 @@
 
 -(id)initGate;
 -(NSString*)imageName;
--(NSUInteger)getDefultGateTypeValue;
+-(GateType)getDefultGateType;
 -(BOOL)isRealInputSource;
 -(Port*)portCloseToPointInScene:(CGPoint)point Range:(float)range;
 -(BOOL)isPossibleHavePortCloseToPoint:(CGPoint)point;
@@ -32,7 +45,7 @@
 -(NSString*)gateName;
 -(NSString*)booleanFormula;
 
-@property (nonatomic) NSUInteger gateType;
+@property (nonatomic) GateType gateType;
 @property (nonatomic) BOOL realInput;
 @property (nonatomic) BOOL willKill;
 @property (nonatomic) NSArray* inPort;

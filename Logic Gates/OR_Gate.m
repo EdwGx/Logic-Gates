@@ -32,8 +32,8 @@
     }
 }
 
--(NSUInteger)getDefultGateTypeValue{
-    return 2;
+-(GateType)getDefultGateType{
+    return GateTypeOR;
 }
 
 -(NSString*)gateNameInBooleanFormula{

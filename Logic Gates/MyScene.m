@@ -299,8 +299,8 @@
                     SKAction* sequence = [SKAction sequence:@[wait,disappear,remove]];
                     [label runAction:sequence];
                     
-                    NSUInteger type = gateNode.gateType;
-                    if ((type == 9 && gateNode.realInput)|| type == 8) {
+                    GateType type = gateNode.gateType;
+                    if ((type == GateTypeLightBulb && gateNode.realInput)|| type == GateTypeSwitch) {
                         if (_cornerView) {
                             _cornerView.selectedGate = gateNode;
                         }else{
@@ -317,16 +317,6 @@
     }
 }
 
-/*
--(NSString*)getSelectedInputName{
-    return [_cornerViewSelectedGate.userData objectForKey:@"InputName"];
-}
-
--(void)changeSelectedInputNameTo:(NSString*)name{
-    [_cornerViewSelectedGate.userData setValue:name forKey:@"InputName"];
-}
-
-*/
 
 -(void)presentMapFileScene{
     [self.view removeGestureRecognizer:_doubleTapRecognizer];

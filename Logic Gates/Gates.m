@@ -13,7 +13,7 @@
 
 -(id)initGate{
     if (self = [super init]) {
-        self.gateType = [self getDefultGateTypeValue];
+        self.gateType = [self getDefultGateType];
         self.zPosition = 5;
         self.willKill = NO;
         [self initPort];
@@ -56,7 +56,7 @@
     /*Get the ouput boolean*/
 }
 
--(NSUInteger)getDefultGateTypeValue{
+-(GateType)getDefultGateType{
     return 0;
 }
 

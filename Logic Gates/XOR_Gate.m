@@ -32,8 +32,8 @@
     }
 }
 
--(NSUInteger)getDefultGateTypeValue{
-    return 3;
+-(GateType)getDefultGateType{
+    return GateTypeXOR;
 }
 
 -(NSString*)gateNameInBooleanFormula{

@@ -32,8 +32,8 @@
     [self initImage];
 }
 
--(NSUInteger)getDefultGateTypeValue{
-    return 9;
+-(GateType)getDefultGateType{
+    return GateTypeLightBulb;
 }
 
 -(NSString*)booleanFormula{

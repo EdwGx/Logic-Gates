@@ -32,8 +32,8 @@
     }
 }
 
--(NSUInteger)getDefultGateTypeValue{
-    return 4;
+-(GateType)getDefultGateType{
+    return GateTypeNAND;
 }
 
 -(NSString*)gateNameInBooleanFormula{

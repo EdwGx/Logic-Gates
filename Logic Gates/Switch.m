@@ -30,8 +30,8 @@
     }
 }
 
--(NSUInteger)getDefultGateTypeValue{
-    return 8;
+-(GateType)getDefultGateType{
+    return GateTypeSwitch;
 }
 
 -(BOOL)isRealInputSource{

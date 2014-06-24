@@ -30,8 +30,8 @@
     }
 }
 
--(NSUInteger)getDefultGateTypeValue{
-    return 7;
+-(GateType)getDefultGateType{
+    return GateTypeNOT;
 }
 
 -(NSString*)booleanFormula{
