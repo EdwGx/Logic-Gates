@@ -133,8 +133,6 @@
         
         if (!self.selectSp) {
             CGPoint currentLocation = [self convertPoint:[self.view convertPoint:[recognizer locationInView:self.view] toScene:self] toNode:self.map];
-            CGPoint translation = [recognizer translationInView:self.view];
-            translation = CGPointMake(translation.x, -translation.y);
             CGPoint startLocation = [self convertPoint:[self.view convertPoint:recognizer.startLocation toScene:self] toNode:self.map];
             
             SKNode* node = [self nodeAtPoint:startLocation];

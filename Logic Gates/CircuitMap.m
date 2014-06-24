@@ -91,11 +91,16 @@
         NSNumber* posX = [NSNumber numberWithDouble:node.position.x];
         NSNumber* posY = [NSNumber numberWithDouble:node.position.y];
         NSNumber* status = [NSNumber numberWithBool:NO];
+        
+        NSArray*  gateSaveArray;
         if ([type isEqualToNumber:[NSNumber numberWithInt:8]]) {
             Port* outPort1 = [node.outPort objectAtIndex:0];
             status = [NSNumber numberWithBool:outPort1.boolStatus];
+            NSString* name = [node.userData objectForKey:@"InputName"];
+            gateSaveArray = [NSArray arrayWithObjects:type,posX,posY,status,inArray, name,nil];
+        }else{
+            gateSaveArray = [NSArray arrayWithObjects:type,posX,posY,status,inArray, nil];
         }
-        NSArray*  gateSaveArray = [NSArray arrayWithObjects:type,posX,posY,status,inArray, nil];
         [saveArray setObject:gateSaveArray atIndexedSubscript:j];
     }
     [saveArray addObject:fileName];
@@ -129,9 +134,13 @@
         newGate.position = CGPointMake(posX, posY);
         //Setting output
         NSNumber* status = [subArray objectAtIndex:3];
-        if ([status isEqualToNumber:[NSNumber numberWithBool:YES]]&&[type isEqualToNumber:[NSNumber numberWithInt:8]]) {
-            Port* outPort1 = [newGate.inPort objectAtIndex:0];
-            outPort1.boolStatus = [status boolValue];
+        if ([type isEqualToNumber:[NSNumber numberWithInt:8]]) {
+            NSString* name = [subArray objectAtIndex:5];
+            [newGate.userData setValue:name forKey:@"InputName"];
+            if ([status isEqualToNumber:[NSNumber numberWithBool:YES]]) {
+                Port* outPort1 = [newGate.inPort objectAtIndex:0];
+                outPort1.boolStatus = [status boolValue];
+            }
         }
         [self addChild:newGate];
         [newGatesArray setObject:newGate atIndexedSubscript:i];

@@ -143,6 +143,7 @@
     _backButton.enabled = YES;
     _addButton.enabled = YES;
     if (_ioActivityIndicator) {
+        [_ioActivityIndicator stopAnimating];
         [_ioActivityIndicator removeFromSuperview];
         _ioActivityIndicator = nil;
     }
